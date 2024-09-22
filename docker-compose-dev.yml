@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=commentwise_password
+      - MONGO_INITDB_DATABASE=commentwise_db
+      - MONGO_INITDB_ROOT_USERNAME=commentwise_user
+
+volumes:
+  mongodb_data:

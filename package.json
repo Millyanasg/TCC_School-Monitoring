@@ -1,0 +1,36 @@
+{
+    "name": "monitoramento-escolar",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "pnpm run --filter=shared-monitoramento-escolar... build && pnpm run --filter=backend-monitoramento-escolar... build && pnpm run --filter=frontend-monitoramento-escolar... build",
+        "dev:docker": "docker-compose -f docker-compose-dev.yml up -d && pnpm run dev && docker-compose down",
+        "dev": "pnpm run --parallel dev",
+        "dev:web": "pnpm run --filter ./frontend-monitoramento-escolar dev",
+        "dev:server": "pnpm run --filter ./backend-monitoramento-escolar dev",
+        "lint": "pnpm run --parallel lint",
+        "prettier": "prettier --write .",
+        "build:back": "pnpm run --filter ./backend-monitoramento-escolar build",
+        "build:front": "pnpm run --filter ./frontend-monitoramento-escolar build",
+        "deploy:back": "pnpm run --filter ./backend-monitoramento-escolar deploy",
+        "deploy:front": "pnpm run --filter ./frontend-monitoramento-escolar deploy",
+        "typedoc:frontend": "pnpm --filter frontend-monitoramento-escolar run typedoc",
+        "docs:frontend": "pnpm --filter frontend-monitoramento-escolar run docs"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.62.0",
+        "@typescript-eslint/parser": "^5.62.0",
+        "eslint": "^8.57.0",
+        "eslint-config-prettier": "^8.10.0",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-unused-imports": "^2.0.0",
+        "prettier": "^2.8.8"
+    },
+    "dependencies": {}
+}
