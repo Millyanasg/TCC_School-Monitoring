@@ -1,3 +1,53 @@
+<img src="http://www.plantuml.com/plantuml/png/bP7FIiD048VlUOebbu2IejSYqeDd4OedyJ1cXpQmVyBCH2cjx-wQJbApbK9poUwNRxA_cLsn04dlNT4uO3QlZ6JsXKdFBNfetTAmK1isHzGbvokIdTC07kV40Slp6PLTbqW5rhUXCWTJTK0OP5XQQZ-HgkAxq2HF0nYpT0ua-ri3D0S-Mipoxl1N2ht_GDAgw69MnmZ2apK5U1d2ZG5OUfksoLiVLs_l9tNTR6Dqete-3h2Ma3dB7oFPDe1Wzk7YKOhC_hhHRmWi_krnkEY7GrsFWrwQBV09Q_ivrbOLgrFUbwQk7qrvjrZSb6D4TRJWigCxbORtT128OB3_IlEGgwJrtlq0" alt="Diagrama de classes" width="100%">
+
+```c#
+@startuml
+
+class User {
+    +email: string
+    +password: string
+    +name: string
+    +lastName: string
+    +type: 'admin' | 'parent' | 'driver'
+}
+
+class Driver {
+    +plate: string
+    +car: string
+    +model: string
+    +year: number
+    +color: string
+    +seats: number
+}
+
+class Parent {
+    +students: Student[]
+}
+
+class School {
+    +name: string
+    +address: string
+    +coordinates: string
+    +students: Student[]
+}
+
+class Student {
+    +name: string
+    +lastName: string
+    +grade: number
+}
+
+User <|-- Driver : has
+User <|-- Parent : has
+User <|-- School : has
+Parent "1" --> "0..*" Student : has
+School "1" --> "0..*" Student : has
+Student "1" --> "1" School : attends
+Student "1" --> "1" Parent : has
+
+@enduml
+```
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
