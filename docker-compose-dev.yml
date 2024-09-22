@@ -1,15 +1,25 @@
 version: '3.8'
 services:
-  mongodb:
-    image: mongo
+  postgres:
+    image: postgres
     volumes:
-      - mongodb_data:/data/db
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - 27017:27017
+      - 5432:5432
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD=commentwise_password
-      - MONGO_INITDB_DATABASE=commentwise_db
-      - MONGO_INITDB_ROOT_USERNAME=commentwise_user
+      - POSTGRES_DB=monitoramento_db
+      - POSTGRES_USER=monitoramento_user
+      - POSTGRES_PASSWORD=monitoramento_password
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - 5050:80
+    depends_on:
+      - postgres
 
 volumes:
   mongodb_data:
