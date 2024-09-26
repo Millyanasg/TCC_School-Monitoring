@@ -23,6 +23,9 @@ export function Header() {
       <Tabs.Tab title='Login' key='login'>
         Login
       </Tabs.Tab>
+      <Tabs.Tab title='Login' key='notification-test'>
+        Login
+      </Tabs.Tab>
     </Tabs>
   );
 }
