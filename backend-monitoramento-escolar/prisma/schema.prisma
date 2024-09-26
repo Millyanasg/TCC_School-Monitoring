@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum UserType {
+    admin
+    parent
+    driver
+}
+
+model User {
+    id       Int      @id @default(autoincrement())
+    email    String   @unique
+    password String
+    name     String
+    lastName String
+    type     UserType
+    driver   Driver?
+    parent   Parent?
+    school   School?
+}
+
+model Parent {
+    id          Int           @id @default(autoincrement()) @map("id")
+    userId      Int           @unique
+    parent_user User          @relation(fields: [userId], references: [id]) // A user can be a parent
+    children    Child[] // A parent can have many students
+    homeAddress HomeAddress[] // A parent can have many addresses
+}
+
+model HomeAddress {
+    id        Int    @id @default(autoincrement())
+    street    String
+    number    Int
+    city      String
+    state     String
+    zipCode   String
+    latitute  String
+    longitude String
+    parentId  Int    @unique
+    parent    Parent @relation(fields: [parentId], references: [id])
+}
+
+model Driver {
+    id               Int     @id @default(autoincrement())
+    plate            String
+    car              String
+    model            String
+    year             Int
+    color            String
+    seats            Int
+    userId           Int     @unique // A user can be a driver
+    user             User    @relation(fields: [userId], references: [id])
+    assignedChildren Child[] // A driver can have many students
+}
+
+model School {
+    id          Int     @id @default(autoincrement())
+    name        String
+    address     String
+    latitute    String
+    longitude   String
+    userId      Int     @unique
+    user        User    @relation(fields: [userId], references: [id])
+    studentList Child[]
+}
+
+model Child {
+    id             Int              @id @default(autoincrement())
+    name           String
+    lastName       String
+    grade          Int
+    parentId       Int
+    schoolId       Int
+    driverId       Int
+    parent         Parent           @relation(fields: [parentId], references: [id])
+    driver         Driver           @relation(fields: [driverId], references: [id])
+    school         School           @relation(fields: [schoolId], references: [id])
+    ChildLocations ChildLocations[]
+
+    @@map("Student")
+}
+
+enum LocationType {
+    pickup
+    dropoff
+}
+
+model ChildLocations {
+    id        Int          @id @default(autoincrement())
+    childId   Int
+    latitute  String
+    longitude String
+    type      LocationType
+    child     Child        @relation(fields: [childId], references: [id])
+}
