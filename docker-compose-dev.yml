@@ -1,25 +1,29 @@
 version: '3.8'
-services:
-  postgres:
-    image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_DB=monitoramento_db
-      - POSTGRES_USER=monitoramento_user
-      - POSTGRES_PASSWORD=monitoramento_password
 
-  pgadmin:
+services:
+  postgres-monitoramento:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: monitoramento_user
+      POSTGRES_PASSWORD: monitoramento_password
+      POSTGRES_DB: monitoramento_db
+    ports:
+      - '5432:5432'
+    networks:
+      - monitoramento-network
+
+  pgadmin-monitoramento:
     image: dpage/pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
-      - 5050:80
+      - '5050:80'
     depends_on:
-      - postgres
+      - postgres-monitoramento
+    networks:
+      - monitoramento-network
 
-volumes:
-  mongodb_data:
+networks:
+  monitoramento-network:
+    driver: bridge

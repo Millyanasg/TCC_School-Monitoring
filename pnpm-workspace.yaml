@@ -1,3 +1,4 @@
 packages:
   - 'backend-monitoramento-escolar'
   - 'frontend-monitoramento-escolar'
+  - 'shared-monitoramento-escolar'

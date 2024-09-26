@@ -2,6 +2,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@shared/*": ["./shared-monitoramento-escolar/src/*"],
+      "@backend/*": ["./backend-monitoramento-escolar/src/*"],
+
+      "@assets/*": ["./frontend-monitoramento-escolar/src/assets/*"],
+      "@components/*": ["./frontend-monitoramento-escolar/src/components/*"],
+      "@stores/*": ["./frontend-monitoramento-escolar/src/stores/*"],
+      "@services/*": ["./frontend-monitoramento-escolar/src/services/*"],
+      "@pages/*": ["./frontend-monitoramento-escolar/src/pages/*"]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -17,6 +25,9 @@
   },
   "include": [
     "backend-monitoramento-escolar/src/**/*.ts",
+    "frontend-monitoramento-escolar/src/**/*.ts",
+    "frontend-monitoramento-escolar/src/**/*.tsx",
+    "shared-monitoramento-escolar/src/**/*.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
