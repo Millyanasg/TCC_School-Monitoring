@@ -1,8 +1,8 @@
-import { Toast, Button, Input, Form } from 'antd-mobile';
+import { Button, Form, FormProps, Input, Toast } from 'antd-mobile';
 import { Layout } from '../components/Layout/Layout';
 
 export function Login() {
-  const onFinish = (values: any) => {
+  const onFinish = (values: { username: string; password: string }) => {
     // Handle login logic here
     console.log('Success:', values);
     Toast.show({
@@ -11,7 +11,7 @@ export function Login() {
     });
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed: FormProps['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
     Toast.show({
       icon: 'fail',
