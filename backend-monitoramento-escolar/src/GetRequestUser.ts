@@ -5,7 +5,7 @@ import {
   createParamDecorator,
 } from '@nestjs/common';
 
-import { UserDocument } from './comment-wise/user/model/user.model';
+import { User } from '@prisma/client';
 
 /**
  * Custom decorator that retrieves the user from the request object.
@@ -23,7 +23,7 @@ import { UserDocument } from './comment-wise/user/model/user.model';
 export const GetRequestUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest();
-    const user = req.existingUser as UserDocument;
+    const user = req.existingUser as User;
 
     return user;
   },
@@ -36,10 +36,7 @@ export const GetRequestUser = createParamDecorator(
  * @returns The verified user document.
  * @throws {HttpException} If the user is not found, has no plan, or the plan has expired.
  */
-export function verifyUser(
-  user: UserDocument | null,
-  checkPlanExpired = true,
-): UserDocument {
+export function verifyUser(user: User | null): User {
   if (!user) {
     throw new HttpException(
       {
@@ -47,26 +44,6 @@ export function verifyUser(
       },
       HttpStatus.NOT_FOUND,
     );
-  }
-
-  if (checkPlanExpired) {
-    if (!user.planDetails) {
-      throw new HttpException(
-        {
-          message: 'User has no plan',
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-
-    if (user.planDetails.endDate < new Date()) {
-      throw new HttpException(
-        {
-          message: 'Plan expired',
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
   }
 
   return user;
