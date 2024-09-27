@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
@@ -10,8 +12,15 @@ import { ParseTokenPipe } from './parseToken';
 const logger = new Logger('main.ts');
 
 const port = process.env.PORT as string | number;
-
 const serverUrl = process.env.SERVER_URL as string;
+
+if (!port) {
+  throw new Error('PORT is not defined');
+}
+
+if (!serverUrl) {
+  throw new Error('SERVER_URL is not defined');
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
