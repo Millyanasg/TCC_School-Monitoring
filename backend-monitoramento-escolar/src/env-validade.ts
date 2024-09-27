@@ -21,7 +21,6 @@ class EnvironmentVariables {
   PORT: number;
   @IsString()
   @IsNotEmpty()
-  @IsUrl()
   SERVER_URL: string;
   // SEED
   @IsString()
@@ -40,30 +39,6 @@ class EnvironmentVariables {
   @IsEnum(['development', 'production'])
   @IsNotEmpty()
   NODE_ENV: 'development' | 'production';
-  // database
-  @IsString()
-  @IsNotEmpty()
-  DB_PORT: string;
-
-  @IsString()
-  @IsNotEmpty()
-  DB_HOST: string;
-  @IsString()
-  @IsNotEmpty()
-  TYPEORM_HOST: string;
-  @IsString()
-  @IsNotEmpty()
-  TYPEORM_PORT: string;
-  @IsString()
-  @IsNotEmpty()
-  TYPEORM_USERNAME: string;
-  @IsString()
-  @IsNotEmpty()
-  TYPEORM_PASSWORD: string;
-  @IsString()
-  @IsNotEmpty()
-  TYPEORM_DATABASE: string;
-
   // jwt
   @IsString()
   @IsNotEmpty()
@@ -80,7 +55,6 @@ class EnvironmentVariables {
   JWT_REFRESH_EXPIRATION_TIME: string;
 
   // bcrypt
-  @IsNumber()
   @IsNotEmpty()
   SALT_ROUNDS: string;
 }
