@@ -13,6 +13,8 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './env-validade';
 import { ParseTokenPipe } from './parseToken';
+import { ScheduleModule } from '@nestjs/schedule';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { ParseTokenPipe } from './parseToken';
     ParentModule,
     StudentModule,
     CryptModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService, GpsGateway, ParseTokenPipe],
