@@ -80,6 +80,7 @@ model Child {
     id             Int              @id @default(autoincrement())
     name           String
     lastName       String
+    age            Int
     grade          Int
     parentId       Int
     schoolId       Int
