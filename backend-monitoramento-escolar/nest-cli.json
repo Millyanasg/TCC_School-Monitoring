@@ -2,21 +2,11 @@
     "$schema": "https://json.schemastore.org/nest-cli",
     "collection": "@nestjs/schematics",
     "sourceRoot": "./",
-    "entryFile": "backend-monitoramento-escolar/src/main.js",
+    "entryFile": "main.js",
     "compilerOptions": {
         "webpack": false,
         "plugins": [
             "@nestjs/swagger/plugin"
-        ],
-        "assets": [
-            {
-                "include": "templates/**/*",
-                "outDir": "dist/backend-monitoramento-escolar/templates",
-                "exclude": "dist/**/*"
-            },
-            {
-                "include": "public/**/*"
-            }
         ],
         "watchAssets": true,
         "deleteOutDir": false
