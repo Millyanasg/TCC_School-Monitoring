@@ -1,4 +1,4 @@
-const cookieDomain = process.env.NEXT_PUBLIC_COOKIE_DOMAIN?.split(',') || [];
+const cookieDomain = [import.meta.env.VITE_DOMAIN as string];
 export function setCookie(
   name: string,
   value: string,
