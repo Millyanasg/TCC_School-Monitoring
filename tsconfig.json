@@ -4,7 +4,11 @@
     "paths": {
       "@shared/*": ["./shared-monitoramento-escolar/src/*"],
       "@backend/*": ["./backend-monitoramento-escolar/src/*"],
-      "@frontend/*": ["./frontend-monitoramento-escolar/src/*"]
+      "@frontend/*": ["./frontend-monitoramento-escolar/src/*"],
+      "@stores/*": ["./frontend-monitoramento-escolar/src/stores/*"],
+      "@services/*": ["./frontend-monitoramento-escolar/src/services/*"],
+      "@pages/*": ["./frontend-monitoramento-escolar/src/pages/*"],
+      "@components/*": ["./frontend-monitoramento-escolar/src/components/*"]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
