@@ -14,7 +14,7 @@ export function Login() {
         triggerNotification({
           content: 'Logado com sucesso',
         });
-        navigate('/');
+        navigate('/menu');
       })
       .catch(() => {
         triggerNotification({
@@ -49,20 +49,20 @@ export function Login() {
           <Form.Item
             name='email'
             label='Email'
-            rules={[
-              { required: true, message: 'Por favor, insira seu email!' },
-            ]}
+            rules={[{ required: true, message: 'Por favor, insira seu email' }]}
           >
-            <Input placeholder='seu@email.com' />
+            <Input placeholder='seu@email.com' autoComplete='email' />
           </Form.Item>
           <Form.Item
             name='password'
             label='Senha'
-            rules={[
-              { required: true, message: 'Por favor, insira sua senha!' },
-            ]}
+            rules={[{ required: true, message: 'Por favor, insira sua senha' }]}
           >
-            <Input type='password' placeholder='********' />
+            <Input
+              type='password'
+              placeholder='********'
+              autoComplete='current-password'
+            />
           </Form.Item>
         </Form>
       </div>
