@@ -1,6 +1,12 @@
 import { CryptService } from '@backend/crypt/crypt.service';
 import { UserService } from '@backend/user/user.service';
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
@@ -12,6 +18,7 @@ import { TokenPayload } from './strategies/TokenPayload';
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger(AuthService.name);
   private JWT_SECRET: string;
   private JWT_EXPIRES_IN: string;
   private JWT_REFRESH_SECRET: string;
@@ -83,9 +90,11 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(email);
 
     if (!user) {
-      throw new Error('User not found');
+      this.logger.debug(`User not found: ${email}`);
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
+    this.logger.debug(`User found: ${user.email}`);
     // generate token
     throw new HttpException('Not implemented', HttpStatus.NOT_IMPLEMENTED);
   }
@@ -96,7 +105,8 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(email);
 
     if (user) {
-      throw new Error('User already exists');
+      this.logger.debug(`User already exists: ${email}`);
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
     }
 
     // create user
@@ -110,6 +120,9 @@ export class AuthService {
       password: hashedPassword,
       type: 'unset',
     });
+
+    // login user
+    return this.login({ email, password });
   }
 
   public async login(query: LoginDto): Promise<any> {
@@ -119,8 +132,11 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(email);
 
     if (!user) {
-      throw new Error('User not found');
+      this.logger.debug(`User not found: ${email}`);
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+
+    this.logger.debug(`User found: ${user.email}`);
 
     // compare password
     const isPasswordValid = await this.cryptService.comparePassword(
@@ -129,8 +145,12 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new Error('Invalid password');
+      throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
     }
+
+    this.logger.debug(
+      `Password for user ${user.email} is valid: ${isPasswordValid}`,
+    );
 
     // generate tokens
     const payload: TokenPayload = {
