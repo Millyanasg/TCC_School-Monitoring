@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "concurrently \"vite --host --port 3000\"",
+        "dev": "concurrently \"vite --host --port 8080\"",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "concurrently \"vite preview\"",
