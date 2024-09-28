@@ -4,7 +4,6 @@ import { Layout } from '../components/Layout/Layout';
 
 export function RouteError() {
   const navigate = useNavigate();
-
   return (
     <Layout>
       {' '}
