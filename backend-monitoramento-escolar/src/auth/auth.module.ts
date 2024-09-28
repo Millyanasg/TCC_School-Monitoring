@@ -18,7 +18,7 @@ import { JwtStrategyParent } from './strategies/JWT_PARENT.strategy';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
         const JWT_SECRET = config.get('JWT_SECRET');
-        const JWT_EXPIRES_IN = config.get('JWT_EXPIRES_IN');
+        const JWT_EXPIRES_IN = config.get('JWT_EXPIRATION_TIME');
         if (!JWT_SECRET) {
           Logger.error('JWT_SECRET is not set');
           throw new Error('JWT_SECRET is not set');
