@@ -78,9 +78,6 @@ export async function get_userData() {
   return response.data;
 }
 
-/**
- * Realiza o logout do usuário.
- */
 export async function logout(): Promise<void> {
   localStorage.removeItem('authToken');
   const cookiesToRevoke = ['token', 'refresh_token'];
@@ -126,6 +123,36 @@ export async function registerUser({
     );
 
     console.log(response.data, 'response');
+    return response.data;
+  } catch (error) {
+    console.error('Authentication error:', error);
+    throw error;
+  }
+}
+
+export async function loginUser({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
+  try {
+    const response = await apiInstance.post('/auth/login', {
+      email: email,
+      password: password,
+    });
+
+    const { token, refreshToken } = response.data;
+
+    setCookie('token', `Bearer ${token}`, getTokenExpirationTime(token));
+
+    setCookie(
+      'refresh_token',
+      refreshToken,
+      getTokenExpirationTime(refreshToken),
+    );
+
     return response.data;
   } catch (error) {
     console.error('Authentication error:', error);
