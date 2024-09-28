@@ -1,22 +1,26 @@
-import { Button, Form, FormProps, Input, Toast } from 'antd-mobile';
+import { Button, Form, Input } from 'antd-mobile';
+import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout/Layout';
+import { useNotification } from '../stores/common/useNotification';
+import { loginUser } from '../services/common/auth.service';
 
 export function Login() {
-  const onFinish = (values: { username: string; password: string }) => {
-    // Handle login logic here
-    console.log('Success:', values);
-    Toast.show({
-      icon: 'success',
-      content: 'Login successful',
-    });
-  };
-
-  const onFinishFailed: FormProps['onFinishFailed'] = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-    Toast.show({
-      icon: 'fail',
-      content: 'Login failed',
-    });
+  const { triggerNotification } = useNotification();
+  const navigate = useNavigate();
+  const onFinish = (values: { email: string; password: string }) => {
+    const { email, password } = values;
+    loginUser({ email, password })
+      .then(() => {
+        triggerNotification({
+          content: 'Logado com sucesso',
+        });
+        navigate('/');
+      })
+      .catch(() => {
+        triggerNotification({
+          content: 'Erro ao logar',
+        });
+      });
   };
 
   return (
@@ -25,26 +29,40 @@ export function Login() {
         <Form
           layout='horizontal'
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           footer={
-            <Button block type='submit' color='primary' size='large'>
-              Login
-            </Button>
+            <>
+              <Button block type='submit' color='success' size='middle'>
+                Entrar
+              </Button>
+              <Button
+                block
+                color='primary'
+                style={{ marginTop: '2rem' }}
+                size='middle'
+                onClick={() => navigate('/register')}
+              >
+                Criar conta
+              </Button>
+            </>
           }
         >
           <Form.Item
-            name='username'
-            label='Username'
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            name='email'
+            label='Email'
+            rules={[
+              { required: true, message: 'Por favor, insira seu email!' },
+            ]}
           >
-            <Input placeholder='Username' />
+            <Input placeholder='seu@email.com' />
           </Form.Item>
           <Form.Item
             name='password'
-            label='Password'
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            label='Senha'
+            rules={[
+              { required: true, message: 'Por favor, insira sua senha!' },
+            ]}
           >
-            <Input type='password' placeholder='Password' />
+            <Input type='password' placeholder='********' />
           </Form.Item>
         </Form>
       </div>
