@@ -2,8 +2,14 @@ import { PrismaService } from '@backend/prisma/prisma.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 
+import { UserDto } from './dto/userDTO';
+
 @Injectable()
 export class UserService {
+  public getProfile(user: User): UserDto {
+    return UserDto.fromEntity(user);
+  }
+
   constructor(
     @Inject(PrismaService)
     private readonly prismaService: PrismaService,
