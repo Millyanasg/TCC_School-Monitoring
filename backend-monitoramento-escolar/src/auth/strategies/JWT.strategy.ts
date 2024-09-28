@@ -7,19 +7,17 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard, PassportStrategy } from '@nestjs/passport';
-import { User } from '@prisma/client';
 import type { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-class TokenPayload {
-  type: User['type'];
-}
+import { TokenPayload } from './TokenPayload';
 
 @Injectable()
 export class JwtStrategyUser extends PassportStrategy(Strategy, 'jwt-refresh') {
   private static logger = new Logger(JwtStrategyUser.name);
   constructor(@Inject(ConfigService) config: ConfigService) {
     const JWT_SECRET = config.getOrThrow('JWT_SECRET');
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: JWT_SECRET,
