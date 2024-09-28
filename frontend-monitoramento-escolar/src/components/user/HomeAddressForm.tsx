@@ -1,14 +1,19 @@
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { useNotification } from '@frontend/stores/common/useNotification';
+import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { Button, Card, Form, Input } from 'antd-mobile';
 import { useShallow } from 'zustand/shallow';
-import { useParentForm, HomeAddress } from '../../stores/user/useParentForm';
+import { LeftOutline, RightOutline } from 'antd-mobile-icons';
+import { HomeAddress, useParentForm } from '../../stores/user/useParentForm';
 
-function AddedHomeAddressCard({
+export function AddedHomeAddressCard({
   homeAddress,
   index,
+  allowRemove = true,
 }: {
   homeAddress: HomeAddress;
   index: number;
+  allowRemove?: boolean;
 }) {
   const { street, number, city, state, zipCode } = homeAddress;
   const [removeHomeAddress] = useParentForm(
@@ -19,13 +24,17 @@ function AddedHomeAddressCard({
       style={{ marginBottom: '16px' }}
       title={`${street} ${number}`}
       extra={
-        <Button
-          color='danger'
-          size='small'
-          onClick={() => removeHomeAddress(index)}
-        >
-          <DeleteOutlined /> Remover
-        </Button>
+        <>
+          {allowRemove && (
+            <Button
+              color='danger'
+              size='small'
+              onClick={() => removeHomeAddress(index)}
+            >
+              <DeleteOutlined /> Remover
+            </Button>
+          )}
+        </>
       }
     >
       <div>
@@ -37,8 +46,12 @@ function AddedHomeAddressCard({
   );
 }
 export function HomeAddressForm() {
+  const { triggerNotification } = useNotification();
   const [homeAddressList, addHomeAddress] = useParentForm(
     useShallow((state) => [state.homeAddress, state.addHomeAddress]),
+  );
+  const [nextStep, prevStep] = useRegisterStep(
+    useShallow((state) => [state.nextStep, state.prevStep]),
   );
   const [form] = Form.useForm<HomeAddress>();
 
@@ -62,16 +75,37 @@ export function HomeAddressForm() {
         footer={
           <>
             <Button block type='submit' color='success' size='middle'>
+              <PlusOutlined />
               Adicionar
             </Button>
-            <Button
-              block
-              color='primary'
-              style={{ marginTop: '2rem' }}
-              size='middle'
-            >
-              Próximo
-            </Button>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button
+                color='primary'
+                style={{ marginTop: '2rem' }}
+                size='middle'
+                onClick={prevStep}
+              >
+                <LeftOutline />
+                Anterior
+              </Button>
+              <Button
+                color='primary'
+                style={{ marginTop: '2rem' }}
+                size='middle'
+                onClick={() => {
+                  if (homeAddressList.length === 0) {
+                    triggerNotification({
+                      content: 'Por favor, adicione um endereço',
+                    });
+                  } else {
+                    nextStep();
+                  }
+                }}
+              >
+                <RightOutline />
+                Próximo
+              </Button>
+            </div>
           </>
         }
       >
