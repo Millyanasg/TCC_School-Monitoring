@@ -148,9 +148,7 @@ export class AuthService {
       throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
     }
 
-    this.logger.debug(
-      `Password for user ${user.email} is valid: ${isPasswordValid}`,
-    );
+    this.logger.debug(`Password for user ${user.email} is valid`);
 
     // generate tokens
     const payload: TokenPayload = {
@@ -166,7 +164,7 @@ export class AuthService {
     };
   }
 
-  public async refresh(req: Request, res: Response) {
+  public async refreshToken(req: Request, res: Response) {
     const refreshTokenHeader = req.headers?.authorization as string;
     const refreshTokenCookie = req.cookies?.refresh_token as string;
 

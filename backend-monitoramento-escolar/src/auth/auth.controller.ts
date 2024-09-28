@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 
 import { AuthService } from './auth.service';
 import { ForgotPasswordDto } from './dto/ForgotPasswordDto';
@@ -14,6 +15,11 @@ export class AuthController {
   @Post('login')
   login(@Body() query: LoginDto) {
     return this.authService.login(query);
+  }
+
+  @Post('refresh')
+  refreshToken(@Req() req: Request, @Res() res: Response) {
+    return this.authService.refreshToken(req, res);
   }
 
   @Post('register')
