@@ -11,6 +11,7 @@
         "proxy": "tsx ./src/dev/dev-proxy.ts"
     },
     "dependencies": {
+        "@ant-design/icons": "^5.5.1",
         "@zxing/library": "^0.21.3",
         "antd-mobile": "^5.37.1",
         "antd-mobile-icons": "^0.3.0",
@@ -44,6 +45,7 @@
         "typescript": "^5.6.2",
         "typescript-eslint": "^8.0.1",
         "vite": "^5.4.1",
-        "vite-plugin-eslint": "^1.8.1"
+        "vite-plugin-eslint": "^1.8.1",
+        "vite-tsconfig-paths": "^5.0.1"
     }
 }
