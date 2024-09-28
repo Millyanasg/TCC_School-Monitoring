@@ -24,7 +24,10 @@ export function initializeSwagger(
   const config = new DocumentBuilder()
     .setTitle('Monitoramento Escolar API')
     .setDescription(
-      `API documentation for the Monitoramento Escolar project. The API is used to manage schools, students, drivers, and parents. The API is used by the frontend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users. The API is used by the backend application to manage the data and display it to the users.`,
+      `API for the Monitoramento Escolar project. The frontend application can be found at ${getAnchor(
+        serverUrl,
+        'serverUrl',
+      )}`,
     )
     .setVersion('1.0')
     .addCookieAuth('refresh_token', {

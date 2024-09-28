@@ -1,13 +1,11 @@
-import assert from 'assert';
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import * as express from 'express';
 
 import { AppModule } from './app.module';
-import { initializeSwagger } from './initializeSwagger';
 import { ParseTokenPipe } from './parseToken';
+import { initializeSwagger } from './swagger/initializeSwagger';
 
 const logger = new Logger('main.ts');
 
