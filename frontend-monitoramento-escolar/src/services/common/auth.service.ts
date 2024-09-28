@@ -1,21 +1,23 @@
-import { apiInstance } from '../../stores/common/api.store';
+import { apiInstance } from '@stores/common/api.store';
 import { setCookie, get_cookie, delete_cookie } from './cookieUtil.service';
+import { TokenPayloadWithExpiration } from '@backend/auth/strategies/TokenPayload';
+import { RegisterDto } from '@backend/auth/dto/RegisterDto';
+import { LoginDto } from '@backend/auth/dto/LoginDto';
 
-export function jwtDecode(token: string) {
+export function jwtDecode(token: string): TokenPayloadWithExpiration {
   const data = JSON.parse(atob(token.split('.')[1]));
 
   if (!data) {
     throw new Error('Invalid token');
   }
 
-  if (!data.email || !data.type || !data.id) {
+  if (!data.email || !data.type || !data.iat || !data.exp) {
     throw new Error('Invalid token');
   }
 
   return {
     email: data.email,
     type: data.type,
-    id: data.id,
     iat: data.iat,
     exp: data.exp,
   };
@@ -93,13 +95,7 @@ export async function logout(): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 200));
 }
 
-export async function loginUser({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) {
+export async function loginUser({ email, password }: LoginDto) {
   try {
     const response = await apiInstance.post('/auth/login', {
       email: email,
@@ -107,18 +103,11 @@ export async function loginUser({
     });
 
     const { accessToken, refreshToken } = response.data;
+    const accessTokenExpiration = getTokenExpirationTime(accessToken);
+    const refreshTokenExpiration = getTokenExpirationTime(refreshToken);
+    setCookie('token', `Bearer ${accessToken}`, accessTokenExpiration);
 
-    setCookie(
-      'token',
-      `Bearer ${accessToken}`,
-      getTokenExpirationTime(accessToken),
-    );
-
-    setCookie(
-      'refresh_token',
-      refreshToken,
-      getTokenExpirationTime(refreshToken),
-    );
+    setCookie('refresh_token', refreshToken, refreshTokenExpiration);
 
     return response.data;
   } catch (error) {
@@ -127,28 +116,16 @@ export async function loginUser({
   }
 }
 
-export async function registerUser(data: {
-  name: string;
-  lastName: string;
-  email: string;
-  password: string;
-}) {
+export async function registerUser(data: RegisterDto) {
   try {
     const response = await apiInstance.post('/auth/register', data);
 
     const { accessToken, refreshToken } = response.data;
+    const accessTokenExpiration = getTokenExpirationTime(accessToken);
+    const refreshTokenExpiration = getTokenExpirationTime(refreshToken);
+    setCookie('token', `Bearer ${accessToken}`, accessTokenExpiration);
 
-    setCookie(
-      'token',
-      `Bearer ${accessToken}`,
-      getTokenExpirationTime(accessToken),
-    );
-
-    setCookie(
-      'refresh_token',
-      refreshToken,
-      getTokenExpirationTime(refreshToken),
-    );
+    setCookie('refresh_token', refreshToken, refreshTokenExpiration);
 
     return response.data;
   } catch (error) {
