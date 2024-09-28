@@ -1,9 +1,11 @@
+import { UserModule } from '@backend/user/user.module';
 import { Module } from '@nestjs/common';
-import { SeedService } from './seed.service';
 import { SeedController } from './seed.controller';
+import { SeedService } from './seed.service';
 
 @Module({
+  imports: [UserModule],
   providers: [SeedService],
-  controllers: [SeedController]
+  controllers: [SeedController],
 })
 export class SeedModule {}
