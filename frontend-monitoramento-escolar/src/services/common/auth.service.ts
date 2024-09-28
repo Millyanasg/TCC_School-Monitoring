@@ -93,43 +93,6 @@ export async function logout(): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 200));
 }
 
-export async function registerUser({
-  name,
-  email,
-  password,
-  recaptcha,
-}: {
-  name: string;
-  email: string;
-  password: string;
-  recaptcha: string;
-}) {
-  try {
-    const response = await apiInstance.post('/auth/register', {
-      email: email,
-      password: password,
-      name: name,
-      recaptcha: recaptcha,
-    });
-
-    const { token, refreshToken } = response.data;
-
-    setCookie('token', `Bearer ${token}`, getTokenExpirationTime(token));
-
-    setCookie(
-      'refresh_token',
-      refreshToken,
-      getTokenExpirationTime(refreshToken),
-    );
-
-    console.log(response.data, 'response');
-    return response.data;
-  } catch (error) {
-    console.error('Authentication error:', error);
-    throw error;
-  }
-}
-
 export async function loginUser({
   email,
   password,
@@ -143,9 +106,43 @@ export async function loginUser({
       password: password,
     });
 
-    const { token, refreshToken } = response.data;
+    const { accessToken, refreshToken } = response.data;
 
-    setCookie('token', `Bearer ${token}`, getTokenExpirationTime(token));
+    setCookie(
+      'token',
+      `Bearer ${accessToken}`,
+      getTokenExpirationTime(accessToken),
+    );
+
+    setCookie(
+      'refresh_token',
+      refreshToken,
+      getTokenExpirationTime(refreshToken),
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Authentication error:', error);
+    throw error;
+  }
+}
+
+export async function registerUser(data: {
+  name: string;
+  lastName: string;
+  email: string;
+  password: string;
+}) {
+  try {
+    const response = await apiInstance.post('/auth/register', data);
+
+    const { accessToken, refreshToken } = response.data;
+
+    setCookie(
+      'token',
+      `Bearer ${accessToken}`,
+      getTokenExpirationTime(accessToken),
+    );
 
     setCookie(
       'refresh_token',
