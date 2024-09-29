@@ -10,15 +10,16 @@ import { Card, Form, Input } from 'antd-mobile';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
-import { HomeAddress, useParentForm } from '../../stores/user/useParentForm';
+import { useParentForm } from '../../stores/user/useParentForm';
 import MapSelector from '../common/MapSelector';
+import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
 
 export function AddedHomeAddressCard({
   homeAddress,
   index,
   allowRemove = true,
 }: {
-  homeAddress: HomeAddress;
+  homeAddress: HomeAddressDto;
   index: number;
   allowRemove?: boolean;
 }) {
@@ -50,7 +51,7 @@ export function AddedHomeAddressCard({
         <p>Cidade: {city}</p>
         <p>Estado: {state}</p>
         <p>CEP: {zipCode}</p>
-        <p>Latitude: {homeAddress.latitute}</p>
+        <p>Latitude: {homeAddress.latitude}</p>
         <p>Longitude: {homeAddress.longitude}</p>
       </div>
     </Card>
@@ -64,11 +65,11 @@ export function HomeAddressForm() {
   const [nextStep, prevStep] = useRegisterStep(
     useShallow((state) => [state.nextStep, state.prevStep]),
   );
-  const [form] = Form.useForm<HomeAddress>();
+  const [form] = Form.useForm<HomeAddressDto>();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
     form.setFieldsValue({
-      latitute: String(lat.toFixed(6)),
+      latitude: String(lat.toFixed(6)),
       longitude: String(lon.toFixed(6)),
     });
   }
@@ -100,7 +101,7 @@ export function HomeAddressForm() {
           }
           addHomeAddress(values);
           form.resetFields();
-          form.setFieldsValue({ latitute: '', longitude: '' });
+          form.setFieldsValue({ latitude: '', longitude: '' });
         }}
         footer={
           <>

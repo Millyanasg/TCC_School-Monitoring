@@ -11,6 +11,9 @@ export function ParentFormSummary() {
   const [homeAddressList, childrenList] = useParentForm(
     useShallow((state) => [state.homeAddress, state.children]),
   );
+  function submit() {
+    console.log('Cadastro finalizado');
+  }
   return (
     <>
       <h2>Resumo do cadastro</h2>
@@ -61,7 +64,7 @@ export function ParentFormSummary() {
       >
         <Button
           onClick={() => {
-            console.log('Cadastro finalizado');
+            submit();
           }}
           color='primary'
           variant='solid'

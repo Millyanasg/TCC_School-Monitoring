@@ -1,31 +1,16 @@
 import { create } from 'zustand';
-
-export type Child = {
-  name: string;
-  lastName: string;
-  age: number;
-  grade: string;
-};
-
-export type HomeAddress = {
-  street: string;
-  number: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  latitute: string;
-  longitude: string;
-};
+import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
+import { ChildDto } from '@backend/parent/dto/ChildDto';
 
 export const useParentForm = create<{
-  children: Child[];
-  homeAddress: HomeAddress[];
-  addChildren: (children: Child) => void;
+  children: ChildDto[];
+  homeAddress: HomeAddressDto[];
+  addChildren: (children: ChildDto) => void;
   removeChild: (index: number) => void;
-  addHomeAddress: (homeAddress: HomeAddress) => void;
+  addHomeAddress: (homeAddress: HomeAddressDto) => void;
   removeHomeAddress: (index: number) => void;
 }>((set) => {
-  function addChildren(children: Child) {
+  function addChildren(children: ChildDto) {
     set((state) => {
       return {
         ...state,
@@ -41,7 +26,7 @@ export const useParentForm = create<{
       };
     });
   }
-  function addHomeAddress(homeAddress: HomeAddress) {
+  function addHomeAddress(homeAddress: HomeAddressDto) {
     set((state) => {
       return {
         ...state,

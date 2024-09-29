@@ -3,15 +3,16 @@ import { useNotification } from '@frontend/stores/common/useNotification';
 import { Card, Form, Input } from 'antd-mobile';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 import { useShallow } from 'zustand/shallow';
-import { Child, useParentForm } from '../../stores/user/useParentForm';
+import { useParentForm } from '../../stores/user/useParentForm';
 import { useRegisterStep } from '../../stores/user/useRegisterStep';
 import { Button } from 'antd';
+import { ChildDto } from '@backend/parent/dto/ChildDto';
 export function AddedChildAddressCard({
   child,
   index,
   allowRemove = true,
 }: {
-  child: Child;
+  child: ChildDto;
   index: number;
   allowRemove?: boolean;
 }) {
@@ -53,7 +54,7 @@ export function ChildrenForm() {
   const [setType, nextStep, prevStep] = useRegisterStep(
     useShallow((state) => [state.setType, state.nextStep, state.prevStep]),
   );
-  const [form] = Form.useForm<Child>();
+  const [form] = Form.useForm<ChildDto>();
 
   return (
     <>
