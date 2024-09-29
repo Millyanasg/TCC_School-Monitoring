@@ -31,13 +31,14 @@ export function UserTypeSelector() {
       style={{
         display: 'flex',
         justifyContent: 'space-around',
+        gap: '1rem',
+        marginTop: '6rem',
       }}
     >
       <button style={buttonStyle} onClick={() => handleSetType('parent')}>
         <HomeOutlined
           style={{
             fontSize: iconStyleFontSize,
-            color: 'blue',
           }}
         />
         Responsável
@@ -46,7 +47,6 @@ export function UserTypeSelector() {
         <CarOutlined
           style={{
             fontSize: iconStyleFontSize,
-            color: 'green',
           }}
         />
         Motorista
