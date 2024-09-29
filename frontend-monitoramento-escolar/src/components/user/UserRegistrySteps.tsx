@@ -8,21 +8,29 @@ export function UserRegistrySteps() {
     useShallow((state) => [state.type, state.step]),
   );
   return (
-    <Steps current={step} direction='horizontal'>
-      <Step title='Seleção de perfil' description='Escolha seu perfil' />
+    <>
+      {type === 'unset' && (
+        <Steps current={step} direction='horizontal'>
+          <Step title='Seleção de perfil' description='Escolha seu perfil' />
+          <Step title='...' description='Selecione um perfil' />
+          <Step title='Finalização' description='Finalize o cadastro' />
+        </Steps>
+      )}
       {type === 'parent' && (
-        <>
+        <Steps current={step} direction='horizontal'>
+          <Step title='Seleção de perfil' description='Escolha seu perfil' />
           <Step title='Crianças' description='Cadastre seus filhos' />
           <Step title='Endereços' description='Cadastre seus endereços' />
-        </>
+          <Step title='Finalização' description='Finalize o cadastro' />
+        </Steps>
       )}
       {type === 'driver' && (
-        <>
+        <Steps current={step} direction='horizontal'>
+          <Step title='Seleção de perfil' description='Escolha seu perfil' />
           <Step title='Veículo' description='Informe o veículo' />
-        </>
+          <Step title='Finalização' description='Finalize o cadastro' />
+        </Steps>
       )}
-      {type === 'unset' && <Step title='...' description='...' />}
-      <Step title='Finalização' description='...' />
-    </Steps>
+    </>
   );
 }
