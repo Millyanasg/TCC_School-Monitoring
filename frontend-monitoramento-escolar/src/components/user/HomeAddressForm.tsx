@@ -1,10 +1,17 @@
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  GlobalOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
-import { Button, Card, Form, Input } from 'antd-mobile';
-import { useShallow } from 'zustand/shallow';
+import { Button } from 'antd';
+import { Card, Form, Input } from 'antd-mobile';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
+import { useState } from 'react';
+import { useShallow } from 'zustand/shallow';
 import { HomeAddress, useParentForm } from '../../stores/user/useParentForm';
+import MapSelector from '../common/MapSelector';
 
 export function AddedHomeAddressCard({
   homeAddress,
@@ -27,11 +34,13 @@ export function AddedHomeAddressCard({
         <>
           {allowRemove && (
             <Button
-              color='danger'
-              size='small'
               onClick={() => removeHomeAddress(index)}
+              color='danger'
+              variant='solid'
+              size='small'
+              icon={<DeleteOutlined />}
             >
-              <DeleteOutlined /> Remover
+              Excluir
             </Button>
           )}
         </>
@@ -41,6 +50,8 @@ export function AddedHomeAddressCard({
         <p>Cidade: {city}</p>
         <p>Estado: {state}</p>
         <p>CEP: {zipCode}</p>
+        <p>Latitude: {homeAddress.latitute}</p>
+        <p>Longitude: {homeAddress.longitude}</p>
       </div>
     </Card>
   );
@@ -54,9 +65,21 @@ export function HomeAddressForm() {
     useShallow((state) => [state.nextStep, state.prevStep]),
   );
   const [form] = Form.useForm<HomeAddress>();
+  const [isMapOpen, setMapOpen] = useState(false);
+  function onSelectLocation(lat: number, lon: number) {
+    form.setFieldsValue({
+      latitute: String(lat.toFixed(6)),
+      longitude: String(lon.toFixed(6)),
+    });
+  }
 
   return (
     <>
+      <MapSelector
+        onClose={() => setMapOpen(false)}
+        onSelectLocation={onSelectLocation}
+        isOpen={isMapOpen}
+      />
       <div>
         {homeAddressList.map((homeAddress, index) => (
           <AddedHomeAddressCard
@@ -69,29 +92,41 @@ export function HomeAddressForm() {
       <Form
         form={form}
         onFinish={(values) => {
+          if (!values.latitute || !values.longitude) {
+            triggerNotification({
+              content: 'Por favor, selecione a localização',
+            });
+            return;
+          }
           addHomeAddress(values);
           form.resetFields();
+          form.setFieldsValue({ latitute: '', longitude: '' });
         }}
         footer={
           <>
-            <Button block type='submit' color='success' size='middle'>
-              <PlusOutlined />
+            <Button
+              block
+              icon={<PlusOutlined />}
+              color='primary'
+              variant='solid'
+              htmlType='submit'
+              size='large'
+            >
               Adicionar
             </Button>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
+                onClick={prevStep}
                 color='primary'
                 style={{ marginTop: '2rem' }}
                 size='middle'
-                onClick={prevStep}
+                icon={<LeftOutline />}
+                iconPosition='start'
+                variant='filled'
               >
-                <LeftOutline />
                 Anterior
               </Button>
               <Button
-                color='primary'
-                style={{ marginTop: '2rem' }}
-                size='middle'
                 onClick={() => {
                   if (homeAddressList.length === 0) {
                     triggerNotification({
@@ -101,8 +136,13 @@ export function HomeAddressForm() {
                     nextStep();
                   }
                 }}
+                color='primary'
+                style={{ marginTop: '2rem' }}
+                size='middle'
+                icon={<RightOutline />}
+                iconPosition='end'
+                variant='filled'
               >
-                <RightOutline />
                 Próximo
               </Button>
             </div>
@@ -146,6 +186,23 @@ export function HomeAddressForm() {
         >
           <Input placeholder='CEP' />
         </Form.Item>
+        <Form.Item name='latitute' hidden>
+          <Input />
+        </Form.Item>
+        <Form.Item name='longitude' hidden>
+          <Input />
+        </Form.Item>
+        <Button
+          onClick={() => setMapOpen(true)}
+          block
+          color='primary'
+          size='middle'
+          iconPosition='start'
+          variant='filled'
+          icon={<GlobalOutlined />}
+        >
+          Selecione a localização
+        </Button>
       </Form>
     </>
   );
