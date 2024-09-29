@@ -1,6 +1,6 @@
 import { ToTopOutlined } from '@ant-design/icons';
 import { useParentForm } from '@frontend/stores/user/useParentForm';
-import { Button } from 'antd-mobile';
+import { Button } from 'antd';
 import { LeftOutline } from 'antd-mobile-icons';
 import { useShallow } from 'zustand/shallow';
 import { useRegisterStep } from '../../stores/user/useRegisterStep';
@@ -63,8 +63,10 @@ export function ParentFormSummary() {
           onClick={() => {
             console.log('Cadastro finalizado');
           }}
-          type='button'
-          color='success'
+          color='primary'
+          variant='solid'
+          htmlType='submit'
+          size='large'
           block
         >
           <ToTopOutlined /> Finalizar cadastro
@@ -73,8 +75,9 @@ export function ParentFormSummary() {
           onClick={() => {
             useRegisterStep.getState().prevStep();
           }}
-          type='button'
-          color='warning'
+          color='danger'
+          variant='solid'
+          size='large'
           block
         >
           <LeftOutline /> Voltar
