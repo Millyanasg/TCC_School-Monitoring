@@ -1,11 +1,11 @@
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNotification } from '@frontend/stores/common/useNotification';
-import { Button, Card, Form, Input } from 'antd-mobile';
+import { Card, Form, Input } from 'antd-mobile';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 import { useShallow } from 'zustand/shallow';
 import { Child, useParentForm } from '../../stores/user/useParentForm';
 import { useRegisterStep } from '../../stores/user/useRegisterStep';
-
+import { Button } from 'antd';
 export function AddedChildAddressCard({
   child,
   index,
@@ -26,11 +26,13 @@ export function AddedChildAddressCard({
         <>
           {allowRemove && (
             <Button
-              color='danger'
-              size='small'
               onClick={() => removeChild(index)}
+              color='danger'
+              variant='solid'
+              size='small'
+              icon={<DeleteOutlined />}
             >
-              <DeleteOutlined /> Remover
+              Excluir
             </Button>
           )}
         </>
@@ -48,8 +50,8 @@ export function ChildrenForm() {
   const [childrenList, addChildren] = useParentForm(
     useShallow((state) => [state.children, state.addChildren]),
   );
-  const [nextStep, prevStep] = useRegisterStep(
-    useShallow((state) => [state.nextStep, state.prevStep]),
+  const [setType, nextStep, prevStep] = useRegisterStep(
+    useShallow((state) => [state.setType, state.nextStep, state.prevStep]),
   );
   const [form] = Form.useForm<Child>();
 
@@ -75,25 +77,32 @@ export function ChildrenForm() {
         }}
         footer={
           <>
-            <Button block type='submit' color='success' size='middle'>
-              <PlusOutlined /> Adicionar
+            <Button
+              block
+              icon={<PlusOutlined />}
+              color='primary'
+              variant='solid'
+              htmlType='submit'
+              size='large'
+            >
+              Adicionar
             </Button>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
+                onClick={() => {
+                  setType('unset');
+                  prevStep();
+                }}
                 color='primary'
                 style={{ marginTop: '2rem' }}
                 size='middle'
-                onClick={() => {
-                  prevStep();
-                }}
+                icon={<LeftOutline />}
+                iconPosition='start'
+                variant='filled'
               >
-                <LeftOutline />
                 Anterior
               </Button>
               <Button
-                color='primary'
-                style={{ marginTop: '2rem' }}
-                size='middle'
                 onClick={() => {
                   if (childrenList.length === 0) {
                     triggerNotification({
@@ -103,8 +112,13 @@ export function ChildrenForm() {
                     nextStep();
                   }
                 }}
+                color='primary'
+                style={{ marginTop: '2rem' }}
+                size='middle'
+                icon={<RightOutline />}
+                iconPosition='end'
+                variant='filled'
               >
-                <RightOutline />
                 Próximo
               </Button>
             </div>
