@@ -6,14 +6,17 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AuthGuard, PassportStrategy } from '@nestjs/passport';
+import { PassportStrategy } from '@nestjs/passport';
 import type { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { TokenPayload } from './TokenPayload';
 
 @Injectable()
-export class JwtStrategyUser extends PassportStrategy(Strategy, 'jwt-refresh') {
+export class JwtStrategyUser extends PassportStrategy(
+  Strategy,
+  'JwtStrategyUser',
+) {
   private static logger = new Logger(JwtStrategyUser.name);
   constructor(@Inject(ConfigService) config: ConfigService) {
     const JWT_SECRET = config.getOrThrow('JWT_SECRET');
@@ -42,8 +45,4 @@ export class JwtStrategyUser extends PassportStrategy(Strategy, 'jwt-refresh') {
       refreshToken,
     };
   }
-}
-
-export function useCommonUser() {
-  return AuthGuard('jwt-refresh');
 }

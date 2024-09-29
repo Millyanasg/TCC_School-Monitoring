@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AuthGuard, PassportStrategy } from '@nestjs/passport';
+import { PassportStrategy } from '@nestjs/passport';
 import type { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
@@ -15,7 +15,7 @@ import { TokenPayload } from './TokenPayload';
 @Injectable()
 export class JwtStrategyAdmin extends PassportStrategy(
   Strategy,
-  'jwt-refresh',
+  'JwtStrategyAdmin',
 ) {
   private static logger = new Logger(JwtStrategyAdmin.name);
   constructor(@Inject(ConfigService) config: ConfigService) {
@@ -49,8 +49,4 @@ export class JwtStrategyAdmin extends PassportStrategy(
       refreshToken,
     };
   }
-}
-
-export function useAdminUser() {
-  return AuthGuard('jwt-refresh');
 }
