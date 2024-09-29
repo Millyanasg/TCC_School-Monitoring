@@ -5,7 +5,7 @@ export const useRegisterStep = create<{
   step: number;
   nextStep: () => void;
   prevStep: () => void;
-  setType: (type: 'parent' | 'driver') => void;
+  setType: (type: 'parent' | 'driver' | 'unset') => void;
 }>((set, get) => {
   function nextStep() {
     const currentStep = get().step;
@@ -22,7 +22,7 @@ export const useRegisterStep = create<{
     }));
   }
 
-  function setType(type: 'parent' | 'driver') {
+  function setType(type: 'parent' | 'driver' | 'unset') {
     set((state) => ({
       ...state,
       type: type,
