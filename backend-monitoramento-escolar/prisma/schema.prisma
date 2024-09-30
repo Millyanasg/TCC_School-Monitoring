@@ -48,7 +48,7 @@ model HomeAddress {
     city      String
     state     String
     zipCode   String
-    latitute  Float
+    latitude  Float
     longitude Float
     parentId  Int    @unique
     parent    Parent @relation(fields: [parentId], references: [id])
@@ -71,8 +71,8 @@ model School {
     id          Int     @id @default(autoincrement())
     name        String
     address     String
-    latitute    String
-    longitude   String
+    latitude    Float
+    longitude   Float
     userId      Int     @unique
     user        User    @relation(fields: [userId], references: [id])
     studentList Child[]
@@ -103,7 +103,7 @@ enum LocationType {
 model ChildLocations {
     id        Int          @id @default(autoincrement())
     childId   Int
-    latitute  Float
+    latitude  Float
     longitude Float
     type      LocationType
     child     Child        @relation(fields: [childId], references: [id])
