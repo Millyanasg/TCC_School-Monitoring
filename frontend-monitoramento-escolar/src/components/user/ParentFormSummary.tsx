@@ -6,14 +6,49 @@ import { useShallow } from 'zustand/shallow';
 import { useRegisterStep } from '../../stores/user/useRegisterStep';
 import { AddedChildAddressCard } from './ChildrenForm';
 import { AddedHomeAddressCard } from './HomeAddressForm';
+import { RegisterParent } from '@frontend/services/parent/parent.service';
+import { useNotification } from '@frontend/stores/common/useNotification';
+import { AxiosError } from 'axios';
 
 export function ParentFormSummary() {
+  const { triggerNotification } = useNotification();
   const [homeAddressList, childrenList] = useParentForm(
     useShallow((state) => [state.homeAddress, state.children]),
   );
-  function submit() {
-    console.log('Cadastro finalizado');
+  async function submit() {
+    try {
+      const respose = await RegisterParent({
+        children: childrenList,
+        homeAddresses: homeAddressList,
+      });
+      console.log(respose);
+      triggerNotification({
+        content: 'Responsável cadastrado com sucesso',
+      });
+    } catch (e) {
+      const error = e as AxiosError;
+      if (error.isAxiosError) {
+        switch (error.response?.status) {
+          case 400:
+            triggerNotification({
+              content: 'Erro de validação',
+            });
+            break;
+          case 409:
+            triggerNotification({
+              content: 'Usuário já cadastrado como responsável',
+            });
+            break;
+          default:
+            triggerNotification({
+              content: 'Erro ao cadastrar responsável',
+            });
+            break;
+        }
+      }
+    }
   }
+
   return (
     <>
       <h2>Resumo do cadastro</h2>
