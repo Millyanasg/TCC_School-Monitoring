@@ -6,9 +6,15 @@ type MapSelectorProps = {
   onSelectLocation: (lat: number, lon: number) => void;
   isOpen: boolean;
   onClose: () => void;
+  initialLocation: GeolocationPosition | null;
 };
 
-function MapSelector({ onSelectLocation, isOpen, onClose }: MapSelectorProps) {
+function MapSelector({
+  onSelectLocation,
+  isOpen,
+  onClose,
+  initialLocation,
+}: MapSelectorProps) {
   const [position, setPosition] = useState<{ lat: number; lon: number } | null>(
     null,
   );
@@ -40,7 +46,10 @@ function MapSelector({ onSelectLocation, isOpen, onClose }: MapSelectorProps) {
       onOk={onClose}
     >
       <MapContainer
-        center={[51.505, -0.09]}
+        center={[
+          initialLocation?.coords.latitude || -15.7801,
+          initialLocation?.coords.longitude || -47.9292,
+        ]}
         zoom={13}
         style={{ height: '400px', width: '100%' }}
       >
