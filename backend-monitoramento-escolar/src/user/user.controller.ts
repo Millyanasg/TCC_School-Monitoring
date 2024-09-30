@@ -1,3 +1,4 @@
+import { GuardCommonUser } from '@backend/auth/strategies/Guards';
 import { GetRequestUser, verifyUser } from '@backend/GetRequestUser';
 import { Controller, Get, Inject } from '@nestjs/common';
 import { User } from '@prisma/client';
@@ -12,6 +13,7 @@ export class UserController {
   ) {}
 
   @Get('me')
+  @GuardCommonUser()
   getProfile(@GetRequestUser() user: User | null) {
     user = verifyUser(user);
     return this.userService.getProfile(user);
