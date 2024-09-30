@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Footer } from './Footer';
 import { Header } from './Header';
+import { usePositionStore } from '@frontend/stores/common/position.store';
 
 function UseRouteProtector() {
   const userData = useUserStore((state) => state.userData);
@@ -13,6 +14,15 @@ function UseRouteProtector() {
       navigate('/menu');
     }
   }, [userData, location.pathname, navigate]);
+
+  const { initializePosition } = usePositionStore();
+
+  useEffect(() => {
+    const clearWatch = initializePosition();
+    return () => {
+      clearWatch();
+    };
+  }, [initializePosition]);
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
