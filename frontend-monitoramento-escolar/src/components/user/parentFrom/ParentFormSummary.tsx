@@ -3,12 +3,13 @@ import { useParentForm } from '@frontend/stores/user/useParentForm';
 import { Button } from 'antd';
 import { LeftOutline } from 'antd-mobile-icons';
 import { useShallow } from 'zustand/shallow';
-import { useRegisterStep } from '../../stores/user/useRegisterStep';
-import { AddedChildAddressCard } from './ChildrenForm';
-import { AddedHomeAddressCard } from './HomeAddressForm';
+
 import { RegisterParent } from '@frontend/services/parent/parent.service';
 import { useNotification } from '@frontend/stores/common/useNotification';
+import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { AxiosError } from 'axios';
+import { AddedChildAddressCard } from './AddedChildAddressCard';
+import { AddedHomeAddressCard } from './AddedHomeAddressCard';
 
 export function ParentFormSummary() {
   const { triggerNotification } = useNotification();

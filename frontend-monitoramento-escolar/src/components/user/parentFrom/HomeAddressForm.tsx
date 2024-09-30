@@ -1,63 +1,18 @@
-import {
-  DeleteOutlined,
-  GlobalOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { GlobalOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { Button } from 'antd';
-import { Card, Form, Input } from 'antd-mobile';
+import { Form, Input } from 'antd-mobile';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
-import { useParentForm } from '../../stores/user/useParentForm';
-import MapSelector from '../common/MapSelector';
-import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
-import { usePositionStore } from '@frontend/stores/common/position.store';
 
-export function AddedHomeAddressCard({
-  homeAddress,
-  index,
-  allowRemove = true,
-}: {
-  homeAddress: HomeAddressDto;
-  index: number;
-  allowRemove?: boolean;
-}) {
-  const { street, number, city, state, zipCode } = homeAddress;
-  const [removeHomeAddress] = useParentForm(
-    useShallow((state) => [state.removeHomeAddress]),
-  );
-  return (
-    <Card
-      style={{ marginBottom: '16px' }}
-      title={`${street} ${number}`}
-      extra={
-        <>
-          {allowRemove && (
-            <Button
-              onClick={() => removeHomeAddress(index)}
-              color='danger'
-              variant='solid'
-              size='small'
-              icon={<DeleteOutlined />}
-            >
-              Excluir
-            </Button>
-          )}
-        </>
-      }
-    >
-      <div>
-        <p>Cidade: {city}</p>
-        <p>Estado: {state}</p>
-        <p>CEP: {zipCode}</p>
-        <p>Latitude: {homeAddress.latitude}</p>
-        <p>Longitude: {homeAddress.longitude}</p>
-      </div>
-    </Card>
-  );
-}
+import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
+import MapSelector from '@frontend/components/common/MapSelector';
+import { usePositionStore } from '@frontend/stores/common/position.store';
+import { useParentForm } from '@frontend/stores/user/useParentForm';
+import { AddedHomeAddressCard } from './AddedHomeAddressCard';
+
 export function HomeAddressForm() {
   const { triggerNotification } = useNotification();
   const [homeAddressList, addHomeAddress] = useParentForm(
