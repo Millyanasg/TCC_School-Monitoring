@@ -107,9 +107,12 @@ export function ChildrenForm() {
         <Form.Item
           name='age'
           label='Idade'
-          rules={[{ required: true, message: 'Por favor, insira a idade' }]}
+          rules={[
+            { required: true, message: 'Por favor, insira a idade' },
+            { min: 0, message: 'A idade deve ser maior que 0' },
+          ]}
         >
-          <Input placeholder='Idade' />
+          <Input placeholder='Idade' type='number' />
         </Form.Item>
         <Form.Item
           name='grade'
