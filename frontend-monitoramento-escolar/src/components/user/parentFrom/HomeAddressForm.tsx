@@ -24,9 +24,10 @@ export function HomeAddressForm() {
   const [form] = Form.useForm<HomeAddressDto>();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
+    console.log(lat, lon);
     form.setFieldsValue({
-      latitude: String(lat.toFixed(6)),
-      longitude: String(lon.toFixed(6)),
+      latitude: lat,
+      longitude: lon,
     });
   }
 
@@ -52,7 +53,7 @@ export function HomeAddressForm() {
       <Form
         form={form}
         onFinish={(values) => {
-          if (!values.latitute || !values.longitude) {
+          if (!values.latitude || !values.longitude) {
             triggerNotification({
               content: 'Por favor, selecione a localização',
             });
@@ -60,7 +61,7 @@ export function HomeAddressForm() {
           }
           addHomeAddress(values);
           form.resetFields();
-          form.setFieldsValue({ latitude: '', longitude: '' });
+          form.setFieldsValue({ latitude: 0, longitude: 0 });
         }}
         footer={
           <>
@@ -146,7 +147,7 @@ export function HomeAddressForm() {
         >
           <Input placeholder='CEP' />
         </Form.Item>
-        <Form.Item name='latitute' hidden>
+        <Form.Item name='latitude' hidden>
           <Input />
         </Form.Item>
         <Form.Item name='longitude' hidden>
