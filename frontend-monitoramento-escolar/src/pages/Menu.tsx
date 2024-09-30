@@ -1,19 +1,13 @@
 import { useUserStore } from '@frontend/stores/user/user.store';
-import { Form } from 'antd-mobile';
 import 'leaflet/dist/leaflet.css';
 import { useShallow } from 'zustand/shallow';
 
 import { Layout } from '@frontend/components/Layout/Layout';
-import { ParentForm } from '@frontend/components/user/ParentForm';
 import { UserRegistrySteps } from '@frontend/components/user/UserRegistrySteps';
 import { UserTypeSelector } from '@frontend/components/user/UserTypeSelector';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
-
-function DriverForm() {
-  const [form] = Form.useForm();
-  return <Form form={form}></Form>;
-}
-
+import { ParentForm } from '@frontend/components/user/parentFrom/ParentForm';
+import { DriverForm } from '@frontend/components/user/driverFrom/DriverForm';
 function UserSetUpFrom() {
   const [step, type] = useRegisterStep(
     useShallow((state) => [state.step, state.type]),
