@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class HomeAddressDto {
   @IsString()
@@ -21,11 +21,11 @@ export class HomeAddressDto {
   @IsNotEmpty()
   zipCode: string;
 
-  @IsString()
-  @Matches(/^-?\d{1,3}\.\d{6}$/)
-  latitude: string;
+  @IsNumber()
+  @IsNotEmpty()
+  latitude: number;
 
-  @IsString()
-  @Matches(/^-?\d{1,3}\.\d{6}$/)
-  longitude: string;
+  @IsNumber()
+  @IsNotEmpty()
+  longitude: number;
 }

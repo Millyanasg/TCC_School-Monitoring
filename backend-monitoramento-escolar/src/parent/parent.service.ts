@@ -1,6 +1,6 @@
 import { PrismaService } from '@backend/prisma/prisma.service';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Parent, User } from '@prisma/client';
 
 import { ChildDto } from './dto/ChildDto';
 import { HomeAddressDto } from './dto/HomeAddressDto';
@@ -48,13 +48,13 @@ export class ParentService {
       throw new HttpException('User is already a parent', HttpStatus.CONFLICT);
     }
 
-    const parent = await this.prismaService.$transaction((prisma) =>
+    const parent = (await this.prismaService.$transaction((prisma) =>
       this.initializeParentData(user, homeAddresses, children)(prisma),
-    );
+    )) as Parent;
 
     const parentUser = await this.prismaService.user.findUnique({
       where: {
-        ...parent,
+        id: parent.userId,
       },
       include: {
         parent: {
@@ -86,8 +86,8 @@ export class ParentService {
             createMany: {
               data: homeAddresses.map((homeAddress) => ({
                 city: homeAddress.city,
-                latitute: parseFloat(homeAddress.latitude),
-                longitude: parseFloat(homeAddress.longitude),
+                latitude: homeAddress.latitude,
+                longitude: homeAddress.longitude,
                 number: parseInt(homeAddress.number, 10),
                 state: homeAddress.state,
                 street: homeAddress.street,
@@ -100,7 +100,7 @@ export class ParentService {
               data: children.map((child) => ({
                 name: child.name,
                 lastName: child.lastName,
-                age: child.age,
+                age: parseInt(child.age.toString(), 10),
                 grade: child.grade,
               })),
             },
