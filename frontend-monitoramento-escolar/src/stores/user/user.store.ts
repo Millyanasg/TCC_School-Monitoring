@@ -1,8 +1,10 @@
 import { create } from 'zustand';
 import { UserDto } from '@backend/user/dto/userDTO';
 import { getProfile } from '@frontend/services/user/user.service';
+import { createJSONStorage, persist } from 'zustand/middleware';
 type UserState = {
   userData: UserDto | null;
+  updateUserData: () => void;
 };
 
 /**
@@ -21,18 +23,41 @@ type UserState = {
  * const userData = userStore.userData;
  * ```
  */
-export const useUserStore = create<UserState>((set) => {
-  const setUserData = (userData: UserDto) => set({ userData });
-  const clearUserData = () => set({ userData: null });
-  getProfile()
-    .then((response) => {
-      setUserData(response.data);
-    })
-    .catch((error) => {
-      console.error('Error getting user profile:', error);
-      clearUserData();
-    });
-  return {
-    userData: null,
-  };
-});
+export const useUserStore = create<UserState>()(
+  persist(
+    (set) => {
+      const setUserData = (userData: UserDto) => set({ userData });
+      function clearUserData() {
+        return set({ userData: null });
+      }
+      function updateUserData() {
+        getProfile()
+          .then((response) => {
+            setUserData(response.data);
+          })
+          .catch((error) => {
+            console.error('Error getting user profile:', error);
+            clearUserData();
+          });
+      }
+
+      getProfile()
+        .then((response) => {
+          setUserData(response.data);
+        })
+        .catch((error) => {
+          console.error('Error getting user profile:', error);
+          clearUserData();
+        });
+
+      return {
+        userData: null,
+        updateUserData,
+      };
+    },
+    {
+      name: 'user-store',
+      storage: createJSONStorage(() => localStorage),
+    },
+  ),
+);
