@@ -10,19 +10,26 @@ import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { AxiosError } from 'axios';
 import { AddedChildAddressCard } from './AddedChildAddressCard';
 import { AddedHomeAddressCard } from './AddedHomeAddressCard';
+import { useUserStore } from '@frontend/stores/user/user.store';
+import { useNavigate } from 'react-router-dom';
 
 export function ParentFormSummary() {
+  const navigate = useNavigate();
   const { triggerNotification } = useNotification();
+  const updateUserData = useUserStore(
+    useShallow((state) => state.updateUserData),
+  );
   const [homeAddressList, childrenList] = useParentForm(
     useShallow((state) => [state.homeAddress, state.children]),
   );
   async function submit() {
     try {
-      const respose = await RegisterParent({
+      await RegisterParent({
         children: childrenList,
         homeAddresses: homeAddressList,
       });
-      console.log(respose);
+      await updateUserData();
+      navigate('/');
       triggerNotification({
         content: 'Responsável cadastrado com sucesso',
       });
