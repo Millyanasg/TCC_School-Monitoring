@@ -4,7 +4,7 @@ import { getProfile } from '@frontend/services/user/user.service';
 import { createJSONStorage, persist } from 'zustand/middleware';
 type UserState = {
   userData: UserDto | null;
-  updateUserData: () => void;
+  updateUserData: () => Promise<void>;
 };
 
 /**
@@ -30,7 +30,7 @@ export const useUserStore = create<UserState>()(
       function clearUserData() {
         return set({ userData: null });
       }
-      function updateUserData() {
+      async function updateUserData() {
         getProfile()
           .then((response) => {
             setUserData(response.data);
