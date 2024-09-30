@@ -13,6 +13,7 @@ import { useShallow } from 'zustand/shallow';
 import { useParentForm } from '../../stores/user/useParentForm';
 import MapSelector from '../common/MapSelector';
 import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
+import { usePositionStore } from '@frontend/stores/common/position.store';
 
 export function AddedHomeAddressCard({
   homeAddress,
@@ -74,12 +75,15 @@ export function HomeAddressForm() {
     });
   }
 
+  const { location } = usePositionStore();
+
   return (
     <>
       <MapSelector
         onClose={() => setMapOpen(false)}
         onSelectLocation={onSelectLocation}
         isOpen={isMapOpen}
+        initialLocation={location}
       />
       <div>
         {homeAddressList.map((homeAddress, index) => (
