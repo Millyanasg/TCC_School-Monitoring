@@ -82,13 +82,13 @@ model Child {
     name           String
     lastName       String
     age            Int
-    grade          Int
+    grade          String
     parentId       Int
-    schoolId       Int
-    driverId       Int
+    schoolId       Int?
+    driverId       Int?
     parent         Parent           @relation(fields: [parentId], references: [id])
-    driver         Driver           @relation(fields: [driverId], references: [id])
-    school         School           @relation(fields: [schoolId], references: [id])
+    driver         Driver?          @relation(fields: [driverId], references: [id])
+    school         School?          @relation(fields: [schoolId], references: [id])
     ChildLocations ChildLocations[]
 
     @@map("Student")
