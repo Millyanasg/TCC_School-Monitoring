@@ -1,3 +1,4 @@
+import { ChildDto } from '@backend/parent/dto/ChildDto';
 import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
 import { apiInstance } from '@frontend/stores/common/api.store';
 
@@ -10,7 +11,7 @@ export async function updateChildren(data: ChildViewDto) {
   const response = await apiInstance.put<ChildViewDto>('/children', data);
   return response.data;
 }
-export async function addChildren(data: ChildViewDto) {
+export async function addChildren(data: ChildDto) {
   const response = await apiInstance.post<ChildViewDto>('/children', data);
   return response.data;
 }

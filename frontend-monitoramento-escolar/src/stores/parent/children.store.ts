@@ -1,3 +1,4 @@
+import { ChildDto } from '@backend/parent/dto/ChildDto';
 import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
 import {
   fetchChildren,
@@ -9,13 +10,18 @@ import { create } from 'zustand';
 
 type ChildrenStore = {
   children: ChildViewDto[];
+
   selectedChild: ChildViewDto | null;
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => boolean;
   setSelectedChild: (child: ChildViewDto | null) => ChildViewDto | null;
-  updateChildren: (children: ChildViewDto) => Promise<ChildViewDto>;
-  addChildren: (children: ChildViewDto) => Promise<ChildViewDto>;
-  removeChildren: (children: ChildViewDto) => Promise<ChildViewDto>;
+  updateChild: (children: ChildViewDto) => Promise<ChildViewDto>;
+
+  isAdding: boolean;
+  setIsAdding: (isAdding: boolean) => boolean;
+  addChild: (children: ChildDto) => Promise<ChildViewDto>;
+
+  removeChild: (children: ChildViewDto) => Promise<ChildViewDto>;
 };
 
 /**
@@ -51,15 +57,11 @@ type ChildrenStore = {
  */
 export const useChildrenStore = create<ChildrenStore>((set) => {
   async function updateChildrenState(children: ChildViewDto) {
-    const updatedChildren = await updateChildren(children);
-    set((state) => ({
-      children: state.children.map((c) =>
-        c.id === updatedChildren.id ? updatedChildren : c,
-      ),
-    }));
-    return updatedChildren;
+    await updateChildren(children);
+    await updateState();
+    return children;
   }
-  async function addChildrenState(child: ChildViewDto) {
+  async function addChildrenState(child: ChildDto) {
     const newChild = await addChildren(child);
     set((state) => ({ children: [...state.children, newChild] }));
     return newChild;
@@ -91,8 +93,14 @@ export const useChildrenStore = create<ChildrenStore>((set) => {
       set({ isEditing });
       return isEditing;
     },
-    updateChildren: updateChildrenState,
-    addChildren: addChildrenState,
-    removeChildren: removeChildrenState,
+    updateChild: updateChildrenState,
+
+    isAdding: false,
+    setIsAdding: (isAdding) => {
+      set({ isAdding });
+      return isAdding;
+    },
+    addChild: addChildrenState,
+    removeChild: removeChildrenState,
   };
 });
