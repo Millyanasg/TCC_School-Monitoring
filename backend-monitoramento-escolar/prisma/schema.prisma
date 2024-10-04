@@ -50,7 +50,7 @@ model HomeAddress {
     zipCode   String
     latitude  Float
     longitude Float
-    parentId  Int    @unique
+    parentId  Int
     parent    Parent @relation(fields: [parentId], references: [id])
 }
 

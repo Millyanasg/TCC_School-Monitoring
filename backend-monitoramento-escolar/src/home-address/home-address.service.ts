@@ -1,12 +1,19 @@
 import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
 import { PrismaService } from '@backend/prisma/prisma.service';
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { User } from '@prisma/client';
 
 import { HomeAddressViewDto } from '../parent/dto/HomeAddressViewDto';
 
 @Injectable()
 export class HomeAddressService {
+  private readonly logger = new Logger(HomeAddressService.name);
   constructor(
     @Inject(PrismaService)
     private readonly prismaService: PrismaService,
@@ -52,6 +59,8 @@ export class HomeAddressService {
       throw new HttpException('Parent not found', HttpStatus.NOT_FOUND);
     }
 
+    this.logger.debug('Creating home address for parent', parent);
+
     const { street, number, city, state, zipCode, latitude, longitude } = data;
 
     const newAddress = await this.prismaService.homeAddress.create({
@@ -63,7 +72,11 @@ export class HomeAddressService {
         zipCode,
         latitude,
         longitude,
-        parentId: parent.id,
+        parent: {
+          connect: {
+            id: parent.id,
+          },
+        },
       },
     });
 
