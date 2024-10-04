@@ -15,7 +15,7 @@ import { Layout } from '@frontend/components/Layout/Layout';
 import { UserRegistrySteps } from '@frontend/components/user/UserRegistrySteps';
 import { UserTypeSelector } from '@frontend/components/user/UserTypeSelector';
 import { DriverForm } from '@frontend/components/user/driverFrom/DriverForm';
-import { ParentForm } from '@frontend/components/user/parentFrom/ParentForm';
+import { ParentForm } from '@frontend/components/parent/parentFrom/ParentForm';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { Button, Flex, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -105,7 +105,7 @@ function ParentMenu() {
         type='primary'
         variant='solid'
         onClick={() => {
-          navigate('/crianca');
+          navigate('/parent/children');
         }}
         icon={<HeartOutlined />}
       >
