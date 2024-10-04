@@ -1,7 +1,7 @@
 import { GuardParentUser } from '@backend/auth/strategies/Guards';
 import { GetRequestUser, verifyUser } from '@backend/GetRequestUser';
 import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
@@ -25,7 +25,7 @@ export class ChildrenController {
   @GuardParentUser()
   async updateChildren(
     @GetRequestUser() user: User | null,
-    data: ChildViewDto,
+    @Body() data: ChildViewDto,
   ): Promise<ChildViewDto> {
     user = verifyUser(user);
     return await this.childrenService.updateChildren(user, data);

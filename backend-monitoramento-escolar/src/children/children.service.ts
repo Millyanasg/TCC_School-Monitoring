@@ -62,12 +62,15 @@ export class ChildrenService {
     user: User,
     data: ChildViewDto,
   ): Promise<ChildViewDto> {
-    const { id: childId, name, lastName, birthDate, grade } = data;
+    const { name, lastName, birthDate, grade } = data;
+    const childId = data.id;
 
     const child = await this.prismaService.child.findUnique({
       where: {
         id: childId,
-        parentId: user.id,
+        parent: {
+          userId: user.id,
+        },
       },
     });
 
@@ -78,6 +81,9 @@ export class ChildrenService {
     const updatedChild = await this.prismaService.child.update({
       where: {
         id: childId,
+        parent: {
+          userId: user.id,
+        },
       },
       data: {
         name,
