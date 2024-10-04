@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["./shared-monitoramento-escolar/src/*"],
       "@backend/*": ["./backend-monitoramento-escolar/src/*"],
       "@frontend/*": ["./frontend-monitoramento-escolar/src/*"],
       "@stores/*": ["./frontend-monitoramento-escolar/src/stores/*"],
