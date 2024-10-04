@@ -162,7 +162,15 @@ export function HomeAddressForm() {
           variant='filled'
           icon={<GlobalOutlined />}
         >
-          Selecione a localização
+          {(function () {
+            if (
+              form.getFieldValue('latitude') &&
+              form.getFieldValue('longitude')
+            ) {
+              return 'Localização selecionada';
+            }
+            return 'Selecione a localização';
+          })()}
         </Button>
       </Form>
     </>
