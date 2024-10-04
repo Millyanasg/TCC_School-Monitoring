@@ -3,12 +3,12 @@ import { ChildDto } from '@backend/parent/dto/ChildDto';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useParentForm } from '@frontend/stores/user/useParentForm';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
-import { Button } from 'antd';
-import { DatePicker, Form, Input } from 'antd-mobile';
+import { Button, DatePicker } from 'antd';
+import { Form, Input } from 'antd-mobile';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 import { useShallow } from 'zustand/shallow';
-import { AddedChildAddressCard } from './AddedChildAddressCard';
-import { useState } from 'react';
+import { AddedChildCard } from './AddedChildCard';
+
 export function ChildrenForm() {
   const { triggerNotification } = useNotification();
   const [childrenList, addChildren] = useParentForm(
@@ -17,7 +17,6 @@ export function ChildrenForm() {
   const [setType, nextStep, prevStep] = useRegisterStep(
     useShallow((state) => [state.setType, state.nextStep, state.prevStep]),
   );
-  const [visibleDate, setVisibleDate] = useState(false);
   const [form] = Form.useForm<ChildDto>();
 
   return (
@@ -31,7 +30,7 @@ export function ChildrenForm() {
         }}
       >
         {childrenList.map((child, index) => (
-          <AddedChildAddressCard key={index} child={child} index={index} />
+          <AddedChildCard key={index} child={child} index={index} />
         ))}
       </div>
       <Form
@@ -118,17 +117,12 @@ export function ChildrenForm() {
           ]}
         >
           <DatePicker
-            precision='day'
-            visible={visibleDate}
-            afterClose={() => setVisibleDate(false)}
-            title='Selecione a data'
-            max={new Date()}
-            onConfirm={(date) => {
+            onChange={(date) => {
               form.setFieldsValue({
                 birthDate: date,
               });
-              setVisibleDate(false);
             }}
+            format={'DD/MM/YYYY'}
           />
         </Form.Item>
         <Form.Item
