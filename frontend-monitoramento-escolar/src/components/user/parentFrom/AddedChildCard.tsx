@@ -4,8 +4,9 @@ import { useParentForm } from '@frontend/stores/user/useParentForm';
 import { Button } from 'antd';
 import { Card } from 'antd-mobile';
 import { useShallow } from 'zustand/shallow';
+import dayjs from 'dayjs';
 
-export function AddedChildAddressCard({
+export function AddedChildCard({
   child,
   index,
   allowRemove = true,
@@ -38,7 +39,7 @@ export function AddedChildAddressCard({
       }
     >
       <div>
-        <p>Idade: {child.age}</p>
+        <p>Data de nascimento: {dayjs(child.birthDate).format('DD/MM/YYYY')}</p>
         <p>Ano escolar: {child.grade}</p>
       </div>
     </Card>
