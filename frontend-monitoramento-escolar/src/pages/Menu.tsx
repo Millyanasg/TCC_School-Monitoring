@@ -117,7 +117,7 @@ function ParentMenu() {
         type='primary'
         variant='solid'
         onClick={() => {
-          navigate('/endereco');
+          navigate('/parent/addresses');
         }}
         icon={<HomeOutlined />}
       >
