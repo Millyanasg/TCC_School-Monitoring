@@ -8,6 +8,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { RouteError } from './route-error';
 import { Menu } from '@frontend/pages/Menu';
 import { Children } from '@frontend/pages/Children';
+import { Addresses } from '@frontend/pages/Adresses';
 export function AppRoutes() {
   const userData = useUserStore((state) => state.userData);
   return (
@@ -43,6 +44,7 @@ export function AppRoutes() {
           <>
             <Route path='/parent' element={<></>} />
             <Route path='/parent/children' element={<Children />} />
+            <Route path='/parent/addresses' element={<Addresses />} />
           </>
         )}
         <Route path='*' element={<RouteError />} />
