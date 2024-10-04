@@ -13,7 +13,7 @@ export function Footer() {
   const location = useLocation();
   // const isUsetUser = useMemo(() => userData?.type === 'unset', [userData]);
   const setRouteActive = (value: string) => {
-    navigate(value);
+    navigate(`/${value}`);
   };
   const tabs = [
     {
