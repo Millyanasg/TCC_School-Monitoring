@@ -2,7 +2,15 @@ import { GuardParentUser } from '@backend/auth/strategies/Guards';
 import { GetRequestUser, verifyUser } from '@backend/GetRequestUser';
 import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
 import { HomeAddressViewDto } from '@backend/parent/dto/HomeAddressViewDto';
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
@@ -46,7 +54,7 @@ export class HomeAddressController {
   @GuardParentUser()
   async removeHomeAddress(
     @GetRequestUser() user: User | null,
-    data: HomeAddressViewDto,
+    @Query() data: HomeAddressViewDto,
   ): Promise<HomeAddressViewDto> {
     user = verifyUser(user);
     return await this.homeAddressService.removeHomeAddress(user, data);

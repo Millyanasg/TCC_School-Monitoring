@@ -23,12 +23,15 @@ export class HomeAddressService {
     user: User,
     data: HomeAddressViewDto,
   ): Promise<HomeAddressViewDto> {
-    const { id: addressId } = data;
+    this.logger.debug('Removing home address', data);
+    data.id = Number(data.id);
 
     const address = await this.prismaService.homeAddress.findUnique({
       where: {
-        id: addressId,
-        parentId: user.id,
+        id: data.id,
+        parent: {
+          userId: user.id,
+        },
       },
     });
 
@@ -38,7 +41,7 @@ export class HomeAddressService {
 
     const deletedAddress = await this.prismaService.homeAddress.delete({
       where: {
-        id: addressId,
+        id: data.id,
       },
     });
 
@@ -93,7 +96,9 @@ export class HomeAddressService {
     const address = await this.prismaService.homeAddress.findUnique({
       where: {
         id: addressId,
-        parentId: user.id,
+        parent: {
+          userId: user.id,
+        },
       },
     });
 
