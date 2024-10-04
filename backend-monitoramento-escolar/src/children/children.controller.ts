@@ -35,7 +35,7 @@ export class ChildrenController {
   @GuardParentUser()
   async addChildren(
     @GetRequestUser() user: User | null,
-    data: ChildViewDto,
+    @Body() data: ChildViewDto,
   ): Promise<ChildViewDto> {
     user = verifyUser(user);
     return await this.childrenService.addChildren(user, data);

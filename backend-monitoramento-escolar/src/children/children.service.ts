@@ -39,6 +39,16 @@ export class ChildrenService {
   }
 
   public async addChildren(user: User, data: ChildDto): Promise<ChildViewDto> {
+    const parent = await this.prismaService.parent.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (!parent) {
+      throw new HttpException('Parent not found', HttpStatus.NOT_FOUND);
+    }
+
     const { name, lastName, birthDate, grade } = data;
 
     const newChild = await this.prismaService.child.create({
@@ -47,11 +57,7 @@ export class ChildrenService {
         lastName,
         birthDate,
         grade,
-        parent: {
-          connect: {
-            id: user.id,
-          },
-        },
+        parentId: parent.id,
       },
     });
 
