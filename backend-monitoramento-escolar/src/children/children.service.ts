@@ -90,10 +90,12 @@ export class ChildrenService {
     return ChildViewDto.from(updatedChild);
   }
 
-  public async fetchChildren(user: User): Promise<ChildViewDto[]> {
+  public async getChildren(user: User): Promise<ChildViewDto[]> {
     const children = await this.prismaService.child.findMany({
       where: {
-        parentId: user.id,
+        parent: {
+          userId: user.id,
+        },
       },
     });
 

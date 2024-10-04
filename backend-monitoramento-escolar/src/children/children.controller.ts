@@ -18,7 +18,7 @@ export class ChildrenController {
     @GetRequestUser() user: User | null,
   ): Promise<ChildViewDto[]> {
     user = verifyUser(user);
-    return await this.childrenService.fetchChildren(user);
+    return await this.childrenService.getChildren(user);
   }
 
   @Put('/')
