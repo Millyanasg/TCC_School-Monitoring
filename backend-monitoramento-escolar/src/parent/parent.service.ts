@@ -88,7 +88,7 @@ export class ParentService {
                 city: homeAddress.city,
                 latitude: homeAddress.latitude,
                 longitude: homeAddress.longitude,
-                number: parseInt(homeAddress.number, 10),
+                number: homeAddress.number,
                 state: homeAddress.state,
                 street: homeAddress.street,
                 zipCode: homeAddress.zipCode,
