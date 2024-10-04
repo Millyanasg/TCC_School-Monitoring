@@ -80,10 +80,10 @@ model School {
 
 model Child {
     id             Int              @id @default(autoincrement())
-    name           String
-    lastName       String
+    name           String           @default("nome")
+    lastName       String           @default("sobre nome")
     birthDate      DateTime         @default(now())
-    grade          String
+    grade          String           @default("0")
     parentId       Int
     schoolId       Int?
     driverId       Int?
