@@ -95,6 +95,13 @@ export async function logout(): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 200));
 }
 
+export function hasTokens() {
+  const token = get_cookie('token');
+  const refreshToken = get_cookie('refresh_token');
+
+  return !!token && !!refreshToken;
+}
+
 export async function loginUser({ email, password }: LoginDto) {
   try {
     const response = await apiInstance.post('/auth/login', {
