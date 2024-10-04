@@ -1,6 +1,11 @@
+import { HomeAddress } from '@prisma/client';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class HomeAddressDto {
+export class HomeAddressViewDto {
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+
   @IsString()
   @IsNotEmpty()
   street: string;
@@ -28,4 +33,20 @@ export class HomeAddressDto {
   @IsNumber()
   @IsNotEmpty()
   longitude: number;
+
+  public static from(data: HomeAddress): HomeAddressViewDto {
+    const { id, street, number, city, state, zipCode, latitude, longitude } =
+      data;
+
+    return {
+      id,
+      street,
+      number,
+      city,
+      state,
+      zipCode,
+      latitude,
+      longitude,
+    };
+  }
 }
