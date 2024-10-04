@@ -8,7 +8,7 @@ import { RegisterParent } from '@frontend/services/parent/parent.service';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { AxiosError } from 'axios';
-import { AddedChildAddressCard } from './AddedChildAddressCard';
+import { AddedChildCard } from './AddedChildCard';
 import { AddedHomeAddressCard } from './AddedHomeAddressCard';
 import { useUserStore } from '@frontend/stores/user/user.store';
 import { useNavigate } from 'react-router-dom';
@@ -75,7 +75,7 @@ export function ParentFormSummary() {
         }}
       >
         {childrenList.map((child, index) => (
-          <AddedChildAddressCard
+          <AddedChildCard
             key={index}
             child={child}
             index={index}
