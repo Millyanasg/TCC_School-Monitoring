@@ -7,6 +7,7 @@ import { useUserStore } from '@frontend/stores/user/user.store';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { RouteError } from './route-error';
 import { Menu } from '@frontend/pages/Menu';
+import { Children } from '@frontend/pages/Children';
 export function AppRoutes() {
   const userData = useUserStore((state) => state.userData);
   return (
@@ -41,7 +42,7 @@ export function AppRoutes() {
         {userData && userData.type === 'parent' && (
           <>
             <Route path='/parent' element={<></>} />
-            <Route path='/parent/notifications' element={<></>} />
+            <Route path='/parent/children' element={<Children />} />
           </>
         )}
         <Route path='*' element={<RouteError />} />
