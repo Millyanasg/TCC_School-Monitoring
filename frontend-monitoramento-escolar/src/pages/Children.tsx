@@ -26,7 +26,7 @@ export function Children() {
         size='large'
         block
       >
-        Adicionar
+        Adicionar Criança
       </Button>
     </Layout>
   );
