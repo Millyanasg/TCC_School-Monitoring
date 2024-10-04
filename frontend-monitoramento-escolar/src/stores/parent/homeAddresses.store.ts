@@ -45,9 +45,7 @@ export const useHomeAddressStore = create<HomeAddressStore>((set) => {
   }
   async function removeHomeAddressState(child: HomeAddressViewDto) {
     await removeHomeAddress(child);
-    set((state) => ({
-      homeAddresses: state.homeAddresses.filter((c) => c.id !== child.id),
-    }));
+    await updateState();
     return child;
   }
 
