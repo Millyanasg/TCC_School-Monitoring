@@ -4,10 +4,11 @@ import { useNotification } from '@frontend/stores/common/useNotification';
 import { useParentForm } from '@frontend/stores/user/useParentForm';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { Button } from 'antd';
-import { Form, Input } from 'antd-mobile';
+import { DatePicker, Form, Input } from 'antd-mobile';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 import { useShallow } from 'zustand/shallow';
 import { AddedChildAddressCard } from './AddedChildAddressCard';
+import { useState } from 'react';
 export function ChildrenForm() {
   const { triggerNotification } = useNotification();
   const [childrenList, addChildren] = useParentForm(
@@ -16,6 +17,7 @@ export function ChildrenForm() {
   const [setType, nextStep, prevStep] = useRegisterStep(
     useShallow((state) => [state.setType, state.nextStep, state.prevStep]),
   );
+  const [visibleDate, setVisibleDate] = useState(false);
   const [form] = Form.useForm<ChildDto>();
 
   return (
@@ -105,14 +107,29 @@ export function ChildrenForm() {
           <Input placeholder='Sobrenome' />
         </Form.Item>
         <Form.Item
-          name='age'
-          label='Idade'
+          name='birthDate'
+          label='Data de Nascimento'
           rules={[
-            { required: true, message: 'Por favor, insira a idade' },
-            { min: 0, message: 'A idade deve ser maior que 0' },
+            {
+              required: true,
+              message: 'Por favor, insira a data de nascimento',
+            },
+            { type: 'date', message: 'Insira uma data válida' },
           ]}
         >
-          <Input placeholder='Idade' type='number' />
+          <DatePicker
+            precision='day'
+            visible={visibleDate}
+            afterClose={() => setVisibleDate(false)}
+            title='Selecione a data'
+            max={new Date()}
+            onConfirm={(date) => {
+              form.setFieldsValue({
+                birthDate: date,
+              });
+              setVisibleDate(false);
+            }}
+          />
         </Form.Item>
         <Form.Item
           name='grade'
