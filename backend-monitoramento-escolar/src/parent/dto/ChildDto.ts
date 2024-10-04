@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
+import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 
 export class ChildDto {
   @IsString()
@@ -9,11 +9,9 @@ export class ChildDto {
   @IsNotEmpty()
   lastName: string;
 
-  @IsInt()
+  @IsDate()
   @IsNotEmpty()
-  @Min(0)
-  @Max(25)
-  age: number;
+  birthDate: Date;
 
   @IsString()
   @IsNotEmpty()

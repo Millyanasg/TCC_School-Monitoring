@@ -100,7 +100,7 @@ export class ParentService {
               data: children.map((child) => ({
                 name: child.name,
                 lastName: child.lastName,
-                age: parseInt(child.age.toString(), 10),
+                birthDate: new Date(child.birthDate),
                 grade: child.grade,
               })),
             },

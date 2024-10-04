@@ -82,7 +82,7 @@ model Child {
     id             Int              @id @default(autoincrement())
     name           String
     lastName       String
-    age            Int
+    birthDate      DateTime         @default(now())
     grade          String
     parentId       Int
     schoolId       Int?

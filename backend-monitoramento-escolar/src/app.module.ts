@@ -16,6 +16,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { SchoolModule } from './school/school.module';
 import { StudentModule } from './student/student.module';
 import { UserModule } from './user/user.module';
+import { ChildrenModule } from './children/children.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { UserModule } from './user/user.module';
     StudentModule,
     CryptModule,
     PrismaModule,
+    ChildrenModule,
   ],
   controllers: [AppController],
   providers: [AppService, GpsGateway, ParseTokenPipe],
