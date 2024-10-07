@@ -167,6 +167,7 @@ function DriverMenu() {
   );
 }
 function SessionMenu() {
+  const navigate = useNavigate();
   const userData = useUserStore((state) => state.userData);
   return (
     <Flex
@@ -190,6 +191,7 @@ function SessionMenu() {
         onClick={async () => {
           await logout();
           await useUserStore.setState({ userData: null });
+          navigate('/');
         }}
         icon={<LogoutOutlined />}
       >
