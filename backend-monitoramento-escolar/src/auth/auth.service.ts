@@ -190,9 +190,9 @@ export class AuthService {
 
     const tokens = await this.generateTokens(payload);
 
-    return {
+    res.send({
       ...tokens,
       user,
-    };
+    });
   }
 }

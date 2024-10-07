@@ -18,8 +18,8 @@ export class AuthController {
   }
 
   @Post('refresh')
-  refreshToken(@Req() req: Request, @Res() res: Response) {
-    return this.authService.refreshToken(req, res);
+  async refreshToken(@Req() req: Request, @Res() res: Response) {
+    await this.authService.refreshToken(req, res);
   }
 
   @Post('register')
