@@ -1,4 +1,9 @@
-import { hasTokens, logout } from '@frontend/services/common/auth.service';
+import {
+  hasTokens,
+  logout,
+  refreshToken,
+} from '@frontend/services/common/auth.service';
+import { get_cookie } from '@frontend/services/common/cookieUtil.service';
 import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_API_BASE as string;
@@ -30,27 +35,15 @@ export const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use(
   (config) => {
-    /**
-     * Retrieves the value of a specified cookie by its name.
-     *
-     * @param name - The name of the cookie to retrieve.
-     * @returns The value of the cookie if found, otherwise `undefined`.
-     */
-    function getCookie(name: string) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2)
-        return parts.pop()?.split(';').shift() || undefined;
-    }
-
-    const token = getCookie('token');
-
+    const token = get_cookie('token');
     if (token) {
+      // verify if the token is expired
+      refreshToken();
+
       if (config.headers) {
         config.headers['Authorization'] = token;
       }
     }
-
     return config;
   },
   (error) => {
@@ -63,11 +56,6 @@ apiInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
-      if (hasTokens()) {
-        logout();
-      }
-    }
     return Promise.reject(error);
   },
 );
