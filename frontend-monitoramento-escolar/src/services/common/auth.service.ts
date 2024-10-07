@@ -3,6 +3,7 @@ import { setCookie, get_cookie, delete_cookie } from './cookieUtil.service';
 import { TokenPayloadWithExpiration } from '@backend/auth/strategies/TokenPayload';
 import { RegisterDto } from '@backend/auth/dto/RegisterDto';
 import { LoginDto } from '@backend/auth/dto/LoginDto';
+import axios from 'axios';
 
 export function jwtDecode(token: string): TokenPayloadWithExpiration {
   const data = JSON.parse(atob(token.split('.')[1]));
@@ -32,8 +33,10 @@ export function getTokenExpirationTime(token: string): number {
 
 async function renewSession(refreshToken: string) {
   try {
-    const response = await apiInstance.post('/auth/refresh', {
-      refreshToken,
+    const response = await axios.post('/auth/refresh', null, {
+      headers: {
+        refresh_token: refreshToken,
+      },
     });
 
     const { token, refreshToken: newRefreshToken } = response.data;
