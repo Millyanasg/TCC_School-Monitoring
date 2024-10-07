@@ -50,8 +50,12 @@ export const useHomeAddressStore = create<HomeAddressStore>((set) => {
   }
 
   async function updateState() {
-    const childList = await fetchHomeAddresses();
-    set({ homeAddresses: childList });
+    try {
+      const homeAddressList = await fetchHomeAddresses();
+      set({ homeAddresses: homeAddressList });
+    } catch {
+      set({ homeAddresses: [] });
+    }
   }
 
   updateState();

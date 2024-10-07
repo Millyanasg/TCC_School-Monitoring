@@ -75,8 +75,12 @@ export const useChildrenStore = create<ChildrenStore>((set) => {
   }
 
   async function updateState() {
-    const childList = await fetchChildren();
-    set({ children: childList });
+    try {
+      const childList = await fetchChildren();
+      set({ children: childList });
+    } catch {
+      set({ children: [] });
+    }
   }
 
   updateState();
