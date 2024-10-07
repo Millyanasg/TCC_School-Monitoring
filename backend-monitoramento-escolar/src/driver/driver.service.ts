@@ -60,4 +60,51 @@ export class DriverService {
 
     return DriverViewDto.from(driver);
   }
+
+  public async updateDriver(
+    user: User,
+    data: DriverDto,
+  ): Promise<DriverViewDto> {
+    const { car, color, model, plate, seats, year } = data;
+
+    const driver = await this.prismaService.driver.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (!driver) {
+      throw new HttpException('Driver not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prismaService.driver.update({
+      where: {
+        userId: user.id,
+      },
+      data: {
+        car,
+        color,
+        model,
+        plate,
+        seats,
+        year,
+      },
+    });
+
+    return DriverViewDto.from(driver);
+  }
+
+  public async getDriver(user: User): Promise<DriverViewDto> {
+    const driver = await this.prismaService.driver.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (!driver) {
+      throw new HttpException('Driver not found', HttpStatus.NOT_FOUND);
+    }
+
+    return DriverViewDto.from(driver);
+  }
 }
