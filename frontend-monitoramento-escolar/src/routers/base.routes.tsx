@@ -8,7 +8,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { RouteError } from './route-error';
 import { Menu } from '@frontend/pages/Menu';
 import { Children } from '@frontend/pages/Children';
-import { Addresses } from '@frontend/pages/Adresses';
+import { Addresses } from '@frontend/pages/Addresses';
 import { DriverCarPage } from '@frontend/pages/DriverCar';
 import { DriverTripsPage } from '@frontend/pages/DriverTrips';
 import { DriverRequestsPage } from '@frontend/pages/DriverRequests';
