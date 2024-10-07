@@ -3,18 +3,60 @@ import { useShallow } from 'zustand/shallow';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 import { DriverDto } from '@backend/driver/dto/DriverDto';
 import { Button } from 'antd';
+import { useUserStore } from '@frontend/stores/user/user.store';
+import { useNavigate } from 'react-router-dom';
+
+import { AxiosError } from 'axios';
+import { useNotification } from '@frontend/stores/common/useNotification';
+import { RegisterDiver } from '@frontend/services/driver/driver.service';
 
 export function DriverSummary({
   form,
 }: {
   form: ReturnType<typeof Form.useForm<DriverDto>>[0];
 }) {
+  const navigate = useNavigate();
+  const { triggerNotification } = useNotification();
+  const updateUserData = useUserStore(
+    useShallow((state) => state.updateUserData),
+  );
   const values = form.getFieldsValue();
   const { plate, car, model, year, color, seats } = values;
   const [prevStep] = useRegisterStep(useShallow((state) => [state.prevStep]));
   async function onSubmit() {
-    // TODO: send the form data to the backend
-    console.log(values);
+    try {
+      await RegisterDiver({
+        ...values,
+        seats: Number(values.seats),
+        year: Number(values.year),
+      });
+      await updateUserData();
+      navigate('/');
+      triggerNotification({
+        content: 'Motorista cadastrado com sucesso',
+      });
+    } catch (e) {
+      const error = e as AxiosError;
+      if (error.isAxiosError) {
+        switch (error.response?.status) {
+          case 400:
+            triggerNotification({
+              content: 'Erro de validação',
+            });
+            break;
+          case 409:
+            triggerNotification({
+              content: 'Usuário já cadastrado como motorista',
+            });
+            break;
+          default:
+            triggerNotification({
+              content: 'Erro ao cadastrar motorista',
+            });
+            break;
+        }
+      }
+    }
   }
 
   const spanStyle: React.CSSProperties = {
