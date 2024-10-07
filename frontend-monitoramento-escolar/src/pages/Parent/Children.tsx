@@ -3,9 +3,9 @@ import { useChildrenStore } from '@frontend/stores/parent/children.store';
 import { Button } from 'antd';
 
 import { useShallow } from 'zustand/shallow';
-import { ChildCard } from '../components/parent/children/ChildCard';
-import { EditChildModal } from '../components/parent/children/EditChildModal';
-import { AddChildModal } from '../components/parent/children/AddChildModal';
+import { ChildCard } from '../../components/parent/children/ChildCard';
+import { EditChildModal } from '../../components/parent/children/EditChildModal';
+import { AddChildModal } from '../../components/parent/children/AddChildModal';
 
 export function Children() {
   const [children, setIsAdding] = useChildrenStore(

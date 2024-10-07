@@ -2,9 +2,9 @@ import { Layout } from '@frontend/components/Layout/Layout';
 import { useHomeAddressStore } from '@frontend/stores/parent/homeAddresses.store';
 import { Button } from 'antd';
 import { useShallow } from 'zustand/shallow';
-import { AddressCard } from '../components/parent/homeAddress/AddressCard';
-import { AddAddressModal } from '../components/parent/homeAddress/AddAddressModal';
-import { EditAddressModal } from '../components/parent/homeAddress/EditAddressModal';
+import { AddressCard } from '../../components/parent/homeAddress/AddressCard';
+import { AddAddressModal } from '../../components/parent/homeAddress/AddAddressModal';
+import { EditAddressModal } from '../../components/parent/homeAddress/EditAddressModal';
 
 export function Addresses() {
   const [addresses, setIsAdding] = useHomeAddressStore(

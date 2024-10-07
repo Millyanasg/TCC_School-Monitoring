@@ -1,8 +1,8 @@
 import { Button, Form, Input } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
-import { Layout } from '../components/Layout/Layout';
-import { useNotification } from '../stores/common/useNotification';
-import { loginUser } from '../services/common/auth.service';
+import { Layout } from '../../components/Layout/Layout';
+import { useNotification } from '../../stores/common/useNotification';
+import { loginUser } from '../../services/common/auth.service';
 import { useUserStore } from '@frontend/stores/user/user.store';
 
 export function Login() {

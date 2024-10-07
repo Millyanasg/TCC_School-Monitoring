@@ -1,17 +1,17 @@
 import { GPSTest } from '@frontend/pages/GPSTest';
-import { Login } from '@frontend/pages/Login';
+import { Login } from '@frontend/pages/Auth/Login';
 import { NotificationTest } from '@frontend/pages/NotificationTest';
 import { QRcodeTest } from '@frontend/pages/QRcodeTest';
-import { Register } from '@frontend/pages/Register';
+import { Register } from '@frontend/pages/Auth/Register';
 import { useUserStore } from '@frontend/stores/user/user.store';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { RouteError } from './route-error';
-import { Menu } from '@frontend/pages/Menu';
-import { Children } from '@frontend/pages/Children';
-import { Addresses } from '@frontend/pages/Addresses';
-import { DriverCarPage } from '@frontend/pages/DriverCar';
-import { DriverTripsPage } from '@frontend/pages/DriverTrips';
-import { DriverRequestsPage } from '@frontend/pages/DriverRequests';
+import { Menu } from '@frontend/pages/Common/Menu';
+import { Children } from '@frontend/pages/Parent/Children';
+import { Addresses } from '@frontend/pages/Parent/Addresses';
+import { DriverCarPage } from '@frontend/pages/Driver/DriverCar';
+import { DriverTripsPage } from '@frontend/pages/Driver/DriverTrips';
+import { DriverRequestsPage } from '@frontend/pages/Driver/DriverRequests';
 export function AppRoutes() {
   const userData = useUserStore((state) => state.userData);
   return (
