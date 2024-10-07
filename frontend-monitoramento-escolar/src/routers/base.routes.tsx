@@ -9,6 +9,9 @@ import { RouteError } from './route-error';
 import { Menu } from '@frontend/pages/Menu';
 import { Children } from '@frontend/pages/Children';
 import { Addresses } from '@frontend/pages/Adresses';
+import { DriverCarPage } from '@frontend/pages/DriverCar';
+import { DriverTripsPage } from '@frontend/pages/DriverTrips';
+import { DriverRequestsPage } from '@frontend/pages/DriverRequests';
 export function AppRoutes() {
   const userData = useUserStore((state) => state.userData);
   return (
@@ -36,8 +39,9 @@ export function AppRoutes() {
         )}
         {userData && userData.type === 'driver' && (
           <>
-            <Route path='/diver' element={<></>} />
-            <Route path='/diver/notifications' element={<></>} />
+            <Route path='/diver/my-car' element={<DriverCarPage />} />
+            <Route path='/diver/trips' element={<DriverTripsPage />} />
+            <Route path='/diver/requests' element={<DriverRequestsPage />} />
           </>
         )}
         {userData && userData.type === 'parent' && (
