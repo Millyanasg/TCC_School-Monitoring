@@ -17,6 +17,17 @@ export function setCookie(
     }
   }
 }
+/**
+ * Deletes a cookie by setting its Max-Age to a negative value, effectively expiring it.
+ *
+ * @param {string} name - The name of the cookie to delete.
+ * @param {string} path - The path of the cookie. Defaults to '/'.
+ * @param {string[]} domains - An array of domain strings where the cookie is valid.
+ *
+ * @remarks
+ * This function checks if the cookie exists before attempting to delete it.
+ * It iterates over the provided domains and sets the cookie's Max-Age to -99999999 for each domain.
+ */
 export function delete_cookie(
   name: string,
   path: string = '/',
@@ -35,6 +46,12 @@ export function delete_cookie(
   }
 }
 
+/**
+ * Retrieves the value of a specified cookie by its name.
+ *
+ * @param {string} name - The name of the cookie to retrieve.
+ * @returns The value of the cookie if found, otherwise `undefined`.
+ */
 export function get_cookie(name: string): string | null {
   const nameEQ = name.replace(/[-.+*]/g, '\\$&') + '=';
   const cookies = document.cookie.split(';');
