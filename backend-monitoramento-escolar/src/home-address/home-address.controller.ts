@@ -7,6 +7,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Post,
   Put,
   Query,
@@ -19,7 +20,10 @@ import { HomeAddressService } from './home-address.service';
 @Controller('home-address')
 @ApiTags('home-address')
 export class HomeAddressController {
-  constructor(private readonly homeAddressService: HomeAddressService) {}
+  constructor(
+    @Inject(HomeAddressService)
+    private readonly homeAddressService: HomeAddressService,
+  ) {}
 
   @Get('/')
   @GuardParentUser()
