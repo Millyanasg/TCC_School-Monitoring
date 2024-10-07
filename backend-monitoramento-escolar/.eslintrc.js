@@ -1,6 +1,8 @@
+const { root } = require("../frontend-monitoramento-escolar/.eslintrc");
+
 module.exports = {
     extends: ['../.eslintrc.js'],
-    root: true,
+    root: './scr',
     env: {
         node: true,
         jest: true,
