@@ -2,14 +2,15 @@ import { create } from 'zustand';
 import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
 import { ChildDto } from '@backend/parent/dto/ChildDto';
 
-export const useParentForm = create<{
+type ParentForm = {
   children: ChildDto[];
   homeAddress: HomeAddressDto[];
   addChildren: (children: ChildDto) => void;
   removeChild: (index: number) => void;
   addHomeAddress: (homeAddress: HomeAddressDto) => void;
   removeHomeAddress: (index: number) => void;
-}>((set) => {
+};
+export const useParentForm = create<ParentForm>((set) => {
   function addChildren(children: ChildDto) {
     set((state) => {
       return {
