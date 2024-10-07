@@ -7,6 +7,7 @@ import {
   HeartOutlined,
   HomeOutlined,
   LogoutOutlined,
+  MailOutlined,
   NodeIndexOutlined,
   UserOutlined,
   UsergroupAddOutlined,
@@ -145,7 +146,7 @@ function DriverMenu() {
         type='primary'
         variant='solid'
         onClick={() => {
-          navigate('/veiculo');
+          navigate('/diver/my-car');
         }}
         icon={<CarOutlined />}
       >
@@ -157,11 +158,23 @@ function DriverMenu() {
         type='primary'
         variant='solid'
         onClick={() => {
-          navigate('/corridas');
+          navigate('/diver/trips');
         }}
         icon={<NodeIndexOutlined />}
       >
         Minhas corridas
+      </Button>
+      <Button
+        block
+        size={'large'}
+        type='primary'
+        variant='solid'
+        onClick={() => {
+          navigate('/diver/requests');
+        }}
+        icon={<MailOutlined />}
+      >
+        Solicitações
       </Button>
     </Flex>
   );
