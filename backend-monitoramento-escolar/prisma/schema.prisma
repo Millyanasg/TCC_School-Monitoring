@@ -43,6 +43,8 @@ model Parent {
     homeAddress HomeAddress[] // A parent can have many addresses
     createdAt   DateTime      @default(now())
     updatedAt   DateTime      @default(now()) @updatedAt
+
+    Request Request[]
 }
 
 model HomeAddress {
@@ -73,6 +75,8 @@ model Driver {
     assignedChildren Child[] // A driver can have many students
     createdAt        DateTime @default(now())
     updatedAt        DateTime @default(now()) @updatedAt
+
+    Request Request[]
 }
 
 model School {
@@ -104,8 +108,29 @@ model Child {
     ChildLocations ChildLocations[]
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @default(now()) @updatedAt
+    Request        Request[]
 
     @@map("Student")
+}
+
+// A parent can allow a driver to pick up their child
+enum Permission {
+    allowed // A parent can set a request so the driver is allowed to pick up their child
+    disallowed // A parent can remove the permission, or if the driver can remove his own permission
+    pending // While the driver didn't accept the request the status is pending
+}
+
+model Request {
+    id        Int        @id @default(autoincrement())
+    parentId  Int
+    driverId  Int
+    childId   Int
+    status    Permission @default(pending)
+    parent    Parent     @relation(fields: [parentId], references: [id])
+    driver    Driver     @relation(fields: [driverId], references: [id])
+    child     Child      @relation(fields: [childId], references: [id])
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @default(now()) @updatedAt
 }
 
 enum LocationType {
