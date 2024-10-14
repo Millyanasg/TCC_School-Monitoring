@@ -1,25 +1,17 @@
 import { PrismaService } from '@backend/prisma/prisma.service';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { DriverService } from './driver.service';
+import { HomeAddressService } from './home-address.service';
 
-const prismaServiceMock = {
-  driver: {
-    findUnique: jest.fn(),
-    create: jest.fn(),
-  },
-  user: {
-    update: jest.fn(),
-  },
-};
+const prismaServiceMock = {};
 
-describe('DriverService', () => {
-  let service: DriverService;
+describe('HomeAddressService', () => {
+  let service: HomeAddressService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        DriverService,
+        HomeAddressService,
         {
           provide: PrismaService,
           useValue: prismaServiceMock,
@@ -27,7 +19,7 @@ describe('DriverService', () => {
       ],
     }).compile();
 
-    service = module.get<DriverService>(DriverService);
+    service = module.get<HomeAddressService>(HomeAddressService);
   });
 
   it('should be defined', () => {
