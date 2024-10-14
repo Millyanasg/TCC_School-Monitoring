@@ -4,7 +4,6 @@ import {
   HttpStatus,
   createParamDecorator,
 } from '@nestjs/common';
-
 import { User } from '@prisma/client';
 
 /**
@@ -22,7 +21,9 @@ import { User } from '@prisma/client';
  */
 export const GetRequestUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
-    const req = ctx.switchToHttp().getRequest();
+    const req = ctx.switchToHttp().getRequest() as Request & {
+      existingUser: User;
+    };
     const user = req.existingUser as User;
 
     return user;

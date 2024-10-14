@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { GpsService } from './gps.service';
 
 describe('GpsService', () => {

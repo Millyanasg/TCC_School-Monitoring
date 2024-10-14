@@ -1,9 +1,10 @@
+import { ChildDto } from '@backend/parent/dto/ChildDto';
+import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
 import { Test, TestingModule } from '@nestjs/testing';
+import { User } from '@prisma/client';
+
 import { ChildrenController } from './children.controller';
 import { ChildrenService } from './children.service';
-import { User } from '@prisma/client';
-import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
-import { ChildDto } from '@backend/parent/dto/ChildDto';
 
 const mockChildViewDto: ChildViewDto = {
   id: 0,
@@ -82,6 +83,7 @@ describe('ChildrenController', () => {
       mockParentUser,
       mockChildViewDto,
     );
+
     expect(children).toEqual(mockChildViewDto);
   });
 
@@ -90,6 +92,7 @@ describe('ChildrenController', () => {
       mockParentUser,
       mockChildViewDto,
     );
+
     expect(children).toEqual(mockChildViewDto);
   });
 
@@ -98,6 +101,7 @@ describe('ChildrenController', () => {
       mockParentUser,
       mockChildViewDto,
     );
+
     expect(children).toEqual(mockChildViewDto);
   });
 });

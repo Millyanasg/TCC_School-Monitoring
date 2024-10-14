@@ -3,12 +3,14 @@ import { UserModule } from '@backend/user/user.module';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategyUser } from './strategies/JWT.strategy';
 import { JwtStrategyAdmin } from './strategies/JWT_ADMIN.strategy';
 import { JwtStrategyDriver } from './strategies/JWT_DRIVER.strategy';
 import { JwtStrategyParent } from './strategies/JWT_PARENT.strategy';
+
 @Module({
   imports: [
     UserModule,

@@ -23,7 +23,7 @@ import { UserModule } from './user/user.module';
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development', '.env.production'],
+      envFilePath: ['.env'],
       validate: validate,
     }),
     GpsModule,

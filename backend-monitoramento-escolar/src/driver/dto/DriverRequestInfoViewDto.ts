@@ -1,4 +1,4 @@
-import { Request, User, PrismaClient } from '@prisma/client';
+import { Request, User } from '@prisma/client';
 
 export class DriverRequestInfoViewDto {
   id: number;

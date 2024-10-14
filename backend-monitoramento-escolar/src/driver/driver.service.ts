@@ -3,9 +3,9 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 
 import { DriverDto } from './dto/DriverDto';
+import { DriverRequestInfoViewDto } from './dto/DriverRequestInfoViewDto';
 import { DriverRequestViewDto } from './dto/DriverRequestViewDto';
 import { DriverViewDto } from './dto/DriverViewDto';
-import { DriverRequestInfoViewDto } from './dto/DriverRequestInfoViewDto';
 
 @Injectable()
 export class DriverService {

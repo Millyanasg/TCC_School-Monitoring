@@ -5,8 +5,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
 import { DriverService } from './driver.service';
-import { DriverRequestViewDto } from './dto/DriverRequestViewDto';
 import { DriverRequestInfoViewDto } from './dto/DriverRequestInfoViewDto';
+import { DriverRequestViewDto } from './dto/DriverRequestViewDto';
 
 @Controller('request')
 @ApiTags('Driver')

@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUrl,
   validateSync,
 } from 'class-validator';
 
@@ -19,9 +18,11 @@ class EnvironmentVariables {
   @IsNumber()
   @IsNotEmpty()
   PORT: number;
+
   @IsString()
   @IsNotEmpty()
   SERVER_URL: string;
+
   // SEED
   @IsString()
   @IsOptional()
@@ -39,10 +40,12 @@ class EnvironmentVariables {
   @IsEnum(['development', 'production'])
   @IsNotEmpty()
   NODE_ENV: 'development' | 'production';
+
   // jwt
   @IsString()
   @IsNotEmpty()
   JWT_SECRET: string;
+
   @IsString()
   @IsNotEmpty()
   JWT_EXPIRATION_TIME: string;
@@ -50,6 +53,7 @@ class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   JWT_REFRESH_SECRET: string;
+
   @IsString()
   @IsNotEmpty()
   JWT_REFRESH_EXPIRATION_TIME: string;

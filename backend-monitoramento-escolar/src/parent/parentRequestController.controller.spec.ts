@@ -1,5 +1,7 @@
-import { ParentRequestController } from './parentRequestController.controller';
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { ParentRequestController } from './parentRequestController.controller';
+
 describe('ParentRequestController', () => {
   let controller: ParentRequestController;
 
