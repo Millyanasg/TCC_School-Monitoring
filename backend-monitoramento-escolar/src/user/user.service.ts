@@ -6,14 +6,14 @@ import { UserDto } from './dto/userDTO';
 
 @Injectable()
 export class UserService {
-  public getProfile(user: User): UserDto {
-    return UserDto.fromEntity(user);
-  }
-
   constructor(
     @Inject(PrismaService)
     private readonly prismaService: PrismaService,
   ) {}
+
+  public getProfile(user: User): UserDto {
+    return UserDto.fromEntity(user);
+  }
 
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
     return this.prismaService.user.create({
