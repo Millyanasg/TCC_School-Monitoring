@@ -5,11 +5,33 @@ import { useShallow } from 'zustand/shallow';
 import { AddressCard } from '../../components/parent/homeAddress/AddressCard';
 import { AddAddressModal } from '../../components/parent/homeAddress/AddAddressModal';
 import { EditAddressModal } from '../../components/parent/homeAddress/EditAddressModal';
+import { useNotification } from '@frontend/stores/common/useNotification';
+import { useEffect } from 'react';
 
 export function Addresses() {
   const [addresses, setIsAdding] = useHomeAddressStore(
     useShallow((state) => [state.homeAddresses, state.setIsAdding]),
   );
+  const tNotification = useNotification((state) => state.triggerNotification);
+
+  const loadChildren = useHomeAddressStore(
+    useShallow((state) => state.loadChildren),
+  );
+
+  useEffect(() => {
+    loadChildren()
+      .then(() => {
+        tNotification({
+          content: 'Endereços carregados com sucesso',
+        });
+      })
+      .catch(() => {
+        tNotification({
+          content: 'Erro ao carregar os endereços',
+        });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Layout>

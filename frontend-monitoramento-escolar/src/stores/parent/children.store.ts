@@ -9,6 +9,7 @@ import {
 import { create } from 'zustand';
 
 type ChildrenStore = {
+  loadChildren: () => Promise<unknown>;
   children: ChildViewDto[];
 
   selectedChild: ChildViewDto | null;
@@ -83,9 +84,8 @@ export const useChildrenStore = create<ChildrenStore>((set) => {
     }
   }
 
-  updateState();
-
   return {
+    loadChildren: () => updateState(),
     children: [],
     selectedChild: null,
     setSelectedChild: (child) => {

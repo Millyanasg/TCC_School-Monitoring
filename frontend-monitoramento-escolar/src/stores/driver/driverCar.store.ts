@@ -6,6 +6,7 @@ import {
   updateDriver,
 } from '@frontend/services/driver/driverCar.service';
 type DriverCar = {
+  loadDriver: () => Promise<unknown>;
   driver: DriverViewDto | null;
   updateDriver: (data: DriverDto) => Promise<void>;
   isEditing: boolean;
@@ -30,18 +31,14 @@ type DriverCar = {
  * updateDriver(newDriverData);
  */
 export const useDriverCar = create<DriverCar>((set) => {
-  getDriver().then((respose) => {
-    const driver = respose.data;
-    set({ driver });
-  });
-
   async function updateDriverState(data: DriverDto) {
     const respose = await updateDriver(data);
     const driver = respose.data;
     set({ driver });
   }
-
   return {
+    loadDriver: () =>
+      getDriver().then((respose) => set({ driver: respose.data })),
     driver: null,
     updateDriver: updateDriverState,
     isEditing: false,

@@ -3,6 +3,7 @@ import { UserDto } from '@backend/user/dto/userDTO';
 import { getProfile } from '@frontend/services/user/user.service';
 import { createJSONStorage, persist } from 'zustand/middleware';
 type UserState = {
+  loadProfile: () => Promise<unknown>;
   userData: UserDto | null;
   updateUserData: () => Promise<void>;
 };
@@ -40,17 +41,16 @@ export const useUserStore = create<UserState>()(
             clearUserData();
           });
       }
-
-      getProfile()
-        .then((response) => {
-          setUserData(response.data);
-        })
-        .catch((error) => {
-          console.error('Error getting user profile:', error);
-          clearUserData();
-        });
-
       return {
+        loadProfile: () =>
+          getProfile()
+            .then((response) => {
+              setUserData(response.data);
+            })
+            .catch((error) => {
+              console.error('Error getting user profile:', error);
+              clearUserData();
+            }),
         userData: null,
         updateUserData,
       };

@@ -8,7 +8,7 @@ import { RegisterDto } from '@backend/auth/dto/RegisterDto';
 export function Register() {
   const { triggerNotification } = useNotification();
   const navigate = useNavigate();
-  const [form] = Form.useForm<RegisterDto>();
+  const [form] = Form.useForm<AllStrings<RegisterDto>>();
 
   const onSubmit = () => {
     const { name, lastName, email, password } = form.getFieldsValue();

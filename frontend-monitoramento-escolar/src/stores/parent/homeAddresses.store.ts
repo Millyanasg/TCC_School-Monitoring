@@ -9,6 +9,7 @@ import {
 import { create } from 'zustand';
 
 type HomeAddressStore = {
+  loadChildren: () => Promise<unknown>;
   homeAddresses: HomeAddressViewDto[];
 
   selectedHomeAddress: HomeAddressViewDto | null;
@@ -58,9 +59,8 @@ export const useHomeAddressStore = create<HomeAddressStore>((set) => {
     }
   }
 
-  updateState();
-
   return {
+    loadChildren: () => updateState(),
     homeAddresses: [],
     selectedHomeAddress: null,
     setSelectedHomeAddress: (child) => {
