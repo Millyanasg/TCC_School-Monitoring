@@ -23,16 +23,22 @@ export function EditChildModal() {
       state.updateChild,
     ]),
   );
-  const [form] = Form.useForm<ChildViewDto>();
+  const [form] = Form.useForm<AllStrings<ChildViewDto>>();
   const { triggerNotification } = useNotification();
 
   function handleCancelEdit() {
     setIsEditing(false);
     setSelectedChild(null);
   }
-  async function submitChildUpdate(values: ChildViewDto) {
+  async function submitChildUpdate(values: AllStrings<ChildViewDto>) {
     try {
-      await updateChild(values);
+      await updateChild({
+        id: Number(values.id),
+        name: values.name,
+        lastName: values.lastName,
+        birthDate: new Date(values.birthDate),
+        grade: values.grade,
+      });
       triggerNotification({
         content: 'Criança atualizada com sucesso',
       });
@@ -110,7 +116,7 @@ export function EditChildModal() {
             onChange={(date) => {
               console.log(date);
               form.setFieldsValue({
-                birthDate: date.toDate(),
+                birthDate: date.toString(),
               });
             }}
             format={'DD/MM/YYYY'}

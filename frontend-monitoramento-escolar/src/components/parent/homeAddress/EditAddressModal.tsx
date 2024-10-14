@@ -27,15 +27,15 @@ export function EditAddressModal() {
     ]),
   );
 
-  const [form] = Form.useForm<HomeAddressViewDto>();
+  const [form] = Form.useForm<AllStrings<HomeAddressViewDto>>();
   const { triggerNotification } = useNotification();
   const { location } = usePositionStore();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
     console.log(lat, lon);
     form.setFieldsValue({
-      latitude: lat,
-      longitude: lon,
+      latitude: lat.toString(),
+      longitude: lon.toString(),
     });
   }
 
@@ -47,9 +47,9 @@ export function EditAddressModal() {
   useEffect(() => {
     if (selectedHomeAddress) {
       form.setFieldsValue({
-        id: selectedHomeAddress.id,
+        id: selectedHomeAddress.id.toString(),
         street: selectedHomeAddress.street,
-        number: selectedHomeAddress.number,
+        number: selectedHomeAddress.number.toString(),
         city: selectedHomeAddress.city,
         state: selectedHomeAddress.state,
         zipCode: selectedHomeAddress.zipCode,
@@ -58,13 +58,18 @@ export function EditAddressModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedHomeAddress]);
 
-  async function submitChildUpdate(values: HomeAddressViewDto) {
+  async function submitChildUpdate(values: AllStrings<HomeAddressViewDto>) {
     try {
       await updateHomeAddress({
-        ...values,
-        number: Number(values.number),
+        id: Number(values.id),
         // remove all non-numeric characters from zipCode
         zipCode: values.zipCode.replace(/\D/g, ''),
+        number: Number(values.number),
+        street: values.street,
+        city: values.city,
+        state: values.state,
+        latitude: Number(values.latitude),
+        longitude: Number(values.longitude),
       });
       triggerNotification({
         content: 'Criança atualizada com sucesso',

@@ -21,13 +21,13 @@ export function HomeAddressForm() {
   const [nextStep, prevStep] = useRegisterStep(
     useShallow((state) => [state.nextStep, state.prevStep]),
   );
-  const [form] = Form.useForm<HomeAddressDto>();
+  const [form] = Form.useForm<AllStrings<HomeAddressDto>>();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
     console.log(lat, lon);
     form.setFieldsValue({
-      latitude: lat,
-      longitude: lon,
+      latitude: lat.toString(),
+      longitude: lon.toString(),
     });
   }
 
@@ -61,7 +61,7 @@ export function HomeAddressForm() {
           }
           addHomeAddress(values);
           form.resetFields();
-          form.setFieldsValue({ latitude: 0, longitude: 0 });
+          form.setFieldsValue({ latitude: '0', longitude: '0' });
         }}
         footer={
           <>

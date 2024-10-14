@@ -9,7 +9,7 @@ import { Button } from 'antd';
 export function VehicleDetailsForm({
   form,
 }: {
-  form: ReturnType<typeof Form.useForm<DriverDto>>[0];
+  form: ReturnType<typeof Form.useForm<AllStrings<DriverDto>>>[0];
 }) {
   const { triggerNotification } = useNotification();
   const [setType, nextStep, prevStep] = useRegisterStep(

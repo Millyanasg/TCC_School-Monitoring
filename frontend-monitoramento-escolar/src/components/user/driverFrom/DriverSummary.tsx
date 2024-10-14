@@ -13,7 +13,7 @@ import { RegisterDiver } from '@frontend/services/driver/driver.service';
 export function DriverSummary({
   form,
 }: {
-  form: ReturnType<typeof Form.useForm<DriverDto>>[0];
+  form: ReturnType<typeof Form.useForm<AllStrings<DriverDto>>>[0];
 }) {
   const navigate = useNavigate();
   const { triggerNotification } = useNotification();

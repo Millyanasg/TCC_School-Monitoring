@@ -10,15 +10,20 @@ export function AddChildModal() {
   const [isAdding, setIsAdding, addChild] = useChildrenStore(
     useShallow((state) => [state.isAdding, state.setIsAdding, state.addChild]),
   );
-  const [form] = Form.useForm<ChildDto>();
+  const [form] = Form.useForm<AllStrings<ChildDto>>();
   const { triggerNotification } = useNotification();
 
   function handleCancelAdd() {
     setIsAdding(false);
   }
-  async function submitChild(values: ChildDto) {
+  async function submitChild(values: AllStrings<ChildDto>) {
     try {
-      await addChild(values);
+      await addChild({
+        name: values.name,
+        lastName: values.lastName,
+        birthDate: new Date(values.birthDate),
+        grade: values.grade,
+      });
       triggerNotification({
         content: 'Criança adicionada com sucesso',
       });

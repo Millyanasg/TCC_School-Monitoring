@@ -17,7 +17,7 @@ export function ChildrenForm() {
   const [setType, nextStep, prevStep] = useRegisterStep(
     useShallow((state) => [state.setType, state.nextStep, state.prevStep]),
   );
-  const [form] = Form.useForm<ChildDto>();
+  const [form] = Form.useForm<AllStrings<ChildDto>>();
 
   return (
     <>
@@ -35,8 +35,13 @@ export function ChildrenForm() {
       </div>
       <Form
         form={form}
-        onFinish={(values) => {
-          addChildren(values);
+        onFinish={(values: AllStrings<ChildDto>) => {
+          addChildren({
+            name: values.name,
+            lastName: values.lastName,
+            birthDate: new Date(values.birthDate),
+            grade: values.grade,
+          });
           form.resetFields();
         }}
         footer={
@@ -119,7 +124,7 @@ export function ChildrenForm() {
           <DatePicker
             onChange={(date) => {
               form.setFieldsValue({
-                birthDate: date,
+                birthDate: date.toString(),
               });
             }}
             format={'DD/MM/YYYY'}

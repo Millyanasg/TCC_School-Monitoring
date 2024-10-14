@@ -17,8 +17,8 @@ export function EditDriverCarModal() {
     ]),
   );
   const { triggerNotification } = useNotification();
-  const [form] = Form.useForm<DriverDto>();
-  const onFinish = async (data: DriverDto) => {
+  const [form] = Form.useForm<AllStrings<DriverDto>>();
+  const onFinish = async (data: AllStrings<DriverDto>) => {
     try {
       await updateDriver({
         ...data,
@@ -42,9 +42,9 @@ export function EditDriverCarModal() {
         plate: driver.plate,
         car: driver.car,
         model: driver.model,
-        year: driver.year,
+        year: driver.year.toString(),
         color: driver.color,
-        seats: driver.seats,
+        seats: driver.seats.toString(),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

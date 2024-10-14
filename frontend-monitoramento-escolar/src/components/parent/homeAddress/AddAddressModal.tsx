@@ -17,15 +17,15 @@ export function AddAddressModal() {
       state.addHomeAddress,
     ]),
   );
-  const [form] = Form.useForm<HomeAddressDto>();
+  const [form] = Form.useForm<AllStrings<HomeAddressDto>>();
   const { triggerNotification } = useNotification();
   const { location } = usePositionStore();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
     console.log(lat, lon);
     form.setFieldsValue({
-      latitude: lat,
-      longitude: lon,
+      latitude: lat.toString(),
+      longitude: lon.toString(),
     });
   }
 
@@ -33,13 +33,17 @@ export function AddAddressModal() {
     setIsAdding(false);
   }
 
-  async function submitChild(values: HomeAddressDto) {
+  async function submitChild(values: AllStrings<HomeAddressDto>) {
     try {
       await addHomeAddress({
-        ...values,
         number: Number(values.number),
         // remove all non-numeric characters from zipCode
         zipCode: values.zipCode.replace(/\D/g, ''),
+        street: values.street,
+        city: values.city,
+        state: values.state,
+        latitude: Number(values.latitude),
+        longitude: Number(values.longitude),
       });
       triggerNotification({
         content: 'Endereço adicionado com sucesso',

@@ -7,7 +7,7 @@ import { VehicleDetailsForm } from './VehicleDetailsForm';
 
 export function DriverForm() {
   const step = useRegisterStep(useShallow((state) => state.step));
-  const [form] = Form.useForm<DriverDto>();
+  const [form] = Form.useForm<AllStrings<DriverDto>>();
   return (
     <>
       {step === 1 && <VehicleDetailsForm form={form} />}
