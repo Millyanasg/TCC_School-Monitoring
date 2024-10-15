@@ -23,6 +23,35 @@ export class DriverInviteService {
     driverId: string,
     childId: number,
   ) {
+    // get userParent by id
+    const userParent = await this.prismaService.parent.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
+    this.logger.debug(`userParent: ${JSON.stringify(userParent)}`);
+    if (!userParent) {
+      this.logger.error(`User not found`);
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    // get driver by email
+    const driverUser = await this.prismaService.user.findFirst({
+      where: {
+        email: driverId,
+        type: 'driver',
+      },
+      select: {
+        driver: true,
+      },
+    });
+    this.logger.debug(`driver: ${JSON.stringify(driverUser)}`);
+
+    if (!driverUser || !driverUser.driver) {
+      this.logger.error(`Driver not found`);
+      throw new HttpException('Driver not found', HttpStatus.NOT_FOUND);
+    }
+
     this.logger.debug(
       `inviteDriverByEmail called with user: ${user.id}, driverId: ${driverId}, childId: ${childId}`,
     );
@@ -31,9 +60,13 @@ export class DriverInviteService {
     const foundDriverRequest = await this.prismaService.request.findFirst({
       where: {
         driver: {
-          user: {
-            email: driverId,
-          },
+          id: driverUser.driver.id,
+        },
+        parent: {
+          id: userParent.id,
+        },
+        child: {
+          id: childId,
         },
       },
     });
@@ -41,33 +74,24 @@ export class DriverInviteService {
       `foundDriverRequest: ${JSON.stringify(foundDriverRequest)}`,
     );
 
-    if (!foundDriverRequest) {
+    if (foundDriverRequest) {
+      this.logger.error(`Driver already invited`);
       throw new HttpException('Driver already invited', HttpStatus.BAD_REQUEST);
-    }
-
-    // get driver by email
-    const driver = await this.prismaService.user.findFirst({
-      where: {
-        email: driverId,
-        type: 'driver',
-      },
-    });
-    this.logger.debug(`driver: ${JSON.stringify(driver)}`);
-
-    if (!driver) {
-      throw new HttpException('Driver not found', HttpStatus.NOT_FOUND);
     }
 
     // get child by id
     const child = await this.prismaService.child.findFirst({
       where: {
         id: childId,
-        parentId: user.id,
+        parent: {
+          userId: user.id,
+        },
       },
     });
     this.logger.debug(`child: ${JSON.stringify(child)}`);
 
     if (!child) {
+      this.logger.error(`Child not found`);
       throw new HttpException('Child not found', HttpStatus.NOT_FOUND);
     }
 
@@ -82,12 +106,12 @@ export class DriverInviteService {
         status: 'pending',
         driver: {
           connect: {
-            id: driver.id,
+            id: driverUser.driver.id,
           },
         },
         parent: {
           connect: {
-            id: user.id,
+            id: userParent.id,
           },
         },
       },
