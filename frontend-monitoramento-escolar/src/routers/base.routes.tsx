@@ -12,6 +12,7 @@ import { Addresses } from '@frontend/pages/Parent/Addresses';
 import { DriverCarPage } from '@frontend/pages/Driver/DriverCar';
 import { DriverTripsPage } from '@frontend/pages/Driver/DriverTrips';
 import { DriverRequestsPage } from '@frontend/pages/Driver/DriverRequests';
+import { ParentDriverpage } from '@frontend/pages/Parent/ParentDriver';
 
 export function AppRoutes() {
   const userData = useUserStore((state) => state.userData);
@@ -52,7 +53,7 @@ export function AppRoutes() {
             <Route path='/parent/addresses' element={<Addresses />} />
             <Route
               path='/parent/driver-request'
-              element={<>Driver Request</>}
+              element={<ParentDriverpage />}
             />
           </>
         )}
