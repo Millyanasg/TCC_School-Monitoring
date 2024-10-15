@@ -1,4 +1,4 @@
-import { DriverRequestInfoViewDto } from '@backend/driver/dto/DriverRequestInfoViewDto';
+import { InviteDriverDto } from '@backend/driver-invite/dto/InviteDriverDto';
 import {
   acceptDriverRequest,
   declineDriverRequest,
@@ -7,7 +7,7 @@ import {
 import { create } from 'zustand';
 type DriverRequests = {
   loadDriverRequests: () => Promise<unknown>;
-  requests: DriverRequestInfoViewDto[];
+  requests: InviteDriverDto[];
   acceptDriverRequest: (id: number) => Promise<void>;
   declineDriverRequest: (id: number) => Promise<void>;
 };
