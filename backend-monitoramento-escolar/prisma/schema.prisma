@@ -118,6 +118,7 @@ enum Permission {
     allowed // A parent can set a request so the driver is allowed to pick up their child
     disallowed // A parent can remove the permission, or if the driver can remove his own permission
     pending // While the driver didn't accept the request the status is pending
+    declined // If the driver declines the request
 }
 
 model Request {
