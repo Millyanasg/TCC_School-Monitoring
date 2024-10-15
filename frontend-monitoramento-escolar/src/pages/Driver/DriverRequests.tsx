@@ -49,15 +49,17 @@ export function DriverInviteCard({ invite }: { invite: InviteDriverDto }) {
       title={`${driver.name} ${driver.lastName}`}
       extra={
         <Flex gap='8px'>
-          <Button
-            color='danger'
-            variant='solid'
-            size='small'
-            onClick={declineRequest}
-            icon={<DeleteOutlined />}
-          >
-            Declinar
-          </Button>
+          {!(status === 'disallowed' || status === 'declined') && (
+            <Button
+              color='danger'
+              variant='solid'
+              size='small'
+              onClick={declineRequest}
+              icon={<DeleteOutlined />}
+            >
+              Declinar
+            </Button>
+          )}
           {status === 'pending' && (
             <Button
               color='primary'
