@@ -48,7 +48,7 @@ export default [{
         parserOptions: {
             parser: "@typescript-eslint/parser",
             project: "./tsconfig.json",
-            tsconfigRootDir: "/home/tomast1337/Documents/monorepo-monitorament-escolar/backend-monitoramento-escolar",
+            tsconfigRootDir: "./",
         },
     },
 
