@@ -45,7 +45,7 @@ export function ParentMenu() {
         type='primary'
         variant='solid'
         onClick={() => {
-          navigate('/parent/allowed-drivers');
+          navigate('/parent/driver-request');
         }}
         icon={<CarOutlined />}
       >
