@@ -131,6 +131,7 @@ export class DriverInviteService {
         },
       },
       select: {
+        id: true,
         status: true,
         driver: {
           select: {
@@ -144,6 +145,7 @@ export class DriverInviteService {
 
     return invitedDrivers.map((invitedDriver) => {
       return InviteDriverDto.from(
+        invitedDriver.id,
         invitedDriver.child,
         invitedDriver.driver.user,
         invitedDriver.status,
