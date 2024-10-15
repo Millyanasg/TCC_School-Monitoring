@@ -185,4 +185,102 @@ export class DriverInviteService {
 
     return true;
   }
+
+  public async fetchDriverInvites(user: User) {
+    this.logger.debug(`fetchDriverInvites called with user: ${user.id}`);
+
+    const driverInvites = await this.prismaService.request.findMany({
+      where: {
+        driver: {
+          userId: user.id,
+        },
+      },
+      select: {
+        id: true,
+        status: true,
+        parent: {
+          select: {
+            parent_user: true,
+          },
+        },
+        child: true,
+      },
+    });
+    this.logger.debug(`driverInvites: ${JSON.stringify(driverInvites)}`);
+
+    return driverInvites.map((driverInvite) => {
+      return InviteDriverDto.from(
+        driverInvite.id,
+        driverInvite.child,
+        driverInvite.parent.parent_user,
+        driverInvite.status,
+      );
+    });
+  }
+
+  public async declineDriverInvite(user: User, requestId: number) {
+    const invite = await this.prismaService.request.findFirst({
+      where: {
+        id: requestId,
+        driver: {
+          userId: user.id,
+        },
+      },
+    });
+
+    if (!invite) {
+      throw new HttpException('Invite not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prismaService.request.update({
+      where: {
+        id: requestId,
+      },
+      data: {
+        status: 'declined',
+      },
+    });
+
+    return true;
+  }
+  public async acceptDriverInvite(user: User, requestId: number) {
+    const invite = await this.prismaService.request.findFirst({
+      where: {
+        id: requestId,
+        driver: {
+          userId: user.id,
+        },
+      },
+    });
+
+    if (!invite) {
+      throw new HttpException('Invite not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (invite.status === 'declined' || invite.status === 'disallowed') {
+      // cant accept a declined or disallowed invite
+      throw new HttpException(
+        'Invite already declined',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    if (invite.status === 'allowed') {
+      // cant accept an already accepted invite
+      throw new HttpException(
+        'Invite already accepted',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.prismaService.request.update({
+      where: {
+        id: requestId,
+      },
+      data: {
+        status: 'allowed',
+      },
+    });
+
+    return true;
+  }
 }
