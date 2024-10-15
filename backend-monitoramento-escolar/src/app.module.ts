@@ -17,6 +17,7 @@ import { ParseTokenPipe } from './parseToken';
 import { PrismaModule } from './prisma/prisma.module';
 import { SchoolModule } from './school/school.module';
 import { UserModule } from './user/user.module';
+import { DriverInviteModule } from './driver-invite/driver-invite.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UserModule } from './user/user.module';
     PrismaModule,
     ChildrenModule,
     HomeAddressModule,
+    DriverInviteModule,
   ],
   controllers: [AppController],
   providers: [AppService, GpsGateway, ParseTokenPipe],
