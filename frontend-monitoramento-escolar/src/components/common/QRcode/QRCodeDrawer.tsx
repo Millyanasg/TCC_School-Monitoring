@@ -1,10 +1,8 @@
-import { useEffect, useRef } from 'react';
-import QRCode from 'qrcode';
-import { Drawer } from 'antd';
 import { useNotification } from '@frontend/stores/common/useNotification';
+import QRCode from 'qrcode';
+import React, { useEffect, useRef } from 'react';
 type QRCodeDrawerProps = {
-  open: boolean;
-  onClose: () => void;
+  style: React.CSSProperties;
   qrCodePayload: string;
 };
 
@@ -17,29 +15,27 @@ type QRCodeDrawerProps = {
  *
  * @returns {JSX.Element} The rendered QR code drawer component.
  */
-export const QRCodeDrawer = ({
-  open,
-  onClose,
-  qrCodePayload,
-}: QRCodeDrawerProps) => {
+export const QRCodeDrawer = ({ qrCodePayload, style }: QRCodeDrawerProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const tNotification = useNotification((state) => state.triggerNotification);
   useEffect(() => {
     if (canvasRef.current) {
-      QRCode.toCanvas(canvasRef.current, qrCodePayload, (error) => {
-        if (error) {
-          tNotification({
-            content: 'Erro ao gerar QRCode',
-          });
-        }
-      });
+      const canvas = canvasRef.current;
+      const context = canvas.getContext('2d');
+
+      if (context) {
+        context.imageSmoothingEnabled = false;
+        QRCode.toCanvas(canvasRef.current, qrCodePayload, (error) => {
+          if (error) {
+            tNotification({
+              content: 'Erro ao gerar QRCode',
+            });
+          }
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrCodePayload]);
 
-  return (
-    <Drawer open={open} onClose={onClose}>
-      <canvas ref={canvasRef} />
-    </Drawer>
-  );
+  return <canvas style={style} ref={canvasRef} />;
 };
