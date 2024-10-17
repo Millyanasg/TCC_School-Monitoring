@@ -57,32 +57,32 @@ type ChildrenStore = {
  * ```
  */
 export const useChildrenStore = create<ChildrenStore>((set) => {
-  async function updateChildrenState(children: ChildViewDto) {
+  const updateChildrenState = async (children: ChildViewDto) => {
     await updateChildren(children);
     await updateState();
     return children;
-  }
-  async function addChildrenState(child: ChildDto) {
+  };
+  const addChildrenState = async (child: ChildDto) => {
     const newChild = await addChildren(child);
     set((state) => ({ children: [...state.children, newChild] }));
     return newChild;
-  }
-  async function removeChildrenState(child: ChildViewDto) {
+  };
+  const removeChildrenState = async (child: ChildViewDto) => {
     await removeChildren(child);
     set((state) => ({
       children: state.children.filter((c) => c.id !== child.id),
     }));
     return child;
-  }
+  };
 
-  async function updateState() {
+  const updateState = async () => {
     try {
       const childList = await fetchChildren();
       set({ children: childList });
     } catch {
       set({ children: [] });
     }
-  }
+  };
 
   return {
     loadChildren: () => updateState(),

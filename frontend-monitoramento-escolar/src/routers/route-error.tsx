@@ -2,7 +2,7 @@ import { Result, Button } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout/Layout';
 
-export function RouteError() {
+export const RouteError = () => {
   const navigate = useNavigate();
   return (
     <Layout>
@@ -20,4 +20,4 @@ export function RouteError() {
       </div>
     </Layout>
   );
-}
+};

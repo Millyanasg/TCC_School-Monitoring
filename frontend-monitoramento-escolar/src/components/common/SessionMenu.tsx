@@ -4,7 +4,7 @@ import { Button, Flex, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@frontend/services/common/auth.service';
 
-export function SessionMenu() {
+export const SessionMenu = () => {
   const navigate = useNavigate();
   const userData = useUserStore((state) => state.userData);
   return (
@@ -37,4 +37,4 @@ export function SessionMenu() {
       </Button>
     </Flex>
   );
-}
+};

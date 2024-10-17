@@ -12,7 +12,7 @@ import { Card } from 'antd-mobile';
 import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
-export function AddressCard({ address }: { address: HomeAddressViewDto }) {
+export const AddressCard = ({ address }: { address: HomeAddressViewDto }) => {
   const { triggerNotification } = useNotification();
   const [setIsEditing, setSelectedHomeAddress, removeHomeAddress] =
     useHomeAddressStore(
@@ -38,7 +38,7 @@ export function AddressCard({ address }: { address: HomeAddressViewDto }) {
     timestamp: 0,
   };
 
-  async function handleRemove() {
+  const handleRemove = async () => {
     try {
       await removeHomeAddress(address);
       triggerNotification({
@@ -49,12 +49,12 @@ export function AddressCard({ address }: { address: HomeAddressViewDto }) {
         content: 'Erro ao remover endereço',
       });
     }
-  }
+  };
 
-  function handleEdit() {
+  const handleEdit = () => {
     setSelectedHomeAddress(address);
     setIsEditing(true);
-  }
+  };
 
   return (
     <Card style={{ marginBottom: '16px' }} title={`${street} ${number}`}>
@@ -114,4 +114,4 @@ export function AddressCard({ address }: { address: HomeAddressViewDto }) {
       </Flex>
     </Card>
   );
-}
+};

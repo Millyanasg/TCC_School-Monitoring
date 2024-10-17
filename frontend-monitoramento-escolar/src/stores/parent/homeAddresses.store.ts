@@ -32,32 +32,32 @@ type HomeAddressStore = {
 };
 
 export const useHomeAddressStore = create<HomeAddressStore>((set) => {
-  async function updateHomeAddressState(address: HomeAddressViewDto) {
+  const updateHomeAddressState = async (address: HomeAddressViewDto) => {
     await updateHomeAddress(address);
     await updateState();
     return address;
-  }
-  async function addHomeAddressState(child: HomeAddressDto) {
+  };
+  const addHomeAddressState = async (child: HomeAddressDto) => {
     const newHomeAddress = await addHomeAddress(child);
     set((state) => ({
       homeAddresses: [...state.homeAddresses, newHomeAddress],
     }));
     return newHomeAddress;
-  }
-  async function removeHomeAddressState(child: HomeAddressViewDto) {
+  };
+  const removeHomeAddressState = async (child: HomeAddressViewDto) => {
     await removeHomeAddress(child);
     await updateState();
     return child;
-  }
+  };
 
-  async function updateState() {
+  const updateState = async () => {
     try {
       const homeAddressList = await fetchHomeAddresses();
       set({ homeAddresses: homeAddressList });
     } catch {
       set({ homeAddresses: [] });
     }
-  }
+  };
 
   return {
     loadChildren: () => updateState(),

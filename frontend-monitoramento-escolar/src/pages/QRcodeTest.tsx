@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { Layout } from '../components/Layout/Layout';
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 
-export function QRcodeTest() {
+export const QRcodeTest = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -95,4 +95,4 @@ export function QRcodeTest() {
       </div>
     </Layout>
   );
-}
+};

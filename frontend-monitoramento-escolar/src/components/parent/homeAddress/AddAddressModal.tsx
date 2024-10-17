@@ -9,7 +9,7 @@ import { Form, Input } from 'antd-mobile';
 import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
-export function AddAddressModal() {
+export const AddAddressModal = () => {
   const [isAdding, setIsAdding, addHomeAddress] = useHomeAddressStore(
     useShallow((state) => [
       state.isAdding,
@@ -21,19 +21,19 @@ export function AddAddressModal() {
   const { triggerNotification } = useNotification();
   const { location } = usePositionStore();
   const [isMapOpen, setMapOpen] = useState(false);
-  function onSelectLocation(lat: number, lon: number) {
+  const onSelectLocation = (lat: number, lon: number) => {
     console.log(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
     });
-  }
+  };
 
-  function handleCancelAdd() {
+  const handleCancelAdd = () => {
     setIsAdding(false);
-  }
+  };
 
-  async function submitChild(values: AllStrings<HomeAddressDto>) {
+  const submitChild = async (values: AllStrings<HomeAddressDto>) => {
     try {
       await addHomeAddress({
         number: Number(values.number),
@@ -55,7 +55,7 @@ export function AddAddressModal() {
         content: 'Erro ao adicionar endereço',
       });
     }
-  }
+  };
 
   return (
     <Modal
@@ -139,4 +139,4 @@ export function AddAddressModal() {
       </Form>
     </Modal>
   );
-}
+};

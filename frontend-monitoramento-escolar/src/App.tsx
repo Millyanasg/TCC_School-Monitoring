@@ -1,6 +1,6 @@
 import { AppRoutes } from './routers/base.routes';
 
-export function App() {
+const App = () => {
   return (
     <main
       style={{
@@ -14,4 +14,6 @@ export function App() {
       <AppRoutes />
     </main>
   );
-}
+};
+
+export default App;

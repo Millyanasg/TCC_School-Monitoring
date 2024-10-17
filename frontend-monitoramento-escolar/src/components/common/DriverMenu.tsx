@@ -6,7 +6,7 @@ import {
 import { Button, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-export function DriverMenu() {
+export const DriverMenu = () => {
   const navigate = useNavigate();
   return (
     <Flex
@@ -57,4 +57,4 @@ export function DriverMenu() {
       </Button>
     </Flex>
   );
-}
+};

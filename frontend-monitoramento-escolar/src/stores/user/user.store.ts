@@ -28,10 +28,10 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => {
       const setUserData = (userData: UserDto) => set({ userData });
-      function clearUserData() {
+      const clearUserData = () => {
         return set({ userData: null });
-      }
-      async function updateUserData() {
+      };
+      const updateUserData = async () => {
         getProfile()
           .then((response) => {
             setUserData(response.data);
@@ -40,7 +40,7 @@ export const useUserStore = create<UserState>()(
             console.error('Error getting user profile:', error);
             clearUserData();
           });
-      }
+      };
       return {
         loadProfile: () =>
           getProfile()

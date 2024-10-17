@@ -7,10 +7,10 @@ type MapSelectorProps = {
   setOpen: (isOpen: boolean) => void;
 };
 
-function MapView({ initialLocation, isOpen, setOpen }: MapSelectorProps) {
-  function onClose() {
+const MapView = ({ initialLocation, isOpen, setOpen }: MapSelectorProps) => {
+  const onClose = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <Modal
@@ -40,6 +40,6 @@ function MapView({ initialLocation, isOpen, setOpen }: MapSelectorProps) {
       </MapContainer>
     </Modal>
   );
-}
+};
 
 export default MapView;

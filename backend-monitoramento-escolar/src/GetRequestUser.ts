@@ -37,7 +37,7 @@ export const GetRequestUser = createParamDecorator(
  * @returns The verified user document.
  * @throws {HttpException} If the user is not found, has no plan, or the plan has expired.
  */
-export function verifyUser(user: User | null): User {
+export const verifyUser = (user: User | null): User => {
   if (!user) {
     throw new HttpException(
       {
@@ -48,4 +48,4 @@ export function verifyUser(user: User | null): User {
   }
 
   return user;
-}
+};

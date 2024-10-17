@@ -1,7 +1,7 @@
 import { Button } from 'antd-mobile';
 import { useNotification } from '../stores/common/useNotification';
 
-export function NotificationTest() {
+export const NotificationTest = () => {
   const { triggerNotification } = useNotification();
   return (
     <div style={{ padding: '20px' }}>
@@ -16,4 +16,4 @@ export function NotificationTest() {
       </Button>
     </div>
   );
-}
+};

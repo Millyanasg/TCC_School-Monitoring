@@ -2,7 +2,7 @@ import { CarOutlined, HeartOutlined, HomeOutlined } from '@ant-design/icons';
 import { Button, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-export function ParentMenu() {
+export const ParentMenu = () => {
   const navigate = useNavigate();
   return (
     <Flex
@@ -53,4 +53,4 @@ export function ParentMenu() {
       </Button>
     </Flex>
   );
-}
+};

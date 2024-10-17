@@ -14,7 +14,7 @@ import { DriverTripsPage } from '@frontend/pages/Driver/DriverTrips';
 import { DriverRequestsPage } from '@frontend/pages/Driver/DriverRequests';
 import { ParentDriverpage } from '@frontend/pages/Parent/ParentDriver';
 
-export function AppRoutes() {
+export const AppRoutes = () => {
   const userData = useUserStore((state) => state.userData);
   return (
     <HashRouter basename='/' future={{ v7_startTransition: true }}>
@@ -61,4 +61,4 @@ export function AppRoutes() {
       </Routes>
     </HashRouter>
   );
-}
+};

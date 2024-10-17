@@ -9,12 +9,12 @@ type MapSelectorProps = {
   initialLocation: GeolocationPosition | null;
 };
 
-function MapSelector({
+const MapSelector = ({
   onSelectLocation,
   isOpen,
   onClose,
   initialLocation,
-}: MapSelectorProps) {
+}: MapSelectorProps) => {
   const [position, setPosition] = useState<{ lat: number; lon: number } | null>(
     null,
   );
@@ -68,6 +68,6 @@ function MapSelector({
       )}
     </Modal>
   );
-}
+};
 
 export default MapSelector;

@@ -11,38 +11,38 @@ type ParentForm = {
   removeHomeAddress: (index: number) => void;
 };
 export const useParentForm = create<ParentForm>((set) => {
-  function addChildren(children: ChildDto) {
+  const addChildren = (children: ChildDto) => {
     set((state) => {
       return {
         ...state,
         children: [...state.children, children],
       };
     });
-  }
-  function removeChild(index: number) {
+  };
+  const removeChild = (index: number) => {
     set((state) => {
       return {
         ...state,
         children: state.children.filter((_, i) => i !== index),
       };
     });
-  }
-  function addHomeAddress(homeAddress: HomeAddressDto) {
+  };
+  const addHomeAddress = (homeAddress: HomeAddressDto) => {
     set((state) => {
       return {
         ...state,
         homeAddress: [...state.homeAddress, homeAddress],
       };
     });
-  }
-  function removeHomeAddress(index: number) {
+  };
+  const removeHomeAddress = (index: number) => {
     set((state) => {
       return {
         ...state,
         homeAddress: state.homeAddress.filter((_, i) => i !== index),
       };
     });
-  }
+  };
   return {
     children: [],
     homeAddress: [],

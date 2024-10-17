@@ -7,7 +7,7 @@ import { Form, Input } from 'antd-mobile';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
-export function EditDriverCarModal() {
+export const EditDriverCarModal = () => {
   const [isEditing, setIsEditing, updateDriver, driver] = useDriverCar(
     useShallow((state) => [
       state.isEditing,
@@ -182,4 +182,4 @@ export function EditDriverCarModal() {
       </Form>
     </Modal>
   );
-}
+};

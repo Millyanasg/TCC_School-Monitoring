@@ -28,24 +28,26 @@ type DriverRequests = {
  * ```
  */
 export const useDriverRequests = create<DriverRequests>((set) => {
-  function loadDriverRequests() {
-    return getDriverRequestsStore().catch(() => {
+  const loadDriverRequests = async () => {
+    try {
+      return await getDriverRequestsStore();
+    } catch {
       set({ requests: [] });
-    });
-  }
-  async function getDriverRequestsStore() {
+    }
+  };
+  const getDriverRequestsStore = async () => {
     const data = (await getDriverRequests()).data;
     set({ requests: data });
     return data;
-  }
-  async function acceptDriverRequestStore(id: number) {
+  };
+  const acceptDriverRequestStore = async (id: number) => {
     await acceptDriverRequest(id);
     await loadDriverRequests();
-  }
-  async function declineDriverRequestStore(id: number) {
+  };
+  const declineDriverRequestStore = async (id: number) => {
     await declineDriverRequest(id);
     await loadDriverRequests();
-  }
+  };
 
   return {
     loadDriverRequests: loadDriverRequests,

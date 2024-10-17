@@ -42,12 +42,12 @@ export const useNotification = create<{
   triggerNotification: (notification: Notification) => void;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 }>((_set, _get) => {
-  function triggerNotification(notification: Notification) {
+  const triggerNotification = (notification: Notification) => {
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification(notification.content || '');
     }
     Toast.show(notification);
-  }
+  };
 
   if (!('Notification' in window)) {
     Toast.show({

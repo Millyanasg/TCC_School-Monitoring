@@ -2,13 +2,13 @@ import { DriverViewDto } from '@backend/driver/dto/DriverViewDto';
 import { UserDto } from '@backend/user/dto/userDTO';
 import { Descriptions } from 'antd';
 
-export function DriverCarInfo({
+export const DriverCarInfo = ({
   driver,
   user,
 }: {
   driver: DriverViewDto;
   user: UserDto;
-}) {
+}) => {
   const { name, lastName } = user;
   const { plate, car, model, year, color, seats } = driver;
   return (
@@ -24,4 +24,4 @@ export function DriverCarInfo({
       <Descriptions.Item label='Assentos'>{seats}</Descriptions.Item>
     </Descriptions>
   );
-}
+};

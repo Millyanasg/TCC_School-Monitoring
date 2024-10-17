@@ -18,26 +18,26 @@ type driverInvitationStore = {
 };
 
 export const useDriverInviteStore = create<driverInvitationStore>((set) => {
-  async function inviteDriverState(data: InviteDriverByEmailDto) {
+  const inviteDriverState = async (data: InviteDriverByEmailDto) => {
     set({ isInviting: true });
     await inviteDriverByEmail(data);
     await updateState();
     set({ isInviting: false });
-  }
+  };
 
-  async function deleteDriverInvite(id: number) {
+  const deleteDriverInvite = async (id: number) => {
     await deleteDriverInviteById(id);
     await updateState();
-  }
+  };
 
-  async function updateState() {
+  const updateState = async () => {
     try {
       const invitedDrivers = await fetchInvitedDrivers();
       set({ invitedDrivers });
     } catch {
       set({ invitedDrivers: [] });
     }
-  }
+  };
 
   return {
     updateState: updateState,

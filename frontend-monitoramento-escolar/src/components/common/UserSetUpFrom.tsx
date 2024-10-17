@@ -5,7 +5,7 @@ import { DriverForm } from '@frontend/components/user/driverFrom/DriverForm';
 import { ParentForm } from '@frontend/components/parent/parentFrom/ParentForm';
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
 
-export function UserSetUpFrom() {
+export const UserSetUpFrom = () => {
   const [step, type] = useRegisterStep(
     useShallow((state) => [state.step, state.type]),
   );
@@ -17,4 +17,4 @@ export function UserSetUpFrom() {
       {type === 'driver' && <DriverForm />}
     </div>
   );
-}
+};
