@@ -5,5 +5,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
-  "cSpell.words": ["antd", "dayjs", "zustand", "zxing"]
+  "cSpell.words": ["antd", "dayjs", "Qrcode", "zustand", "zxing"]
 }
