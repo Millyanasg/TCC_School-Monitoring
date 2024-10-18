@@ -139,6 +139,9 @@ export class HomeAddressService {
       where: {
         parentId: parent.id,
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
 
     return addresses.map((address) => HomeAddressViewDto.from(address));

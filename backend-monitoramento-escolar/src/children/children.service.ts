@@ -109,6 +109,9 @@ export class ChildrenService {
           userId: user.id,
         },
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
 
     return children.map(ChildViewDto.from);

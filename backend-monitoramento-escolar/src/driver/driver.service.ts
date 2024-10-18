@@ -220,6 +220,9 @@ export class DriverService {
           },
         },
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     });
 
     if (!requests) {

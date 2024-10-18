@@ -130,6 +130,9 @@ export class DriverInviteService {
           userId: user.id,
         },
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
       select: {
         id: true,
         status: true,
@@ -194,6 +197,9 @@ export class DriverInviteService {
         driver: {
           userId: user.id,
         },
+      },
+      orderBy: {
+        updatedAt: 'desc',
       },
       select: {
         id: true,
