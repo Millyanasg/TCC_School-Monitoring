@@ -12,7 +12,8 @@ import { Addresses } from '@frontend/pages/Parent/Addresses';
 import { DriverCarPage } from '@frontend/pages/Driver/DriverCar';
 import { DriverTripsPage } from '@frontend/pages/Driver/DriverTrips';
 import { DriverRequestsPage } from '@frontend/pages/Driver/DriverRequests';
-import { ParentDriverpage } from '@frontend/pages/Parent/ParentDriver';
+import ParentDriverpage from '@frontend/pages/Parent/ParentDriver';
+import { ConfirmTrip } from '@frontend/pages/Parent/ConfirmTrip';
 
 export const AppRoutes = () => {
   const userData = useUserStore((state) => state.userData);
@@ -51,6 +52,7 @@ export const AppRoutes = () => {
             <Route path='/parent' element={<></>} />
             <Route path='/parent/children' element={<Children />} />
             <Route path='/parent/addresses' element={<Addresses />} />
+            <Route path='/parent/confirm' element={<ConfirmTrip />} />
             <Route
               path='/parent/driver-request'
               element={<ParentDriverpage />}
