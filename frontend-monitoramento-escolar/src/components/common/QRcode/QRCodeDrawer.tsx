@@ -1,5 +1,5 @@
 import { useNotification } from '@frontend/stores/common/useNotification';
-import QRCode from 'qrcode';
+import QRCode from 'qrcode'; // Maybe replace this with https://github.com/akamfoad/qrcode
 import React, { useEffect, useRef } from 'react';
 type QRCodeDrawerProps = {
   style: React.CSSProperties;
@@ -21,10 +21,13 @@ export const QRCodeDrawer = ({ qrCodePayload, style }: QRCodeDrawerProps) => {
   useEffect(() => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
+      canvas.width = style.width ? parseInt(style.width.toString()) : 750;
+      canvas.height = style.height ? parseInt(style.height.toString()) : 750;
       const context = canvas.getContext('2d');
 
       if (context) {
         context.imageSmoothingEnabled = false;
+        context.clearRect(0, 0, canvas.width, canvas.height);
         QRCode.toCanvas(canvasRef.current, qrCodePayload, (error) => {
           if (error) {
             tNotification({
@@ -37,5 +40,12 @@ export const QRCodeDrawer = ({ qrCodePayload, style }: QRCodeDrawerProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrCodePayload]);
 
-  return <canvas style={style} ref={canvasRef} />;
+  return (
+    <canvas
+      width={style.width ? parseInt(style.width.toString()) : 750}
+      height={style.height ? parseInt(style.height.toString()) : 750}
+      style={style}
+      ref={canvasRef}
+    />
+  );
 };
