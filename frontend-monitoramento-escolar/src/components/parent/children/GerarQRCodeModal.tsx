@@ -25,7 +25,31 @@ export const GerarQRCodeModal = ({
     window.print();
   };
   return (
-    <Drawer open={isOpen} onClose={onClose} width={'100vw'}>
+    <Drawer
+      open={isOpen}
+      onClose={onClose}
+      footer={
+        <Flex gap='1rem'>
+          <Button
+            type='primary'
+            color='primary'
+            icon={<PrinterOutlined />}
+            onClick={onPrint}
+          >
+            Impimir ou compartilhar código
+          </Button>
+          <Button
+            type='primary'
+            color='danger'
+            icon={<CloseCircleFilled />}
+            onClick={onClose}
+          >
+            Fechar
+          </Button>
+        </Flex>
+      }
+      width={'100vw'}
+    >
       <div
         style={{
           display: 'flex',
@@ -58,24 +82,6 @@ export const GerarQRCodeModal = ({
           />
         </Flex>
       </div>
-      <Flex gap='1rem'>
-        <Button
-          type='primary'
-          color='primary'
-          icon={<PrinterOutlined />}
-          onClick={onPrint}
-        >
-          Impimir ou compartilhar código
-        </Button>
-        <Button
-          type='primary'
-          color='danger'
-          icon={<CloseCircleFilled />}
-          onClick={onClose}
-        >
-          Fechar
-        </Button>
-      </Flex>
     </Drawer>
   );
 };
