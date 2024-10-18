@@ -10,7 +10,7 @@ import { Card } from 'antd-mobile';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
-import { QrCodeModal } from './QrCodeModal';
+import { GerarQRCodeModal } from './GerarQRCodeModal';
 
 export function ChildCard({ child }: { child: ChildViewDto }) {
   const [deleteSelectedChild, setSelectedChild, setOpenModal] =
@@ -43,7 +43,7 @@ export function ChildCard({ child }: { child: ChildViewDto }) {
       title={`${child.name} ${child.lastName}`}
       extra={null}
     >
-      <QrCodeModal
+      <GerarQRCodeModal
         isOpen={isQrCodeModalOpen}
         setIsOpen={setIsQrCodeModalOpen}
         child={child}

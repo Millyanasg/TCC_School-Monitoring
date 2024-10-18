@@ -8,7 +8,7 @@ import { QRCodeDrawer } from '@frontend/components/common/QRcode/QRCodeDrawer';
 import { Button, Drawer, Flex, Typography } from 'antd';
 import dayjs from 'dayjs';
 
-export const QrCodeModal = ({
+export const GerarQRCodeModal = ({
   isOpen,
   setIsOpen,
   child,
