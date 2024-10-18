@@ -7,11 +7,10 @@ import {
 } from 'antd-mobile-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export function Footer() {
+export const Footer = () => {
   const userData = useUserStore((state) => state.userData);
   const navigate = useNavigate();
   const location = useLocation();
-  // const isUsetUser = useMemo(() => userData?.type === 'unset', [userData]);
   const setRouteActive = (value: string) => {
     navigate(`/${value}`);
   };
@@ -21,7 +20,7 @@ export function Footer() {
       icon: <CheckShieldOutline fontSize={38} />,
     },
     {
-      key: 'confirm',
+      key: 'parent/confirm',
       icon: <EnvironmentOutline fontSize={38} />,
     },
     {
@@ -57,4 +56,4 @@ export function Footer() {
       )}
     </div>
   );
-}
+};
