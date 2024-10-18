@@ -6,9 +6,9 @@ import { useDriverInviteStore } from '@frontend/stores/parent/driverInvite.store
 import { Button, Typography } from 'antd';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
-import { ParentDriverInviteCard } from '@frontend/components/parent/driver/ParentDriverInviteCard';
+import ParentDriverInviteCard from '@frontend/components/parent/driver/ParentDriverInviteCard';
 
-export function ParentDriverpage() {
+export default function ParentDriverpage() {
   const refreshInviteState = useDriverInviteStore(
     useShallow((state) => state.updateState),
   );
