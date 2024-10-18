@@ -6,7 +6,7 @@ import { Button, Tag } from 'antd';
 import { Card } from 'antd-mobile';
 import { useShallow } from 'zustand/shallow';
 
-export function ParentDriverInviteCard({
+export default function ParentDriverInviteCard({
   driver: driverInvite,
 }: {
   driver: InviteDriverDto;
@@ -28,22 +28,40 @@ export function ParentDriverInviteCard({
       });
     }
   }
+  const getTagColor = (): string => {
+    switch (status) {
+      case 'allowed':
+        return 'green';
+      case 'declined':
+        return 'red';
+      case 'disallowed':
+        return 'red';
+      case 'pending':
+        return 'blue';
+      default:
+        return 'black';
+    }
+  };
   return (
     <Card
       style={{ marginBottom: '16px' }}
       title={`${driver.name} ${driver.lastName}`}
       extra={
-        <Button
-          color='danger'
-          variant='solid'
-          size='small'
-          icon={<DeleteOutlined />}
-          onClick={removeDriverInvite}
-        >
-          {status === 'allowed' && 'Remover'}
-          {status === 'pending' && 'Cancelar'}
-          {status === 'disallowed' && 'Remover'}
-        </Button>
+        <>
+          {status !== 'declined' && (
+            <Button
+              color='danger'
+              variant='solid'
+              size='small'
+              icon={<DeleteOutlined />}
+              onClick={removeDriverInvite}
+            >
+              {status === 'allowed' && 'Remover'}
+              {status === 'pending' && 'Cancelar'}
+              {status === 'disallowed' && 'Remover'}
+            </Button>
+          )}
+        </>
       }
     >
       <div>
@@ -51,18 +69,7 @@ export function ParentDriverInviteCard({
           Motorista: {driver.name} {driver.lastName}
         </p>
         <p>
-          Status:{' '}
-          <Tag
-            color={
-              status === 'allowed'
-                ? 'green'
-                : status === 'pending'
-                ? 'blue'
-                : 'red'
-            }
-          >
-            {status}
-          </Tag>
+          Status: <Tag color={getTagColor()}>{status}</Tag>
         </p>
         <p>
           Criança: {child.name} {child.lastName}
