@@ -1,11 +1,20 @@
 import { GuardParentUser } from '@backend/auth/strategies/Guards';
 import { GetRequestUser, verifyUser } from '@backend/GetRequestUser';
 import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
 import { ChildrenService } from './children.service';
+import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 
 @Controller('children')
 @ApiTags('children')
@@ -16,9 +25,14 @@ export class ChildrenController {
   @GuardParentUser()
   async fetchChildren(
     @GetRequestUser() user: User | null,
-  ): Promise<ChildViewDto[]> {
+    @Param('locations') location?: boolean,
+  ): Promise<ChildViewDto[] | ChildViewWithLocationDto[]> {
     user = verifyUser(user);
-    return await this.childrenService.getChildren(user);
+    if (location) {
+      return await this.childrenService.getChildrenWithLocation(user);
+    } else {
+      return await this.childrenService.getChildren(user);
+    }
   }
 
   @Put('/')
