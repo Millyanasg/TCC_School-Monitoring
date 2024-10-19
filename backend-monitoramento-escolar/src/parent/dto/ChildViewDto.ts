@@ -1,3 +1,4 @@
+import { ChildWithLocations } from '@backend/children/children.service';
 import { Child } from '@prisma/client';
 import { IsDate, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
