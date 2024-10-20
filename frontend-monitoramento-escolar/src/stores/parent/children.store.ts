@@ -85,7 +85,7 @@ export const useChildrenStore = create<ChildrenStore>((set) => {
   };
 
   return {
-    loadChildren: () => updateState(),
+    loadChildren: updateState,
     children: [],
     selectedChild: null,
     setSelectedChild: (child) => {
