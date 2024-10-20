@@ -48,6 +48,13 @@
   - `rxjs`: Biblioteca para programação reativa.
   - `swagger-ui-express`: Middleware para servir a UI do Swagger.
 
+### Infraestrutura:
+
+- **Docker**: Plataforma para desenvolvimento, envio e execução de aplicações em contêineres.
+- **Docker Compose**: Ferramenta para definir e executar aplicativos Docker multi-contêiner.
+- **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional.
+- **Git**: Sistema de controle de versão distribuído.
+
 ### Dependências de Desenvolvimento:
 
 - **ESLint**: Linter para JavaScript e TypeScript.
