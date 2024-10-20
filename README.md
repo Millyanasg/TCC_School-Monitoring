@@ -1,4 +1,4 @@
-# Monitoramento Escolar
+# TCC-School-Monitoring
 
 ## Teclogias utilizadas:
 
