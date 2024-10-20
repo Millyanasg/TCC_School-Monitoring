@@ -15,9 +15,9 @@ import { HomeAddressModule } from './home-address/home-address.module';
 import { ParentModule } from './parent/parent.module';
 import { ParseTokenPipe } from './parseToken';
 import { PrismaModule } from './prisma/prisma.module';
-import { SchoolModule } from './school/school.module';
-import { UserModule } from './user/user.module';
+
 import { DriverInviteModule } from './driver-invite/driver-invite.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -30,7 +30,6 @@ import { DriverInviteModule } from './driver-invite/driver-invite.module';
     GpsModule,
     AuthModule,
     UserModule,
-    SchoolModule,
     DriverModule,
     ParentModule,
     CryptModule,
