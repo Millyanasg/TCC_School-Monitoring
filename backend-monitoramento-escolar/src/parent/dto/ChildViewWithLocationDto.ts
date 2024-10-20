@@ -23,7 +23,7 @@ export class ChildViewWithLocationDto {
   @IsNotEmpty()
   grade: string;
 
-  location: ChildLocations;
+  location?: ChildLocations;
 
   public static from(
     data: Child,

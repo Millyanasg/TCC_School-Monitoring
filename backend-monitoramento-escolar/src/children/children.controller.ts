@@ -6,9 +6,11 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
@@ -19,18 +21,21 @@ import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocat
 @Controller('children')
 @ApiTags('children')
 export class ChildrenController {
+  private readonly logger = new Logger(ChildrenController.name);
   constructor(private readonly childrenService: ChildrenService) {}
 
   @Get('/')
   @GuardParentUser()
   async fetchChildren(
     @GetRequestUser() user: User | null,
-    @Param('locations') location?: boolean,
+    @Query('location') location?: boolean,
   ): Promise<ChildViewDto[] | ChildViewWithLocationDto[]> {
     user = verifyUser(user);
     if (location) {
+      this.logger.debug('Fetching children with location');
       return await this.childrenService.getChildrenWithLocation(user);
     } else {
+      this.logger.debug('Fetching children without location');
       return await this.childrenService.getChildren(user);
     }
   }

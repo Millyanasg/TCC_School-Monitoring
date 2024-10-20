@@ -173,8 +173,6 @@ export class ChildrenService {
         createdAt: 'desc',
       },
     });
-
-    console.log(children);
     return children.map((data) =>
       ChildViewWithLocationDto.from(
         data as unknown as Child,
