@@ -18,6 +18,7 @@ import { PrismaModule } from './prisma/prisma.module';
 
 import { DriverInviteModule } from './driver-invite/driver-invite.module';
 import { UserModule } from './user/user.module';
+import { LocationModule } from './location/location.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { UserModule } from './user/user.module';
     ChildrenModule,
     HomeAddressModule,
     DriverInviteModule,
+    LocationModule,
   ],
   controllers: [AppController],
   providers: [AppService, GpsGateway, ParseTokenPipe],
