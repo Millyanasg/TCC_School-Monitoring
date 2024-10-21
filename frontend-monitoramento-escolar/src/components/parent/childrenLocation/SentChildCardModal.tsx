@@ -1,5 +1,6 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
+import { usePositionStore } from '@frontend/stores/common/position.store';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useChildrenLocation } from '@frontend/stores/parent/childrenLocation.store';
 import { Button, Flex, Modal, Typography } from 'antd';
@@ -15,16 +16,27 @@ export const SentChildCardModal = ({
   onClose: () => void;
   child: ChildViewWithLocationDto;
 }) => {
-  const sendChildLocation = useChildrenLocation(
-    useShallow((state) => state.sendChildLocation),
+  const sendChildSentOut = useChildrenLocation(
+    useShallow((state) => state.sendChildSentOut),
   );
+  const { location } = usePositionStore();
   const TNotification = useNotification((state) => state.triggerNotification);
   const confirmSend = async () => {
     try {
+      console.log(location);
+      if (!location) {
+        TNotification({
+          content: 'Erro ao pegar a localização',
+        });
+        return;
+      }
+
+      const latitude = location.coords.latitude;
+      const longitude = location.coords.longitude;
+      await sendChildSentOut(child.id, latitude, longitude);
       TNotification({
         content: `${child.name} ${child.lastName} marcada como enviada`,
       });
-      await sendChildLocation(child.id);
     } catch {
       TNotification({
         content: 'Erro ao marcar a criança como enviada',

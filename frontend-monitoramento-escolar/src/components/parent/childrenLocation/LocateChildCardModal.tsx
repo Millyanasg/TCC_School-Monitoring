@@ -59,7 +59,7 @@ export const LocateChildCardModal = ({
       <Typography.Title level={2}>
         Localização para {child.name} {child.lastName}
       </Typography.Title>
-      {location?.latitude && location?.longitude ? (
+      {location != null ? (
         <iframe
           width='100%'
           height='100%'
@@ -67,7 +67,7 @@ export const LocateChildCardModal = ({
           scrolling='no'
           marginHeight={0}
           marginWidth={0}
-          src={`https://maps.google.com/maps?q=${location.latitude},${location.longitude}&z=15&output=embed`}
+          src={`https://maps.google.com/maps?q=${location.location.latitude},${location.location.longitude}&z=15&output=embed`}
         ></iframe>
       ) : (
         <Typography.Text>Localização não encontrada</Typography.Text>
