@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { GuardParentUser } from '@backend/auth/strategies/Guards';
 import { GetRequestUser, verifyUser } from '@backend/GetRequestUser';
@@ -14,6 +14,23 @@ export class LocationController {
     @Query('childId') childId: number,
   ): Promise<unknown> {
     user = verifyUser(user);
-    return await this.locationService.getLocation(user, childId);
+    return await this.locationService.getLocation(user, Number(childId));
+  }
+
+  @Post('/sent-out')
+  @GuardParentUser()
+  async checkChildOut(
+    @GetRequestUser() user: User | null,
+    @Query('childId') childId: number,
+    @Query('latitude') latitude: number,
+    @Query('longitude') longitude: number,
+  ): Promise<unknown> {
+    user = verifyUser(user);
+    return await this.locationService.checkChildOut(
+      user,
+      Number(childId),
+      Number(latitude),
+      Number(longitude),
+    );
   }
 }
