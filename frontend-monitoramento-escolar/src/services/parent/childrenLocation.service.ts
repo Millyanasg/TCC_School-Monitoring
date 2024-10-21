@@ -9,3 +9,21 @@ export async function fetchChildrenLocation(childId: number) {
   });
   return response.data;
 }
+export async function childrenSentOut(
+  childId: number,
+  latitude: number,
+  longitude: number,
+) {
+  const response = await apiInstance.post<Location>(
+    '/location/sent-out',
+    null,
+    {
+      params: {
+        childId,
+        latitude,
+        longitude,
+      },
+    },
+  );
+  return response.data;
+}

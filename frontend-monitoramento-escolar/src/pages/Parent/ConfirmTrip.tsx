@@ -4,8 +4,10 @@ import { useChildrenLocation } from '@frontend/stores/parent/childrenLocation.st
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import LocateChildInfoCard from '../../components/parent/childrenLocation/LocateChildInfoCard';
+import { usePositionStore } from '@frontend/stores/common/position.store';
 
 export const ConfirmTrip = () => {
+  const { initializePosition } = usePositionStore();
   const children = useChildrenLocation(useShallow((state) => state.children));
   const loadChildren = useChildrenLocation(
     useShallow((state) => state.loadChildren),
@@ -24,6 +26,11 @@ export const ConfirmTrip = () => {
           content: 'Erro ao carregar as crianças',
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    initializePosition();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
