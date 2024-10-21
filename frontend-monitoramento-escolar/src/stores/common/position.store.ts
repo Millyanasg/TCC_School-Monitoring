@@ -54,9 +54,9 @@ export const usePositionStore = create<PositionState>((set) => {
         console.error('Error watching position:', error);
       },
       {
+        maximumAge: 30_000,
+        timeout: 10_000,
         enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
       },
     );
 

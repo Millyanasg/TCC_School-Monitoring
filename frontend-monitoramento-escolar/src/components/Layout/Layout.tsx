@@ -18,10 +18,11 @@ function UseRouteProtector() {
   const { initializePosition } = usePositionStore();
 
   useEffect(() => {
-    const clearWatch = initializePosition();
-    return () => {
-      clearWatch();
-    };
+    //const clearWatch =
+    //initializePosition();
+    //return () => {
+    //  clearWatch();
+    //};
   }, [initializePosition]);
 }
 
