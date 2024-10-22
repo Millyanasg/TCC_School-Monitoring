@@ -59,6 +59,9 @@ export const LocateChildCardModal = ({
       <Typography.Title level={2}>
         Localização para {child.name} {child.lastName}
       </Typography.Title>
+      <Typography.Title level={3}>
+        Motorista: {child.driver.name} {child.driver.lastName}
+      </Typography.Title>
       {location != null ? (
         <iframe
           width='100%'

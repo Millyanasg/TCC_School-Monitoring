@@ -1,5 +1,6 @@
 import { ChildDto } from '@backend/parent/dto/ChildDto';
 import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
+import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 import { apiInstance } from '@frontend/stores/common/api.store';
 
 export async function fetchChildren(location = false) {
@@ -12,11 +13,14 @@ export async function fetchChildren(location = false) {
 }
 
 export async function fetchChildrenWithLocation() {
-  const response = await apiInstance.get<ChildViewDto[]>('/children', {
-    params: {
-      location: true,
+  const response = await apiInstance.get<ChildViewWithLocationDto[]>(
+    '/children',
+    {
+      params: {
+        location: true,
+      },
     },
-  });
+  );
   return response.data;
 }
 

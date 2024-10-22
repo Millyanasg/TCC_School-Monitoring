@@ -1,7 +1,7 @@
 import { ChildDto } from '@backend/parent/dto/ChildDto';
 import { PrismaService } from '@backend/prisma/prisma.service';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Child, User } from '@prisma/client';
+import { Child, ChildLocations, User } from '@prisma/client';
 
 import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 import { ChildViewDto } from '../parent/dto/ChildViewDto';
@@ -159,7 +159,6 @@ export class ChildrenService {
             latitude: true,
             longitude: true,
             type: true,
-            child: true,
             createdAt: true,
             updatedAt: true,
           },
@@ -173,11 +172,34 @@ export class ChildrenService {
         createdAt: 'desc',
       },
     });
-    return children.map((data) =>
-      ChildViewWithLocationDto.from(
-        data as unknown as Child,
-        data.ChildLocations[0],
-      ),
-    );
+
+    const data = [];
+    for (const child of children) {
+      const childData: Child = child as unknown as Child;
+      const location: ChildLocations = child.ChildLocations[0];
+      const driver = await this.prismaService.user.findFirst({
+        where: {
+          driver: {
+            assignedChildren: {
+              some: {
+                ChildLocations: {
+                  some: {
+                    childId: child.id,
+                  },
+                },
+              },
+            },
+          },
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          lastName: true,
+        },
+      });
+      data.push(ChildViewWithLocationDto.from(childData, location, driver));
+    }
+    return data;
   }
 }

@@ -1,5 +1,5 @@
 import { Location } from '@backend/location/dto/Location';
-import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
+import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 import { fetchChildrenWithLocation } from '@frontend/services/parent/children.service';
 import {
   childrenSentOut,
@@ -8,7 +8,7 @@ import {
 import { create } from 'zustand';
 type ChildrenLocationStore = {
   loadChildren: () => Promise<unknown>;
-  children: ChildViewDto[];
+  children: ChildViewWithLocationDto[];
   sendChildSentOut: (
     childId: number,
     latitude: number,
