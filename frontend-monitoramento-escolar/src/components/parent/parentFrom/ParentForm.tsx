@@ -1,7 +1,7 @@
 import { useShallow } from 'zustand/shallow';
 
 import { useRegisterStep } from '@frontend/stores/user/useRegisterStep';
-import { ChildrenForm } from './ChildrenForm';
+import { ChildrenForm } from './children/ChildrenForm';
 import { HomeAddressForm } from './HomeAddressForm';
 import { ParentFormSummary } from './ParentFormSummary';
 
