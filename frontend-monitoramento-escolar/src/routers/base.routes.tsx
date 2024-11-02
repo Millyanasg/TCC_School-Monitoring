@@ -14,9 +14,16 @@ import { DriverTripsPage } from '@frontend/pages/Driver/DriverTrips';
 import { DriverRequestsPage } from '@frontend/pages/Driver/DriverRequests';
 import ParentDriverpage from '@frontend/pages/Parent/ParentDriver';
 import { ConfirmTrip } from '@frontend/pages/Parent/ConfirmTrip';
+import { useEffect } from 'react';
 
 export const AppRoutes = () => {
   const userData = useUserStore((state) => state.userData);
+  const updateUserData = useUserStore((state) => state.updateUserData);
+  useEffect(() => {
+    updateUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <HashRouter basename='/' future={{ v7_startTransition: true }}>
       <Routes>

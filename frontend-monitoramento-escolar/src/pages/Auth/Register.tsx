@@ -4,11 +4,13 @@ import { useNotification } from '@frontend/stores/common/useNotification';
 import { Button, Form, Input } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { RegisterDto } from '@backend/auth/dto/RegisterDto';
+import { useUserStore } from '@frontend/stores/user/user.store';
 
 export function Register() {
   const { triggerNotification } = useNotification();
   const navigate = useNavigate();
   const [form] = Form.useForm<AllStrings<RegisterDto>>();
+  const updateUserData = useUserStore((state) => state.updateUserData);
 
   const onSubmit = () => {
     const { name, lastName, email, password } = form.getFieldsValue();
@@ -18,6 +20,7 @@ export function Register() {
         triggerNotification({
           content: 'Conta criada com sucesso',
         });
+        updateUserData();
         navigate('/menu');
       })
       .catch((erro) => {
@@ -90,7 +93,18 @@ export function Register() {
             label='Email de usuário'
             rules={[{ required: true, message: 'Por favor, insira seu email' }]}
           >
-            <Input placeholder='Username' autoComplete='email' />
+            <Input
+              placeholder='Username'
+              autoComplete='email'
+              onBlur={(e) => {
+                if (e.target.value) {
+                  // set the email field to lowercase
+                  form.setFieldsValue({
+                    email: e.target.value.toLowerCase(),
+                  });
+                }
+              }}
+            />
           </Form.Item>
           <Form.Item
             name='password'

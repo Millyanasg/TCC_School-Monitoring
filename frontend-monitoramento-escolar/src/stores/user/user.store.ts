@@ -32,14 +32,13 @@ export const useUserStore = create<UserState>()(
         return set({ userData: null });
       };
       const updateUserData = async () => {
-        getProfile()
-          .then((response) => {
-            setUserData(response.data);
-          })
-          .catch((error) => {
-            console.error('Error getting user profile:', error);
-            clearUserData();
-          });
+        try {
+          const response = await getProfile();
+          setUserData(response.data);
+        } catch (error) {
+          console.error('Error getting user profile:', error);
+          clearUserData();
+        }
       };
       return {
         loadProfile: () =>
