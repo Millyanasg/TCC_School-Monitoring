@@ -28,6 +28,8 @@ export const ChildFormControls = () => {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
+          marginTop: 10,
+          paddingBottom: '3rem',
         }}
       >
         <Button
@@ -36,9 +38,6 @@ export const ChildFormControls = () => {
             prevStep();
           }}
           color='primary'
-          style={{
-            marginTop: '2rem',
-          }}
           size='middle'
           icon={<LeftOutline />}
           iconPosition='start'
@@ -57,9 +56,6 @@ export const ChildFormControls = () => {
             }
           }}
           color='primary'
-          style={{
-            marginTop: '2rem',
-          }}
           size='middle'
           icon={<RightOutline />}
           iconPosition='end'
