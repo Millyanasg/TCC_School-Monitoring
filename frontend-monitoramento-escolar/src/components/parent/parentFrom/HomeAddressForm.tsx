@@ -32,7 +32,6 @@ export function HomeAddressForm() {
   }
 
   const { location } = usePositionStore();
-
   return (
     <>
       <MapSelector

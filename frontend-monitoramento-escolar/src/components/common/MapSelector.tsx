@@ -1,12 +1,17 @@
 import { Modal } from 'antd';
-import 'leaflet/dist/leaflet.css';
-import { useEffect, useState } from 'react';
-import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
+import { useState, useCallback } from 'react';
+import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api';
+
 type MapSelectorProps = {
   onSelectLocation: (lat: number, lon: number) => void;
   isOpen: boolean;
   onClose: () => void;
   initialLocation: GeolocationPosition | null;
+};
+
+const containerStyle = {
+  width: '100%',
+  height: '400px',
 };
 
 const MapSelector = ({
@@ -15,28 +20,26 @@ const MapSelector = ({
   onClose,
   initialLocation,
 }: MapSelectorProps) => {
-  const [position, setPosition] = useState<{ lat: number; lon: number } | null>(
+  const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
     null,
   );
 
-  const LocationMarker = () => {
-    useMapEvents({
-      click(e) {
-        const { lat, lng } = e.latlng;
-        setPosition({ lat, lon: lng });
-      },
-    });
+  const onMapClick = useCallback(
+    (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
+      if (event.latLng) {
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        setPosition({ lat, lng });
+        onSelectLocation(lat, lng);
+      }
+    },
+    [onSelectLocation],
+  );
 
-    return position === null ? null : (
-      <Marker position={[position.lat, position.lon]} />
-    );
+  const mapCenter = {
+    lat: initialLocation?.coords.latitude || -15.7801,
+    lng: initialLocation?.coords.longitude || -47.9292,
   };
-
-  useEffect(() => {
-    if (position) {
-      onSelectLocation(position.lat, position.lon);
-    }
-  }, [position, onSelectLocation]);
 
   return (
     <Modal
@@ -45,25 +48,21 @@ const MapSelector = ({
       onCancel={onClose}
       onOk={onClose}
     >
-      <MapContainer
-        center={[
-          initialLocation?.coords.latitude || -15.7801,
-          initialLocation?.coords.longitude || -47.9292,
-        ]}
-        zoom={13}
-        style={{ height: '400px', width: '100%' }}
-      >
-        <TileLayer
-          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <LocationMarker />
-      </MapContainer>
+      <LoadScript googleMapsApiKey={`${process.env.REACT_APP_GOOGLE_MAPS}`}>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={mapCenter}
+          zoom={13}
+          onClick={onMapClick}
+        >
+          {position && <Marker position={position} />}
+        </GoogleMap>
+      </LoadScript>
       <p>Clique no mapa para selecionar a localização</p>
       {position && (
         <p>
-          Latitude: {position.lat.toFixed(6)} Longitude:{' '}
-          {position.lon.toFixed(6)}
+          Latitude: {position.lat.toFixed(6)}, Longitude:{' '}
+          {position.lng.toFixed(6)}
         </p>
       )}
     </Modal>
