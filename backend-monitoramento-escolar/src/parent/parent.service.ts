@@ -86,9 +86,9 @@ export class ParentService {
             createMany: {
               data: homeAddresses.map((homeAddress) => ({
                 city: homeAddress.city,
-                latitude: homeAddress.latitude,
-                longitude: homeAddress.longitude,
-                number: homeAddress.number,
+                latitude: Number(homeAddress.latitude),
+                longitude: Number(homeAddress.longitude),
+                number: Number(homeAddress.number),
                 state: homeAddress.state,
                 street: homeAddress.street,
                 zipCode: homeAddress.zipCode,
