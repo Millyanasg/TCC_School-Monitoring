@@ -12,6 +12,7 @@ import { AddedChildCard } from './children/AddedChildCard';
 import { AddedHomeAddressCard } from './AddedHomeAddressCard';
 import { useUserStore } from '@frontend/stores/user/user.store';
 import { useNavigate } from 'react-router-dom';
+import { refreshToken } from '@frontend/services/common/auth.service';
 
 export function ParentFormSummary() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export function ParentFormSummary() {
         homeAddresses: homeAddressList,
       });
       await updateUserData();
+      await refreshToken();
       navigate('/');
       triggerNotification({
         content: 'Responsável cadastrado com sucesso',
