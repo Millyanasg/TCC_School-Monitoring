@@ -77,6 +77,12 @@ export class ChildrenService {
         birthDate,
         grade,
         parentId: parent.id,
+        city: data.city,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        number: data.number,
+        state: data.state,
+        street: data.street,
       },
     });
 

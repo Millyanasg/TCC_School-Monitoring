@@ -30,7 +30,6 @@ model User {
     type      UserType
     driver    Driver?
     parent    Parent?
-    school    School?
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now()) @updatedAt
 }
@@ -79,19 +78,6 @@ model Driver {
     Request Request[]
 }
 
-model School {
-    id          Int      @id @default(autoincrement())
-    name        String
-    address     String
-    latitude    Float
-    longitude   Float
-    userId      Int      @unique
-    user        User     @relation(fields: [userId], references: [id])
-    studentList Child[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @default(now()) @updatedAt
-}
-
 model Child {
     id        Int      @id @default(autoincrement())
     name      String   @default("nome")
@@ -99,12 +85,19 @@ model Child {
     birthDate DateTime @default(now())
     grade     String   @default("0")
     parentId  Int
-    schoolId  Int?
     driverId  Int?
 
-    parent         Parent           @relation(fields: [parentId], references: [id])
-    driver         Driver?          @relation(fields: [driverId], references: [id])
-    school         School?          @relation(fields: [schoolId], references: [id])
+    // school address
+    street    String
+    number    Int
+    city      String
+    state     String
+    latitude  Float
+    longitude Float
+
+    parent Parent  @relation(fields: [parentId], references: [id])
+    driver Driver? @relation(fields: [driverId], references: [id])
+
     ChildLocations ChildLocations[]
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @default(now()) @updatedAt
