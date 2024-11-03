@@ -74,13 +74,13 @@ export function EditChildModal() {
       });
     }
   }
-  function onSelectLocation(lat: number, lon: number) {
+  const onSelectLocation = (lat: number, lon: number) => {
     console.log(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
     });
-  }
+  };
 
   return (
     <Modal
