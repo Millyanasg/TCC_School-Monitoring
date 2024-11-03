@@ -22,7 +22,7 @@ export class ChildViewDto {
   @IsString()
   @IsNotEmpty()
   grade: string;
-
+  // School location
   @IsString()
   @IsNotEmpty()
   street: string;
