@@ -5,10 +5,11 @@ export function DriverTripsPage() {
   return (
     <Layout>
       <CardDriverTrips
-        andress='Rua Cichele 15'
+        addressChild='Rua Cichele 15, VilaCentral- Japeri'
         child='Liz Helena'
-        duraction='15 min'
+        duration='15 min'
         time='13:00'
+        addressSchool='Rua trasmontana 20, Caramujos - Japeri'
       />
     </Layout>
   );
