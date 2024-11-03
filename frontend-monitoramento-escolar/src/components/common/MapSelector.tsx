@@ -59,8 +59,53 @@ const MapSelector: React.FC<MapSelectorProps> = ({
     >
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={mapCenter}
-        zoom={13}
+        options={{
+          streetViewControl: false,
+          styles: [
+            {
+              featureType: 'poi',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.business',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.medical',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.school',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.sports_complex',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'transit',
+              elementType: 'labels.icon',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.icon',
+              stylers: [{ visibility: 'off' }],
+            },
+          ],
+          fullscreenControl: false,
+          cameraControl: true,
+          center: mapCenter || defaultCenter,
+          tiltInteractionEnabled: false,
+          // disable satellite view
+          mapTypeControl: false,
+        }}
+        zoom={20}
         onClick={onMapClick}
       >
         {position && <Marker position={position} />}
@@ -68,12 +113,14 @@ const MapSelector: React.FC<MapSelectorProps> = ({
 
       <div style={{ padding: '10px' }}>
         <p>Clique no mapa para selecionar a localização</p>
-        {position && (
-          <p>
-            Latitude: {position.lat.toFixed(6)}, Longitude:{' '}
-            {position.lng.toFixed(6)}
-          </p>
-        )}
+        {position &&
+          position.lat !== undefined &&
+          position.lng !== undefined && (
+            <p>
+              Latitude: {position.lat.toFixed(2)}, Longitude:{' '}
+              {position.lng.toFixed(2)}
+            </p>
+          )}
       </div>
     </Modal>
   );
