@@ -1,8 +1,4 @@
-import {
-  hasTokens,
-  logout,
-  refreshToken,
-} from '@frontend/services/common/auth.service';
+import { refreshToken } from '@frontend/services/common/auth.service';
 import { get_cookie } from '@frontend/services/common/cookieUtil.service';
 import axios from 'axios';
 

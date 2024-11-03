@@ -30,7 +30,11 @@ export const AddChildForm = () => {
         onClose={() => setMapOpen(false)}
         onSelectLocation={onSelectLocation}
         isOpen={isMapOpen}
-        initialLocation={location}
+        initialLocation={
+          location
+            ? { lat: location.coords.latitude, lng: location.coords.longitude }
+            : undefined
+        }
       />
       <Form
         form={form}
