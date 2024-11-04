@@ -4,6 +4,16 @@ import { Button, Drawer, Typography } from 'antd';
 import { ScanCodeOutline } from 'antd-mobile-icons';
 import { useState } from 'react';
 
+/**
+ * Component for displaying a QR code reader inside a drawer.
+ *
+ * @param {Object} props - The component props.
+ * @param {boolean} props.isDrawerVisible - Determines if the drawer is visible.
+ * @param {Function} props.setIsDrawerVisible - Function to set the visibility of the drawer.
+ * @param {Function} props.setResult - Function to set the result of the QR code scan.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 const DriverConfirmQRCode = ({
   isDrawerVisible,
   setResult,
