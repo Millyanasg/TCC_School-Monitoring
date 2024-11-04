@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { RegisterDiver } from '@frontend/services/driver/driver.service';
+import { refreshToken } from '@frontend/services/common/auth.service';
 
 export function DriverSummary({
   form,
@@ -30,6 +31,7 @@ export function DriverSummary({
         seats: Number(values.seats),
         year: Number(values.year),
       });
+      await refreshToken();
       await updateUserData();
       navigate('/');
       triggerNotification({
