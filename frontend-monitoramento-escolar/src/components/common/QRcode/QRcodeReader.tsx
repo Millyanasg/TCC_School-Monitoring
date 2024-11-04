@@ -10,11 +10,13 @@ import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 type QRcodeReaderProps = {
   setResult: (results: string) => void;
   isOn: boolean;
+  style?: React.CSSProperties;
 };
 
 export const QRcodeReader: React.FC<QRcodeReaderProps> = ({
   setResult,
   isOn,
+  style,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [, setError] = useState<string | null>(null);
@@ -71,13 +73,7 @@ export const QRcodeReader: React.FC<QRcodeReaderProps> = ({
   }, [isOn, setResult]);
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-      }}
-    >
+    <div style={style}>
       <div
         style={{
           position: 'relative',
@@ -100,7 +96,7 @@ export const QRcodeReader: React.FC<QRcodeReaderProps> = ({
             position: 'absolute',
             width: '200px',
             height: '200px',
-            border: '8px solid black',
+            border: '2px solid black',
             boxSizing: 'border-box',
             pointerEvents: 'none', // Ensure the overlay does not interfere with video clicks
           }}
