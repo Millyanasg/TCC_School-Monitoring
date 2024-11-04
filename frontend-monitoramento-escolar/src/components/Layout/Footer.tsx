@@ -12,19 +12,19 @@ export const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const setRouteActive = (value: string) => {
-    navigate(`/${value}`);
+    navigate(value);
   };
   const tabs = [
     {
-      key: 'menu',
+      key: '/menu',
       icon: <CheckShieldOutline fontSize={38} />,
     },
     {
-      key: 'parent/confirm',
+      key: userData?.type === 'driver' ? '/driver/confirm' : '/parent/confirm',
       icon: <EnvironmentOutline fontSize={38} />,
     },
     {
-      key: 'settings',
+      key: '/settings',
       icon: <SetOutline fontSize={38} />,
     },
   ];

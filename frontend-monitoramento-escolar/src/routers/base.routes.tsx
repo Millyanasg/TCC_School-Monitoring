@@ -52,6 +52,7 @@ export const AppRoutes = () => {
             <Route path='/diver/my-car' element={<DriverCarPage />} />
             <Route path='/diver/trips' element={<DriverTripsPage />} />
             <Route path='/diver/requests' element={<DriverRequestsPage />} />
+            <Route path='/driver/confirm' element={<DriverRequestsPage />} />
           </>
         )}
         {userData && userData.type === 'parent' && (
