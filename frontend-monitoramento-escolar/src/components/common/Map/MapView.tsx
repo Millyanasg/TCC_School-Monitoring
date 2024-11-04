@@ -1,10 +1,15 @@
+import { GoogleMap, Marker } from '@react-google-maps/api';
 import { Modal } from 'antd';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 type MapSelectorProps = {
   initialLocation: GeolocationPosition;
   isOpen: boolean;
   setOpen: (isOpen: boolean) => void;
+};
+
+const containerStyle = {
+  width: '100%',
+  height: '400px',
 };
 
 const MapView = ({ initialLocation, isOpen, setOpen }: MapSelectorProps) => {
@@ -18,26 +23,68 @@ const MapView = ({ initialLocation, isOpen, setOpen }: MapSelectorProps) => {
       open={isOpen}
       onCancel={onClose}
       onOk={onClose}
+      style={{ top: 20 }}
     >
-      <MapContainer
-        center={[
-          initialLocation.coords.latitude,
-          initialLocation.coords.longitude,
-        ]}
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={{
+          lat: initialLocation.coords.latitude,
+          lng: initialLocation.coords.longitude,
+        }}
+        options={{
+          streetViewControl: false,
+          styles: [
+            {
+              featureType: 'poi',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.business',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.medical',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.school',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'poi.sports_complex',
+              elementType: 'labels',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'transit',
+              elementType: 'labels.icon',
+              stylers: [{ visibility: 'off' }],
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.icon',
+              stylers: [{ visibility: 'off' }],
+            },
+          ],
+          fullscreenControl: false,
+          cameraControl: true,
+          tiltInteractionEnabled: false,
+          // disable satellite view
+          mapTypeControl: false,
+        }}
         zoom={13}
-        style={{ height: '400px', width: '100%' }}
       >
-        <TileLayer
-          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
         <Marker
-          position={[
-            initialLocation.coords.latitude,
-            initialLocation.coords.longitude,
-          ]}
+          position={{
+            lat: initialLocation.coords.latitude,
+            lng: initialLocation.coords.longitude,
+          }}
         />
-      </MapContainer>
+      </GoogleMap>
     </Modal>
   );
 };

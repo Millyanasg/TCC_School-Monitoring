@@ -1,8 +1,9 @@
 import { Layout } from '@frontend/components/Layout/Layout';
+import { MapTrip } from '@frontend/components/common/Map/MapTrip';
 import { QRcodeReader } from '@frontend/components/common/QRcode/QRcodeReader';
 import { Button, Drawer, Typography } from 'antd';
 import { ScanCodeOutline } from 'antd-mobile-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * Component for displaying a QR code reader inside a drawer.
@@ -50,14 +51,72 @@ const DriverConfirmQRCode = ({
   );
 };
 
-export const DriverConfirmPage = () => {
+const OnGoingTrip = () => {
+  const [startLocation, setStartLocation] = useState<{
+    coords: { latitude: number; longitude: number };
+  } | null>(null);
+  const [endLocation, setEndLocation] = useState<{
+    coords: { latitude: number; longitude: number };
+  } | null>(null);
+  const [currentLocation, setCurrentLocation] = useState<{
+    coords: { latitude: number; longitude: number };
+  } | null>(null);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setStartLocation({
+        coords: {
+          latitude: position.coords.latitude + Math.random() / 100,
+          longitude: position.coords.longitude + Math.random() / 100,
+        },
+      });
+      setEndLocation({
+        coords: {
+          latitude: position.coords.latitude + Math.random() / 100,
+          longitude: position.coords.longitude + Math.random() / 100,
+        },
+      });
+      setCurrentLocation({
+        coords: {
+          latitude: position.coords.latitude + Math.random() / 100,
+          longitude: position.coords.longitude + Math.random() / 100,
+        },
+      });
+    });
+  }, []);
+
+  return (
+    <div
+      style={{
+        textAlign: 'center',
+        maxWidth: '600px',
+        width: '100%',
+        margin: 'auto',
+      }}
+    >
+      <Typography.Title level={2}>Viagem em andamento</Typography.Title>
+      <Typography.Paragraph>
+        Você está em uma viagem. Aguarde o término para iniciar outra.
+      </Typography.Paragraph>
+      {startLocation && endLocation && currentLocation && (
+        <MapTrip
+          startLocation={startLocation}
+          endLocation={endLocation}
+          currentLocation={currentLocation}
+          isRendering={true}
+        />
+      )}
+    </div>
+  );
+};
+const ConfirmTrip = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const setResult = (result: string) => {
     console.log(result);
     setIsDrawerVisible(false);
   };
   return (
-    <Layout>
+    <>
       <div
         style={{
           textAlign: 'center',
@@ -71,7 +130,7 @@ export const DriverConfirmPage = () => {
           isDrawerVisible={isDrawerVisible}
           setResult={setResult}
         />
-        <Typography.Title level={2}>Confirme suas viagens</Typography.Title>
+        <Typography.Title level={2}>Começar viagem</Typography.Title>
         <Typography.Paragraph>
           Leia o QR Code para começar a viagem
         </Typography.Paragraph>
@@ -88,6 +147,11 @@ export const DriverConfirmPage = () => {
           Ler Qr code
         </Button>
       </div>
-    </Layout>
+    </>
   );
+};
+
+export const DriverConfirmPage = () => {
+  const isOnGoingTrip = true;
+  return <Layout>{isOnGoingTrip ? <OnGoingTrip /> : <ConfirmTrip />}</Layout>;
 };
