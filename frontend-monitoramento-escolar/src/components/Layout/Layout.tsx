@@ -41,7 +41,7 @@ const UseRouteProtector = () => {
   }, [initializePosition]);
 };
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children?: React.ReactNode }) {
   UseRouteProtector();
   return (
     <div
