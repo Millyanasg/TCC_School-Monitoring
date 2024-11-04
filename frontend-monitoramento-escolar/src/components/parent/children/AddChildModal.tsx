@@ -4,7 +4,7 @@ import {
   GlobalOutlined,
 } from '@ant-design/icons';
 import { ChildDto } from '@backend/parent/dto/ChildDto';
-import MapSelector from '@frontend/components/common/MapSelector';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { usePositionStore } from '@frontend/stores/common/position.store';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useChildrenStore } from '@frontend/stores/parent/children.store';

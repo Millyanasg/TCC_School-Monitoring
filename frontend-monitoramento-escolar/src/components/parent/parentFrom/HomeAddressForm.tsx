@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
-import MapSelector from '@frontend/components/common/MapSelector';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { usePositionStore } from '@frontend/stores/common/position.store';
 import { useParentForm } from '@frontend/stores/user/useParentForm';
 import { AddedHomeAddressCard } from './AddedHomeAddressCard';

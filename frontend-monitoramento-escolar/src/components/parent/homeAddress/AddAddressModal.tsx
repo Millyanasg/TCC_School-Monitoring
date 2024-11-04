@@ -1,6 +1,6 @@
 import { GlobalOutlined } from '@ant-design/icons';
 import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
-import MapSelector from '@frontend/components/common/MapSelector';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { usePositionStore } from '@frontend/stores/common/position.store';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useHomeAddressStore } from '@frontend/stores/parent/homeAddresses.store';

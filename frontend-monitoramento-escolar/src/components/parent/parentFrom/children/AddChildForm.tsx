@@ -8,7 +8,7 @@ import { ChildFormControls } from './ChildFormControls';
 import { usePositionStore } from '@frontend/stores/common/position.store';
 import { GlobalOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import MapSelector from '@frontend/components/common/MapSelector';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { useNotification } from '@frontend/stores/common/useNotification';
 
 export const AddChildForm = () => {

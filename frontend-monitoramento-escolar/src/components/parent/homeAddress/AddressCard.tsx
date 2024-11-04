@@ -4,7 +4,7 @@ import {
   PushpinOutlined,
 } from '@ant-design/icons';
 import { HomeAddressViewDto } from '@backend/parent/dto/HomeAddressViewDto';
-import MapView from '@frontend/components/common/MapView';
+import MapView from '@frontend/components/common/Map/MapView';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useHomeAddressStore } from '@frontend/stores/parent/homeAddresses.store';
 import { Button, Flex } from 'antd';

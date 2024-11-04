@@ -4,7 +4,7 @@ import {
   GlobalOutlined,
 } from '@ant-design/icons';
 import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
-import MapSelector from '@frontend/components/common/MapSelector';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useChildrenStore } from '@frontend/stores/parent/children.store';
 import { Button, DatePicker, Flex, Modal, Typography } from 'antd';
