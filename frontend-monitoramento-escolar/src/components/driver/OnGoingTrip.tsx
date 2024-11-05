@@ -1,4 +1,6 @@
 import { MapTrip } from '@frontend/components/common/Map/MapTrip';
+import { GeoPosition } from '@frontend/stores/driver/driverTrip.store';
+
 import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
@@ -16,15 +18,11 @@ import { useEffect, useState } from 'react';
  * @returns {JSX.Element} A React component that displays the ongoing trip information.
  */
 export const OnGoingTrip = () => {
-  const [startLocation, setStartLocation] = useState<{
-    coords: { latitude: number; longitude: number };
-  } | null>(null);
-  const [endLocation, setEndLocation] = useState<{
-    coords: { latitude: number; longitude: number };
-  } | null>(null);
-  const [currentLocation, setCurrentLocation] = useState<{
-    coords: { latitude: number; longitude: number };
-  } | null>(null);
+  const [startLocation, setStartLocation] = useState<GeoPosition | null>(null);
+  const [endLocation, setEndLocation] = useState<GeoPosition | null>(null);
+  const [currentLocation, setCurrentLocation] = useState<GeoPosition | null>(
+    null,
+  );
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
