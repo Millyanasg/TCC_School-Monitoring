@@ -1,16 +1,11 @@
+import { GeoPosition } from '@frontend/stores/driver/driverTrip.store';
 import { DirectionsRenderer, GoogleMap, Marker } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
 
 type MapTripProps = {
-  startLocation: {
-    coords: { latitude: number; longitude: number };
-  };
-  endLocation: {
-    coords: { latitude: number; longitude: number };
-  };
-  currentLocation: {
-    coords: { latitude: number; longitude: number };
-  };
+  startLocation: GeoPosition;
+  endLocation: GeoPosition;
+  currentLocation: GeoPosition;
   isRendering: boolean;
 };
 
