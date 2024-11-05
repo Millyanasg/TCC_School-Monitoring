@@ -1,6 +1,7 @@
 import { Layout } from '@frontend/components/Layout/Layout';
 import { ConfirmTrip } from '@frontend/components/driver/ConfirmTrip';
 import { OnGoingTrip } from '@frontend/components/driver/OnGoingTrip';
+import { useDriverTrip } from '../../stores/driver/driverTrip.store';
 
 /**
  * DriverConfirmPage component renders the appropriate component based on the trip status.
@@ -10,6 +11,6 @@ import { OnGoingTrip } from '@frontend/components/driver/OnGoingTrip';
  * @returns {JSX.Element} The rendered component based on the trip status.
  */
 export const DriverConfirmPage = () => {
-  const isOnGoingTrip = true;
+  const isOnGoingTrip = useDriverTrip((state) => state.isOnGoingTrip);
   return <Layout>{isOnGoingTrip ? <OnGoingTrip /> : <ConfirmTrip />}</Layout>;
 };
