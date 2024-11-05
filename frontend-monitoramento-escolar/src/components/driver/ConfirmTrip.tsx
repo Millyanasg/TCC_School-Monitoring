@@ -2,6 +2,8 @@ import { Button, Typography } from 'antd';
 import { ScanCodeOutline } from 'antd-mobile-icons';
 import { useState } from 'react';
 import { DriverConfirmQRCode } from './DriverConfirmQRCode';
+import { useDriverTrip } from '@frontend/stores/driver/driverTrip.store';
+import { useShallow } from 'zustand/shallow';
 
 /**
  * ConfirmTrip component renders a UI for drivers to start a trip by scanning a QR code.
@@ -23,9 +25,17 @@ import { DriverConfirmQRCode } from './DriverConfirmQRCode';
  */
 export const ConfirmTrip = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
-  const setResult = (result: string) => {
-    console.log(result);
+  const { isOnGoingTrip, startTrip } = useDriverTrip(
+    useShallow((state) => ({
+      isOnGoingTrip: state.isOnGoingTrip,
+      startTrip: state.startTrip,
+    })),
+  );
+  const setResult = (qrPayload: string) => {
+    console.log(qrPayload);
     setIsDrawerVisible(false);
+    const result = startTrip(qrPayload);
+    console.log(result);
   };
   return (
     <>
@@ -39,7 +49,7 @@ export const ConfirmTrip = () => {
       >
         <DriverConfirmQRCode
           setIsDrawerVisible={setIsDrawerVisible}
-          isDrawerVisible={isDrawerVisible}
+          isDrawerVisible={isDrawerVisible && !isOnGoingTrip} // cant be visible if there is an ongoing trip
           setResult={setResult}
         />
         <Typography.Title level={2}>Começar viagem</Typography.Title>
@@ -48,7 +58,7 @@ export const ConfirmTrip = () => {
         </Typography.Paragraph>
         <Button
           onClick={() => {
-            setIsDrawerVisible(true);
+            if (!isOnGoingTrip) setIsDrawerVisible(true); // cant start a trip if there is an ongoing trip
           }}
           type='primary'
           aria-label='Ler Qr code'
