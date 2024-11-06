@@ -71,7 +71,7 @@ export class LocationService {
       return;
     }
 
-    if (lastLoc.type === 'pickup') {
+    if (lastLoc.type === 'dropoff') {
       throw new HttpException(
         'Child already checked out',
         HttpStatus.BAD_REQUEST,
@@ -109,8 +109,8 @@ export class LocationService {
     if (!lastLoc) {
       throw new HttpException('Location not found', HttpStatus.NOT_FOUND);
     }
-    if (lastLoc.type === 'dropoff') {
-      this.logger.debug('Trip already canceled');
+    if (lastLoc.type !== 'dropoff') {
+      this.logger.debug('Trip already canceled', lastLoc.type);
       throw new HttpException('Trip already canceled', HttpStatus.BAD_REQUEST);
     }
     this.logger.debug('Canceling trip');
@@ -119,7 +119,7 @@ export class LocationService {
         childId,
         latitude: lastLoc.latitude,
         longitude: lastLoc.longitude,
-        type: 'dropoff',
+        type: 'pickup',
       },
     });
 
