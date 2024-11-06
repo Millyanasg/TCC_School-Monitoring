@@ -3,7 +3,8 @@ import { Location } from '@backend/location/dto/Location';
 import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useChildrenLocation } from '@frontend/stores/parent/childrenLocation.store';
-import { Button, Drawer, Typography } from 'antd';
+import { GoogleMap, Marker } from '@react-google-maps/api';
+import { Button, Drawer, Flex, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 export const LocateChildCardModal = ({
@@ -60,15 +61,49 @@ export const LocateChildCardModal = ({
         Localização para {child.name} {child.lastName}
       </Typography.Title>
       {location != null ? (
-        <iframe
-          width='100%'
-          height='100%'
-          frameBorder='0'
-          scrolling='no'
-          marginHeight={0}
-          marginWidth={0}
-          src={`https://maps.google.com/maps?q=${location.location.latitude},${location.location.longitude}&z=15&output=embed`}
-        ></iframe>
+        <Flex vertical align='center'>
+          <Button
+            style={{ marginBottom: '1rem' }}
+            size='large'
+            color='danger'
+            variant='solid'
+            onClick={() =>
+              getChildrenLocation(child.id).then((location) => {
+                setLocation(location);
+                TNotification({
+                  content: 'Localização atualizada com sucesso',
+                });
+              })
+            }
+          >
+            Cancelar rota
+          </Button>
+          <GoogleMap
+            mapContainerStyle={{ width: '100%', height: '600px' }}
+            options={{
+              streetViewControl: false,
+              fullscreenControl: false,
+              cameraControl: true,
+              tiltInteractionEnabled: false,
+              // disable satellite view
+              mapTypeControl: false,
+              center: {
+                lat: location.location.latitude,
+                lng: location.location.longitude,
+              },
+            }}
+            zoom={13}
+          >
+            {location.location && (
+              <Marker
+                position={{
+                  lat: location.location.latitude,
+                  lng: location.location.longitude,
+                }}
+              />
+            )}
+          </GoogleMap>
+        </Flex>
       ) : (
         <Typography.Text>Localização não encontrada</Typography.Text>
       )}
