@@ -33,4 +33,14 @@ export class LocationController {
       Number(longitude),
     );
   }
+
+  @Post('/cancel-trip')
+  @GuardParentUser()
+  async cancelTrip(
+    @GetRequestUser() user: User | null,
+    @Query('childId') childId: number,
+  ): Promise<unknown> {
+    user = verifyUser(user);
+    return await this.locationService.cancelTrip(user, Number(childId));
+  }
 }
