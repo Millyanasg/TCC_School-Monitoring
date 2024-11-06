@@ -11,7 +11,7 @@ export const SessionMenu = () => {
     <Flex
       align='center'
       justify='center'
-      gap={'1rem'}
+      gap={'.5rem'}
       flex={1}
       vertical
       style={{
@@ -19,7 +19,9 @@ export const SessionMenu = () => {
       }}
     >
       <Typography.Title level={3}>Olá, {userData?.name}</Typography.Title>
-
+      <Typography.Title level={5} copyable>
+        {userData?.email}
+      </Typography.Title>
       <Button
         block
         size={'large'}
