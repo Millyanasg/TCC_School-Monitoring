@@ -91,7 +91,7 @@ export class LocationService {
     this.logger.log(`User ${user.id} is canceling trip for child ${childId}`);
     const lastLoc = await this.prismaService.childLocations.findFirst({
       where: {
-        childId,
+        childId: childId,
         child: {
           parent: {
             parent_user: {
@@ -104,12 +104,16 @@ export class LocationService {
         updatedAt: 'desc',
       },
     });
+    this.logger.debug(`Last location: ${JSON.stringify(lastLoc)}`);
+
     if (!lastLoc) {
       throw new HttpException('Location not found', HttpStatus.NOT_FOUND);
     }
     if (lastLoc.type === 'dropoff') {
+      this.logger.debug('Trip already canceled');
       throw new HttpException('Trip already canceled', HttpStatus.BAD_REQUEST);
     }
+    this.logger.debug('Canceling trip');
     await this.prismaService.childLocations.create({
       data: {
         childId,
