@@ -63,43 +63,6 @@ export const MapTrip = ({
         }}
         options={{
           streetViewControl: false,
-          styles: [
-            {
-              featureType: 'poi',
-              elementType: 'labels',
-              stylers: [{ visibility: 'off' }],
-            },
-            {
-              featureType: 'poi.business',
-              elementType: 'labels',
-              stylers: [{ visibility: 'off' }],
-            },
-            {
-              featureType: 'poi.medical',
-              elementType: 'labels',
-              stylers: [{ visibility: 'off' }],
-            },
-            {
-              featureType: 'poi.school',
-              elementType: 'labels',
-              stylers: [{ visibility: 'off' }],
-            },
-            {
-              featureType: 'poi.sports_complex',
-              elementType: 'labels',
-              stylers: [{ visibility: 'off' }],
-            },
-            {
-              featureType: 'transit',
-              elementType: 'labels.icon',
-              stylers: [{ visibility: 'off' }],
-            },
-            {
-              featureType: 'road',
-              elementType: 'labels.icon',
-              stylers: [{ visibility: 'off' }],
-            },
-          ],
           fullscreenControl: false,
           cameraControl: true,
           tiltInteractionEnabled: false,
