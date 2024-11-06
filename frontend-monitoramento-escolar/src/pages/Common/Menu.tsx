@@ -1,5 +1,4 @@
 import { useUserStore } from '@frontend/stores/user/user.store';
-import 'leaflet/dist/leaflet.css';
 
 import { Layout } from '@frontend/components/Layout/Layout';
 import { AdminMenu } from '@frontend/components/common/Menus/AdminMenu';
