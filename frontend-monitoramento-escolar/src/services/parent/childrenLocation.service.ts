@@ -1,19 +1,19 @@
 import { Location } from '@backend/location/dto/Location';
 import { apiInstance } from '@frontend/stores/common/api.store';
 
-export async function fetchChildrenLocation(childId: number) {
+export const fetchChildrenLocation = async (childId: number) => {
   const response = await apiInstance.get<Location>('/location', {
     params: {
       childId,
     },
   });
   return response.data;
-}
-export async function childrenSentOut(
+};
+export const childrenSentOut = async (
   childId: number,
   latitude: number,
   longitude: number,
-) {
+) => {
   const response = await apiInstance.post<Location>(
     '/location/sent-out',
     null,
@@ -26,4 +26,11 @@ export async function childrenSentOut(
     },
   );
   return response.data;
-}
+};
+
+export const fetchCancelTrip = async (childId: number) => {
+  const response = await apiInstance.post<Location>('/location/cancel-trip', {
+    childId,
+  });
+  return response.data;
+};

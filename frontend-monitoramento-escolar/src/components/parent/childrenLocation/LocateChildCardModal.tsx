@@ -60,24 +60,16 @@ export const LocateChildCardModal = ({
       <Typography.Title level={2}>
         Localização para {child.name} {child.lastName}
       </Typography.Title>
+      {child.driver && (
+        <Typography.Title level={3}>
+          Motorista: {child.driver.name}
+        </Typography.Title>
+      )}
+      <Typography.Text>
+        {child.name} {child.lastName} está localizado em:
+      </Typography.Text>
       {location != null ? (
         <Flex vertical align='center'>
-          <Button
-            style={{ marginBottom: '1rem' }}
-            size='large'
-            color='danger'
-            variant='solid'
-            onClick={() =>
-              getChildrenLocation(child.id).then((location) => {
-                setLocation(location);
-                TNotification({
-                  content: 'Localização atualizada com sucesso',
-                });
-              })
-            }
-          >
-            Cancelar rota
-          </Button>
           <GoogleMap
             mapContainerStyle={{ width: '100%', height: '600px' }}
             options={{
@@ -103,6 +95,23 @@ export const LocateChildCardModal = ({
               />
             )}
           </GoogleMap>
+          <Button
+            style={{ marginTop: '1rem' }}
+            size='large'
+            block
+            color='danger'
+            variant='solid'
+            onClick={() =>
+              getChildrenLocation(child.id).then((location) => {
+                setLocation(location);
+                TNotification({
+                  content: 'Localização atualizada com sucesso',
+                });
+              })
+            }
+          >
+            Cancelar rota
+          </Button>
         </Flex>
       ) : (
         <Typography.Text>Localização não encontrada</Typography.Text>
