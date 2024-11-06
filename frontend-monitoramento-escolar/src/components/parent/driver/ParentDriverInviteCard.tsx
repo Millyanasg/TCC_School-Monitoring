@@ -42,6 +42,21 @@ export default function ParentDriverInviteCard({
         return 'black';
     }
   };
+
+  const getTagtext = (): string => {
+    switch (status) {
+      case 'allowed':
+        return 'Permitido';
+      case 'declined':
+        return 'Recusado';
+      case 'disallowed':
+        return 'Não permitido';
+      case 'pending':
+        return 'Pendente';
+      default:
+        return 'Desconhecido';
+    }
+  };
   return (
     <Card
       style={{ marginBottom: '16px' }}
@@ -69,7 +84,7 @@ export default function ParentDriverInviteCard({
           Motorista: {driver.name} {driver.lastName}
         </p>
         <p>
-          Status: <Tag color={getTagColor()}>{status}</Tag>
+          Status: <Tag color={getTagColor()}>{getTagtext()}</Tag>
         </p>
         <p>
           Criança: {child.name} {child.lastName}
