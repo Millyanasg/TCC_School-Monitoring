@@ -23,7 +23,6 @@ export const SentChildCardModal = ({
   const TNotification = useNotification((state) => state.triggerNotification);
   const confirmSend = async () => {
     try {
-      console.debug(location);
       if (!location) {
         TNotification({
           content: 'Erro ao pegar a localização',
@@ -37,6 +36,7 @@ export const SentChildCardModal = ({
       TNotification({
         content: `${child.name} ${child.lastName} marcada como enviada`,
       });
+      onClose();
     } catch {
       TNotification({
         content: 'Erro ao marcar a criança como enviada',
