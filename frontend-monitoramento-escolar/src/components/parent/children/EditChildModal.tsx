@@ -75,7 +75,7 @@ export function EditChildModal() {
     }
   }
   const onSelectLocation = (lat: number, lon: number) => {
-    console.log(lat, lon);
+    console.debug(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
@@ -164,7 +164,7 @@ export function EditChildModal() {
         >
           <DatePicker
             onChange={(date) => {
-              console.log(date);
+              console.debug(date);
               form.setFieldsValue({
                 birthDate: date.toString(),
               });

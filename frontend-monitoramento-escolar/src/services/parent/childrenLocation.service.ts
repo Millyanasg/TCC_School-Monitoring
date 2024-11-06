@@ -29,8 +29,14 @@ export const childrenSentOut = async (
 };
 
 export const fetchCancelTrip = async (childId: number) => {
-  const response = await apiInstance.post<Location>('/location/cancel-trip', {
-    childId,
-  });
+  const response = await apiInstance.post<Location>(
+    '/location/cancel-trip',
+    null,
+    {
+      params: {
+        childId,
+      },
+    },
+  );
   return response.data;
 };

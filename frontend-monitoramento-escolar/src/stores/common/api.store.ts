@@ -19,7 +19,7 @@ const baseURL = import.meta.env.VITE_API_BASE as string;
  * import { apiInstance } from '../ApiStore';
  *
  * apiInstance.get('/users').then((response) => {
- *  console.log(response.data);
+ *  console.debug(response.data);
  * });
  * ```
  */

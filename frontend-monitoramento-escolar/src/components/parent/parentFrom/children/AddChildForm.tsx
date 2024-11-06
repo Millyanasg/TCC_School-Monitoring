@@ -18,7 +18,7 @@ export const AddChildForm = () => {
   const [form] = Form.useForm<AllStrings<ChildDto>>();
   const { location } = usePositionStore();
   function onSelectLocation(lat: number, lon: number) {
-    console.log(lat, lon);
+    console.debug(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
@@ -99,7 +99,7 @@ export const AddChildForm = () => {
           <DatePicker
             maxDate={dayjs()}
             onChange={(date) => {
-              console.log(date);
+              console.debug(date);
               const parsedBirthDate = dayjs(date).toDate();
               form.setFieldsValue({
                 birthDate: parsedBirthDate.toString(),

@@ -32,7 +32,7 @@ export function EditAddressModal() {
   const { location } = usePositionStore();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
-    console.log(lat, lon);
+    console.debug(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
@@ -166,7 +166,12 @@ export function EditAddressModal() {
           onClose={() => setMapOpen(false)}
           onSelectLocation={onSelectLocation}
           isOpen={isMapOpen}
-          initialLocation={location}
+          initialLocation={{
+            lat:
+              selectedHomeAddress?.latitude ?? location?.coords.latitude ?? 0,
+            lng:
+              selectedHomeAddress?.longitude ?? location?.coords.longitude ?? 0,
+          }}
         />
         <Form.Item>
           <Button type='primary' htmlType='submit'>

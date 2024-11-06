@@ -23,7 +23,7 @@ export const SentChildCardModal = ({
   const TNotification = useNotification((state) => state.triggerNotification);
   const confirmSend = async () => {
     try {
-      console.log(location);
+      console.debug(location);
       if (!location) {
         TNotification({
           content: 'Erro ao pegar a localização',

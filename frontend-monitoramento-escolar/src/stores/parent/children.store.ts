@@ -52,7 +52,7 @@ type ChildrenStore = {
  * const { children, updateChildren, addChildren, removeChildren, setSelectedChild, selectedChild } = useChildrenStore();
  *
  * useEffect(() => {
- *  console.log(children);
+ *  console.debug(children);
  * }, []);
  * ```
  */

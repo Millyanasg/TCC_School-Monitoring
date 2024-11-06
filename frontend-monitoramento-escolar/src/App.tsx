@@ -15,7 +15,7 @@ const App = () => {
     >
       <LoadScript
         googleMapsApiKey={GOOGLE_MAPS_API_KEY}
-        onLoad={() => console.log('Google Maps API loaded')}
+        onLoad={() => console.debug('Google Maps API loaded')}
         onError={() => console.error('Failed to load Google Maps API')}
       >
         <AppRoutes />

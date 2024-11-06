@@ -63,7 +63,7 @@ export function AddChildModal() {
   }
 
   const onSelectLocation = (lat: number, lon: number) => {
-    console.log(lat, lon);
+    console.debug(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),

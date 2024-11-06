@@ -19,6 +19,14 @@ export const LocateChildCardModal = ({
   const getChildrenLocation = useChildrenLocation(
     useShallow((state) => state.getChildrenLocation),
   );
+
+  const cancelTrip = useChildrenLocation(
+    useShallow((state) => state.cancelTrip),
+  );
+
+  const loadChildren = useChildrenLocation(
+    useShallow((state) => state.loadChildren),
+  );
   const TNotification = useNotification((state) => state.triggerNotification);
 
   const [location, setLocation] = useState<Location | null>();
@@ -101,14 +109,20 @@ export const LocateChildCardModal = ({
             block
             color='danger'
             variant='solid'
-            onClick={() =>
-              getChildrenLocation(child.id).then((location) => {
-                setLocation(location);
+            onClick={async () => {
+              try {
+                await cancelTrip(child.id);
                 TNotification({
-                  content: 'Localização atualizada com sucesso',
+                  content: 'Rota cancelada com sucesso',
                 });
-              })
-            }
+                await loadChildren();
+                onClose();
+              } catch (e) {
+                TNotification({
+                  content: 'Erro ao cancelar a rota',
+                });
+              }
+            }}
           >
             Cancelar rota
           </Button>

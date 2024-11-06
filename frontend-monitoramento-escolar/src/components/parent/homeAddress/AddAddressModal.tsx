@@ -22,7 +22,7 @@ export const AddAddressModal = () => {
   const { location } = usePositionStore();
   const [isMapOpen, setMapOpen] = useState(false);
   const onSelectLocation = (lat: number, lon: number) => {
-    console.log(lat, lon);
+    console.debug(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
@@ -123,7 +123,14 @@ export const AddAddressModal = () => {
           onClose={() => setMapOpen(false)}
           onSelectLocation={onSelectLocation}
           isOpen={isMapOpen}
-          initialLocation={location}
+          initialLocation={{
+            lat:
+              location?.coords.latitude ??
+              Number(form.getFieldValue('latitude') ?? 0),
+            lng:
+              location?.coords.longitude ??
+              Number(form.getFieldValue('longitude') ?? 0),
+          }}
         />
         <Form.Item name='latitude' hidden>
           <Input />

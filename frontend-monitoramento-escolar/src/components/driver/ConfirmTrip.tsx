@@ -32,10 +32,10 @@ export const ConfirmTrip = () => {
     })),
   );
   const setResult = (qrPayload: string) => {
-    console.log(qrPayload);
+    console.debug(qrPayload);
     setIsDrawerVisible(false);
     const result = startTrip(qrPayload);
-    console.log(result);
+    console.debug(result);
   };
   return (
     <>
