@@ -30,8 +30,8 @@ export function ParentFormSummary() {
         homeAddresses: homeAddressList,
       });
       await updateUserData();
-      await refreshToken();
       navigate('/');
+      await refreshToken();
       triggerNotification({
         content: 'Responsável cadastrado com sucesso',
       });
