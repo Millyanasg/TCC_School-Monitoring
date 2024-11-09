@@ -5,10 +5,11 @@
 ### Frontend:
 
 - **React**: Biblioteca JavaScript para construção de interfaces de usuário.
+- **React Router**: Biblioteca de roteamento para React.
 - **TypeScript**: Superset tipado de JavaScript que compila para JavaScript puro.
 - **Vite**: Ferramenta de build rápida e servidor de desenvolvimento para projetos web modernos.
 - **Ant Design**: Framework de UI popular com um conjunto de componentes de alta qualidade.
-- **Leaflet**: Biblioteca JavaScript para mapas interativos.
+- **Google Maps API**: API de mapas do Google.
 - **Axios**: Cliente HTTP baseado em promessas para fazer requisições API.
 - **Day.js**: Biblioteca JavaScript leve para manipulação de datas.
 - **QRCode**: Biblioteca para geração de códigos QR.
