@@ -1,49 +1,129 @@
-<img src="http://www.plantuml.com/plantuml/png/bP7FIiD048VlUOebbu2IejSYqeDd4OedyJ1cXpQmVyBCH2cjx-wQJbApbK9poUwNRxA_cLsn04dlNT4uO3QlZ6JsXKdFBNfetTAmK1isHzGbvokIdTC07kV40Slp6PLTbqW5rhUXCWTJTK0OP5XQQZ-HgkAxq2HF0nYpT0ua-ri3D0S-Mipoxl1N2ht_GDAgw69MnmZ2apK5U1d2ZG5OUfksoLiVLs_l9tNTR6Dqete-3h2Ma3dB7oFPDe1Wzk7YKOhC_hhHRmWi_krnkEY7GrsFWrwQBV09Q_ivrbOLgrFUbwQk7qrvjrZSb6D4TRJWigCxbORtT128OB3_IlEGgwJrtlq0" alt="Diagrama de classes" width="100%">
+<img src="//www.plantuml.com/plantuml/png/hLHDRnGn3BtFhuZsYDGAhdEXLIl4IWXLK4u8eNJYxaRa8yGErOBux-nCFDjaDP6gNUOoZlESl6SxlaAIaP8r7RXanHU4UByB8FvqOlz9PRMRh20ZE9fC5VKlY9EP709rVxiSV0VHQaJjtHnkZ7y2bQCqbii0JcctoLim6Er07Gxwu0T9shk2IT33ZnJuVX_yu-E87en4d4WpREr8w7p3Puhx2mHOgKtf2FkG9nzBqDTl8coz0onnJbeerqOYVMJVSvve5xBdLXBSQmjYYB0trJNLxXGKkm-yxwQSrindCo74jJhrvFVUmhLI4H2RYK6A07JOTCa-G2m1WwPT7I09IiTl7MwyogvtnaiIHfAcLBkyssGVtyIjTBguswd_chg2EQ8vo4gMzGhC8NO7zUxWZO-7NGH9-9zgShFLHZLPDxkjElP1HzhU7kdRHBcKNNQyvVUwFh_uBwtqgHdw13yJOFqWchfOLk4OnWJpkXX58_E4PrLjdaVrOrgy-8NPcKyyOuPCKs_rPYKkBiJgzUNbtkANqNDkbY0yS_fveFEQGUDl2fhtluyzNu7oIQzMtCzzLX_1BQAgITIBxVDg6JwtG3zRNNd0Z5tGaQKlw1W5y6v3W4JK6mVgXeNKw3Qp7D_cn80ndZ4B9M9CJQpkkVx8KSMqwV6_JR22DFWjGQh2TpMtDkuAd4hM_0C0" alt="Diagrama de classes" width="100%">
 
 ```c#
 @startuml
 
-class User {
-    +email: string
-    +password: string
-    +name: string
-    +lastName: string
-    +type: 'admin' | 'parent' | 'driver'
+enum UserType {
+    admin
+    parent
+    driver
+    unset
 }
 
-class Driver {
-    +plate: string
-    +car: string
-    +model: string
-    +year: number
-    +color: string
-    +seats: number
+enum Permission {
+    allowed
+    disallowed
+    pending
+    declined
+}
+
+enum LocationType {
+    pickup
+    dropoff
+}
+
+class User {
+    Int id
+    String email
+    String password
+    String[] phones
+    String name
+    String lastName
+    UserType type
+    DateTime createdAt
+    DateTime updatedAt
 }
 
 class Parent {
-    +students: Student[]
+    Int id
+    Int userId
+    DateTime createdAt
+    DateTime updatedAt
 }
 
-class School {
-    +name: string
-    +address: string
-    +coordinates: string
-    +students: Student[]
+class HomeAddress {
+    Int id
+    String street
+    Int number
+    String city
+    String state
+    String zipCode
+    Float latitude
+    Float longitude
+    Int parentId
+    DateTime createdAt
+    DateTime updatedAt
 }
 
-class Student {
-    +name: string
-    +lastName: string
-    +grade: number
+class Driver {
+    Int id
+    String plate
+    String car
+    String model
+    Int year
+    String color
+    Int seats
+    Int userId
+    DateTime createdAt
+    DateTime updatedAt
 }
 
-User <|-- Driver : has
-User <|-- Parent : has
-User <|-- School : has
-Parent "1" --> "0..*" Student : has
-School "1" --> "0..*" Student : has
-Student "1" --> "1" School : attends
-Student "1" --> "1" Parent : has
+class Child {
+    Int id
+    String name
+    String lastName
+    DateTime birthDate
+    String grade
+    Int parentId
+    Int? driverId
+    String street
+    Int number
+    String city
+    String state
+    Float latitude
+    Float longitude
+    DateTime createdAt
+    DateTime updatedAt
+}
+
+class Request {
+    Int id
+    Int parentId
+    Int driverId
+    Int childId
+    Permission status
+    DateTime createdAt
+    DateTime updatedAt
+}
+
+class ChildLocations {
+    Int id
+    Int childId
+    Float latitude
+    Float longitude
+    LocationType type
+    DateTime createdAt
+    DateTime updatedAt
+}
+
+User "1" -- "0..1" Driver : driver
+User "1" -- "0..1" Parent : parent
+Parent "1" -- "1" User : parent_user
+Parent "1" -- "0..*" Child : children
+Parent "1" -- "0..*" HomeAddress : homeAddress
+Parent "1" -- "0..*" Request : Request
+HomeAddress "1" -- "1" Parent : parent
+Driver "1" -- "1" User : user
+Driver "1" -- "0..*" Child : assignedChildren
+Driver "1" -- "0..*" Request : Request
+Child "1" -- "1" Parent : parent
+Child "0..1" -- "1" Driver : driver
+Child "1" -- "0..*" ChildLocations : ChildLocations
+Child "1" -- "0..*" Request : Request
+Request "1" -- "1" Parent : parent
+Request "1" -- "1" Driver : driver
+Request "1" -- "1" Child : child
+ChildLocations "1" -- "1" Child : child
 
 @enduml
 ```
