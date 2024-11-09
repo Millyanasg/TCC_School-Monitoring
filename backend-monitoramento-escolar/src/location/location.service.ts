@@ -11,6 +11,68 @@ import { Location } from './dto/Location';
 
 @Injectable()
 export class LocationService {
+  public async checkChildInDriver(
+    user: User,
+    childId: number,
+    latitude: number,
+    longitude: number,
+  ): Promise<unknown> {
+    this.logger.log(`Driver User ${user.id} asking picking up ${childId}`);
+
+    // verify if the driver has the permission to pick up the child
+    const child = await this.prismaService.child.findFirst({
+      where: {
+        id: childId,
+        driver: {
+          user: {
+            id: user.id,
+          },
+        },
+      },
+    });
+
+    if (!child) {
+      throw new HttpException(
+        'Child not found or the driver has no permssion over it',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const lastLoc = await this.prismaService.childLocations.findFirst({
+      where: {
+        childId,
+      },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
+    if (!lastLoc) {
+      await this.prismaService.childLocations.create({
+        data: {
+          childId,
+          latitude,
+          longitude,
+          type: 'pickup',
+        },
+      });
+      return;
+    }
+
+    if (lastLoc.type === 'pickup') {
+      throw new HttpException(
+        'Child already checked in',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    await this.prismaService.childLocations.create({
+      data: {
+        childId,
+        latitude,
+        longitude,
+        type: 'pickup',
+      },
+    });
+  }
   private readonly logger = new Logger(LocationService.name);
   constructor(
     @Inject(PrismaService)
