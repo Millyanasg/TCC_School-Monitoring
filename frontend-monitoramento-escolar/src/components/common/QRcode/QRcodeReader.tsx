@@ -9,14 +9,20 @@ import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
  */
 type QRcodeReaderProps = {
   setResult: (results: string) => void;
+  isOn: boolean;
+  style?: React.CSSProperties;
 };
-export const QRcodeReader = ({ setResult }: QRcodeReaderProps) => {
+
+export const QRcodeReader: React.FC<QRcodeReaderProps> = ({
+  setResult,
+  isOn,
+  style,
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [, setError] = useState<string | null>(null);
+  const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
 
   useEffect(() => {
-    const codeReader = new BrowserMultiFormatReader();
-
     if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
       setError('enumerateDevices() not supported.');
       return;
@@ -24,6 +30,8 @@ export const QRcodeReader = ({ setResult }: QRcodeReaderProps) => {
 
     const startScanner = async () => {
       try {
+        const codeReader = new BrowserMultiFormatReader();
+        codeReaderRef.current = codeReader;
         const videoInputDevices = await codeReader.listVideoInputDevices();
         if (videoInputDevices.length > 0) {
           const deviceId =
@@ -53,28 +61,27 @@ export const QRcodeReader = ({ setResult }: QRcodeReaderProps) => {
       }
     };
 
-    startScanner();
+    if (isOn) {
+      startScanner();
+    } else {
+      codeReaderRef.current?.reset();
+    }
 
     return () => {
-      codeReader.reset();
+      codeReaderRef.current?.reset();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isOn, setResult]);
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-      }}
-    >
-      <h1>QR Code Scanner</h1>
+    <div style={style}>
       <div
         style={{
           position: 'relative',
           width: '100%',
           height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <video
@@ -84,18 +91,16 @@ export const QRcodeReader = ({ setResult }: QRcodeReaderProps) => {
           }}
         />
         <div
+          id='qr-code-overlay'
           style={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
             width: '200px',
             height: '200px',
-            marginTop: '-100px',
-            marginLeft: '-100px',
-            border: '8px solid black',
+            border: '2px solid black',
             boxSizing: 'border-box',
+            pointerEvents: 'none', // Ensure the overlay does not interfere with video clicks
           }}
-        ></div>
+        />
       </div>
     </div>
   );

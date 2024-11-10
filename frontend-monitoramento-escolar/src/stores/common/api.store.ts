@@ -1,8 +1,4 @@
-import {
-  hasTokens,
-  logout,
-  refreshToken,
-} from '@frontend/services/common/auth.service';
+import { refreshToken } from '@frontend/services/common/auth.service';
 import { get_cookie } from '@frontend/services/common/cookieUtil.service';
 import axios from 'axios';
 
@@ -23,7 +19,7 @@ const baseURL = import.meta.env.VITE_API_BASE as string;
  * import { apiInstance } from '../ApiStore';
  *
  * apiInstance.get('/users').then((response) => {
- *  console.log(response.data);
+ *  console.debug(response.data);
  * });
  * ```
  */

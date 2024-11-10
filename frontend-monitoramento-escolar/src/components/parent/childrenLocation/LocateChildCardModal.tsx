@@ -3,7 +3,8 @@ import { Location } from '@backend/location/dto/Location';
 import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useChildrenLocation } from '@frontend/stores/parent/childrenLocation.store';
-import { Button, Drawer, Typography } from 'antd';
+import { GoogleMap, Marker } from '@react-google-maps/api';
+import { Button, Drawer, Flex, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 export const LocateChildCardModal = ({
@@ -17,6 +18,14 @@ export const LocateChildCardModal = ({
 }) => {
   const getChildrenLocation = useChildrenLocation(
     useShallow((state) => state.getChildrenLocation),
+  );
+
+  const cancelTrip = useChildrenLocation(
+    useShallow((state) => state.cancelTrip),
+  );
+
+  const loadChildren = useChildrenLocation(
+    useShallow((state) => state.loadChildren),
   );
   const TNotification = useNotification((state) => state.triggerNotification);
 
@@ -59,16 +68,65 @@ export const LocateChildCardModal = ({
       <Typography.Title level={2}>
         Localização para {child.name} {child.lastName}
       </Typography.Title>
+      {child.driver && (
+        <Typography.Title level={3}>
+          Motorista: {child.driver.name}
+        </Typography.Title>
+      )}
+      <Typography.Text>
+        {child.name} {child.lastName} está localizado em:
+      </Typography.Text>
       {location != null ? (
-        <iframe
-          width='100%'
-          height='100%'
-          frameBorder='0'
-          scrolling='no'
-          marginHeight={0}
-          marginWidth={0}
-          src={`https://maps.google.com/maps?q=${location.location.latitude},${location.location.longitude}&z=15&output=embed`}
-        ></iframe>
+        <Flex vertical align='center'>
+          <GoogleMap
+            mapContainerStyle={{ width: '100%', height: '600px' }}
+            options={{
+              streetViewControl: false,
+              fullscreenControl: false,
+              cameraControl: true,
+              tiltInteractionEnabled: false,
+              // disable satellite view
+              mapTypeControl: false,
+              center: {
+                lat: location.location.latitude,
+                lng: location.location.longitude,
+              },
+            }}
+            zoom={13}
+          >
+            {location.location && (
+              <Marker
+                position={{
+                  lat: location.location.latitude,
+                  lng: location.location.longitude,
+                }}
+              />
+            )}
+          </GoogleMap>
+          <Button
+            style={{ marginTop: '1rem' }}
+            size='large'
+            block
+            color='danger'
+            variant='solid'
+            onClick={async () => {
+              try {
+                await cancelTrip(child.id);
+                TNotification({
+                  content: 'Rota cancelada com sucesso',
+                });
+                await loadChildren();
+                onClose();
+              } catch (e) {
+                TNotification({
+                  content: 'Erro ao cancelar a rota',
+                });
+              }
+            }}
+          >
+            Cancelar rota
+          </Button>
+        </Flex>
       ) : (
         <Typography.Text>Localização não encontrada</Typography.Text>
       )}

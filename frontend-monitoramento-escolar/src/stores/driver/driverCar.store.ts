@@ -1,10 +1,10 @@
-import { create } from 'zustand';
 import { DriverDto } from '@backend/driver/dto/DriverDto';
 import { DriverViewDto } from '@backend/driver/dto/DriverViewDto';
 import {
   getDriver,
   updateDriver,
 } from '@frontend/services/driver/driverCar.service';
+import { create } from 'zustand';
 type DriverCar = {
   loadDriver: () => Promise<unknown>;
   driver: DriverViewDto | null;

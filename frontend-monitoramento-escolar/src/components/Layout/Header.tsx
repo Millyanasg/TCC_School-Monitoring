@@ -1,5 +1,25 @@
 import { useNavigate } from 'react-router-dom';
-export function Header() {
+/**
+ * Header component that displays a navigation bar with a title.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ *
+ * @remarks
+ * This component uses inline styles to set the layout and appearance of the header.
+ * It includes a title that navigates to the home page when clicked.
+ *
+ * @example
+ * ```tsx
+ * import { Header } from './Header';
+ *
+ * const App = () => (
+ *   <div>
+ *     <Header />
+ *   </div>
+ * );
+ * ```
+ */
+export const Header = () => {
   const navigate = useNavigate();
 
   return (
@@ -30,4 +50,4 @@ export function Header() {
       </p>
     </div>
   );
-}
+};

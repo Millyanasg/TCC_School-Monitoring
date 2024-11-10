@@ -48,7 +48,7 @@ export const usePositionStore = create<PositionState>((set) => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         set({ location: position });
-        console.log('Position changed:', position);
+        console.debug('Position changed:', position);
       },
       (error) => {
         console.error('Error watching position:', error);

@@ -1,6 +1,5 @@
-import { ChildWithLocations } from '@backend/children/children.service';
-import { Child, ChildLocations, User } from '@prisma/client';
-import { IsDate, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { Child, ChildLocations } from '@prisma/client';
+import { IsDate, IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class ChildViewWithLocationDto {
   @IsInt()
@@ -23,6 +22,31 @@ export class ChildViewWithLocationDto {
   @IsNotEmpty()
   grade: string;
 
+  // School location
+  @IsString()
+  @IsNotEmpty()
+  street: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  number: number;
+
+  @IsString()
+  @IsNotEmpty()
+  city: string;
+
+  @IsString()
+  @IsNotEmpty()
+  state: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  latitude: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  longitude: number;
+  // Live location
   location?: ChildLocations;
 
   driver: {
@@ -50,6 +74,13 @@ export class ChildViewWithLocationDto {
       grade: data.grade,
       location: location,
       driver: driver,
+      // School location
+      street: data.street,
+      number: data.number,
+      city: data.city,
+      state: data.state,
+      latitude: data.latitude,
+      longitude: data.longitude,
     };
 
     return dataDto;

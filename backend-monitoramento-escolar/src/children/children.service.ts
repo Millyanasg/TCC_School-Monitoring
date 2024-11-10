@@ -5,6 +5,7 @@ import { Child, ChildLocations, User } from '@prisma/client';
 
 import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 import { ChildViewDto } from '../parent/dto/ChildViewDto';
+import { tr } from '@faker-js/faker';
 
 type ChildLocation = {
   id: number;
@@ -77,6 +78,12 @@ export class ChildrenService {
         birthDate,
         grade,
         parentId: parent.id,
+        city: data.city,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        number: data.number,
+        state: data.state,
+        street: data.street,
       },
     });
 
@@ -152,6 +159,12 @@ export class ChildrenService {
         birthDate: true,
         grade: true,
         updatedAt: true,
+        street: true,
+        number: true,
+        city: true,
+        state: true,
+        latitude: true,
+        longitude: true,
         ChildLocations: {
           select: {
             id: true,

@@ -1,6 +1,6 @@
 import { GlobalOutlined } from '@ant-design/icons';
 import { HomeAddressViewDto } from '@backend/parent/dto/HomeAddressViewDto';
-import MapSelector from '@frontend/components/common/MapSelector';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { usePositionStore } from '@frontend/stores/common/position.store';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useHomeAddressStore } from '@frontend/stores/parent/homeAddresses.store';
@@ -32,7 +32,7 @@ export function EditAddressModal() {
   const { location } = usePositionStore();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
-    console.log(lat, lon);
+    console.debug(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
@@ -166,7 +166,12 @@ export function EditAddressModal() {
           onClose={() => setMapOpen(false)}
           onSelectLocation={onSelectLocation}
           isOpen={isMapOpen}
-          initialLocation={location}
+          initialLocation={{
+            lat:
+              selectedHomeAddress?.latitude ?? location?.coords.latitude ?? 0,
+            lng:
+              selectedHomeAddress?.longitude ?? location?.coords.longitude ?? 0,
+          }}
         />
         <Form.Item>
           <Button type='primary' htmlType='submit'>

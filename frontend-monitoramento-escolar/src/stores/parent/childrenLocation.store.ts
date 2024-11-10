@@ -4,6 +4,7 @@ import { fetchChildrenWithLocation } from '@frontend/services/parent/children.se
 import {
   childrenSentOut,
   fetchChildrenLocation,
+  fetchCancelTrip,
 } from '@frontend/services/parent/childrenLocation.service';
 import { create } from 'zustand';
 type ChildrenLocationStore = {
@@ -15,6 +16,7 @@ type ChildrenLocationStore = {
     longitude: number,
   ) => Promise<unknown>;
   getChildrenLocation: (childId: number) => Promise<Location>;
+  cancelTrip: (childId: number) => Promise<unknown>;
 };
 
 export const useChildrenLocation = create<ChildrenLocationStore>((set) => {
@@ -40,7 +42,13 @@ export const useChildrenLocation = create<ChildrenLocationStore>((set) => {
     return data;
   };
 
+  const cancelTrip = async (childId: number) => {
+    await fetchCancelTrip(childId);
+    await loadChildrenData();
+  };
+
   return {
+    cancelTrip: cancelTrip,
     sendChildSentOut: sendChildSentOut,
     getChildrenLocation: getChildrenLocation,
     loadChildren: loadChildrenData,

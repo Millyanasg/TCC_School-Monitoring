@@ -6,6 +6,8 @@ import {
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+const VITE_GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
 type TCard = {
   child: string;
   addressChild: string;
@@ -36,7 +38,7 @@ export function CardDriverTrips({
           {
             params: {
               address: addressChild,
-              key: `${process.env.REACT_APP_GOOGLE_MAPS}`,
+              key: `${VITE_GOOGLE_MAPS_API_KEY}`,
             },
           },
         );
@@ -48,7 +50,7 @@ export function CardDriverTrips({
           {
             params: {
               address: addressSchool,
-              key: `${process.env.REACT_APP_GOOGLE_MAPS}`,
+              key: `${VITE_GOOGLE_MAPS_API_KEY}`,
             },
           },
         );
@@ -83,7 +85,7 @@ export function CardDriverTrips({
       <div>Criança: {child}</div>
       <div>Tempo estimado: {duration}</div>
       <div>Hora: {time}</div>
-      <LoadScript googleMapsApiKey={`${process.env.REACT_APP_GOOGLE_MAPS}`}>
+      <LoadScript googleMapsApiKey={`${VITE_GOOGLE_MAPS_API_KEY}`}>
         <GoogleMap mapContainerStyle={containerStyle} zoom={10}>
           {directions && <DirectionsRenderer directions={directions} />}
         </GoogleMap>

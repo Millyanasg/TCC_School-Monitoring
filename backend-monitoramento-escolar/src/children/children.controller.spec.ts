@@ -12,6 +12,12 @@ const mockChildViewDto: ChildViewDto = {
   lastName: 'Child',
   birthDate: new Date('2021-01-01'),
   grade: '1',
+  street: 'Rua Test',
+  number: 0,
+  city: 'Rio de Janeiro',
+  state: 'RJ',
+  latitude: 0,
+  longitude: 0,
 };
 
 const mockChildDto: ChildDto = {
@@ -19,6 +25,12 @@ const mockChildDto: ChildDto = {
   lastName: 'Child',
   birthDate: new Date('2021-01-01'),
   grade: '1',
+  city: 'Rio de Janeiro',
+  latitude: 0,
+  longitude: 0,
+  number: 0,
+  state: 'RJ',
+  street: 'Rua Test',
 };
 
 const mockParentUser: User = {

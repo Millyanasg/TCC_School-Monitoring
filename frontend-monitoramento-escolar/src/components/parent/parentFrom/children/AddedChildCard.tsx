@@ -1,10 +1,10 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { ChildDto } from '@backend/parent/dto/ChildDto';
 import { useParentForm } from '@frontend/stores/user/useParentForm';
-import { Button } from 'antd';
+import { Button, Descriptions } from 'antd';
 import { Card } from 'antd-mobile';
-import { useShallow } from 'zustand/shallow';
 import dayjs from 'dayjs';
+import { useShallow } from 'zustand/shallow';
 
 export function AddedChildCard({
   child,
@@ -38,10 +38,20 @@ export function AddedChildCard({
         </>
       }
     >
-      <div>
-        <p>Data de nascimento: {dayjs(child.birthDate).format('DD/MM/YYYY')}</p>
-        <p>Ano escolar: {child.grade}</p>
-      </div>
+      <Descriptions title='Detalhes da Criança'>
+        <Descriptions.Item label='Data de nascimento'>
+          {dayjs(child.birthDate).format('DD/MM/YYYY')}
+        </Descriptions.Item>
+        <Descriptions.Item label='Ano escolar'>{child.grade}</Descriptions.Item>
+        <Descriptions.Item label='Endereço'>
+          {child.street}, {child.number}
+        </Descriptions.Item>
+        <Descriptions.Item label='Cidade'>{child.city}</Descriptions.Item>
+        <Descriptions.Item label='Estado'>{child.state}</Descriptions.Item>
+        <Descriptions.Item label='Latitude e Longitude '>
+          {child.latitude.toFixed(2)}, {child.longitude.toFixed(2)}
+        </Descriptions.Item>
+      </Descriptions>
     </Card>
   );
 }

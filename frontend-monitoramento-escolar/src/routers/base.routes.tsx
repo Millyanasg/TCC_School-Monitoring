@@ -1,20 +1,21 @@
-import { GPSTest } from '@frontend/pages/GPSTest';
 import { Login } from '@frontend/pages/Auth/Login';
-import { NotificationTest } from '@frontend/pages/NotificationTest';
-import { QRcodeTest } from '@frontend/pages/QRcodeTest';
 import { Register } from '@frontend/pages/Auth/Register';
+import { Menu } from '@frontend/pages/Common/Menu';
+import { DriverCarPage } from '@frontend/pages/Driver/DriverCar';
+import { DriverConfirmPage } from '@frontend/pages/Driver/DriverConfirmPage';
+import { DriverRequestsPage } from '@frontend/pages/Driver/DriverRequests';
+import { DriverTripsPage } from '@frontend/pages/Driver/DriverTrips';
+import { GPSTest } from '@frontend/pages/GPSTest';
+import { NotificationTest } from '@frontend/pages/NotificationTest';
+import { Addresses } from '@frontend/pages/Parent/Addresses';
+import { Children } from '@frontend/pages/Parent/Children';
+import { ConfirmTrip } from '@frontend/pages/Parent/ConfirmTrip';
+import ParentDriverpage from '@frontend/pages/Parent/ParentDriver';
+import { QRcodeTest } from '@frontend/pages/QRcodeTest';
 import { useUserStore } from '@frontend/stores/user/user.store';
+import { useEffect } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { RouteError } from './route-error';
-import { Menu } from '@frontend/pages/Common/Menu';
-import { Children } from '@frontend/pages/Parent/Children';
-import { Addresses } from '@frontend/pages/Parent/Addresses';
-import { DriverCarPage } from '@frontend/pages/Driver/DriverCar';
-import { DriverTripsPage } from '@frontend/pages/Driver/DriverTrips';
-import { DriverRequestsPage } from '@frontend/pages/Driver/DriverRequests';
-import ParentDriverpage from '@frontend/pages/Parent/ParentDriver';
-import { ConfirmTrip } from '@frontend/pages/Parent/ConfirmTrip';
-import { useEffect } from 'react';
 
 export const AppRoutes = () => {
   const userData = useUserStore((state) => state.userData);
@@ -52,6 +53,7 @@ export const AppRoutes = () => {
             <Route path='/diver/my-car' element={<DriverCarPage />} />
             <Route path='/diver/trips' element={<DriverTripsPage />} />
             <Route path='/diver/requests' element={<DriverRequestsPage />} />
+            <Route path='/driver/confirm' element={<DriverConfirmPage />} />
           </>
         )}
         {userData && userData.type === 'parent' && (

@@ -15,6 +15,36 @@ export default function LocateChildInfoCard({
 }) {
   const [isModalLocateOpen, setIsModalLocateOpen] = useState(false);
   const [isModalSendOpen, setIsModalSendOpen] = useState(false);
+  const handleLocateClick = () => {
+    setIsModalLocateOpen(true);
+  };
+
+  const handleSendClick = () => {
+    setIsModalSendOpen(true);
+  };
+  const renderLocateButton = () => (
+    <Button
+      onClick={handleLocateClick}
+      color='danger'
+      variant='solid'
+      size='middle'
+      icon={<HeatMapOutlined />}
+    >
+      Localisar Motorista com Criança
+    </Button>
+  );
+
+  const renderSendButton = () => (
+    <Button
+      onClick={handleSendClick}
+      color='danger'
+      variant='solid'
+      size='middle'
+      icon={<UpOutline />}
+    >
+      Enviar Criança
+    </Button>
+  );
   return (
     <Card
       style={{ marginBottom: '16px' }}
@@ -36,37 +66,13 @@ export default function LocateChildInfoCard({
         <p>Ano escolar: {child.grade}</p>
       </Flex>
       <Flex gap='1rem'>
-        {child.location && child.location.type === 'dropoff' && (
-          <>
-            <Button
-              onClick={() => {
-                setIsModalLocateOpen(true);
-              }}
-              color='danger'
-              variant='solid'
-              size='middle'
-              icon={<HeatMapOutlined />}
-            >
-              Localisar Motorista e Criança
-            </Button>
-          </>
-        )}
-        {!child.location && (
-          <>
-            {' '}
-            <Button
-              onClick={() => {
-                setIsModalSendOpen(true);
-              }}
-              color='danger'
-              variant='solid'
-              size='middle'
-              icon={<UpOutline />}
-            >
-              Enviar Criança
-            </Button>
-          </>
-        )}
+        {child.location &&
+          child.location.type === 'dropoff' &&
+          renderLocateButton()}
+        {child.location &&
+          child.location.type !== 'dropoff' &&
+          renderSendButton()}
+        {!child.location && renderSendButton()}
       </Flex>
     </Card>
   );

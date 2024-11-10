@@ -1,10 +1,16 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  GlobalOutlined,
+} from '@ant-design/icons';
 import { ChildViewDto } from '@backend/parent/dto/ChildViewDto';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { useNotification } from '@frontend/stores/common/useNotification';
 import { useChildrenStore } from '@frontend/stores/parent/children.store';
-import { Button, DatePicker, Flex, Modal } from 'antd';
+import { Button, DatePicker, Flex, Modal, Typography } from 'antd';
 import { Form, Input } from 'antd-mobile';
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 export function EditChildModal() {
@@ -23,6 +29,7 @@ export function EditChildModal() {
       state.updateChild,
     ]),
   );
+  const [isMapOpen, setMapOpen] = useState(false);
   const [form] = Form.useForm<AllStrings<ChildViewDto>>();
   const { triggerNotification } = useNotification();
 
@@ -32,12 +39,29 @@ export function EditChildModal() {
   }
   async function submitChildUpdate(values: AllStrings<ChildViewDto>) {
     try {
+      if (
+        !values.latitude ||
+        !values.longitude ||
+        !values.latitude.trim() ||
+        !values.longitude.trim()
+      ) {
+        triggerNotification({
+          content: 'Por favor, selecione a localização',
+        });
+        return;
+      }
       await updateChild({
         id: Number(values.id),
-        name: values.name,
-        lastName: values.lastName,
-        birthDate: new Date(values.birthDate),
+        name: values.name.trim(),
+        lastName: values.lastName.trim(),
+        birthDate: dayjs(values.birthDate).toDate(),
         grade: values.grade,
+        street: values.street,
+        number: Number(values.number),
+        city: values.city,
+        state: values.state,
+        latitude: Number(values.latitude),
+        longitude: Number(values.longitude),
       });
       triggerNotification({
         content: 'Criança atualizada com sucesso',
@@ -50,6 +74,13 @@ export function EditChildModal() {
       });
     }
   }
+  const onSelectLocation = (lat: number, lon: number) => {
+    console.debug(lat, lon);
+    form.setFieldsValue({
+      latitude: lat.toString(),
+      longitude: lon.toString(),
+    });
+  };
 
   return (
     <Modal
@@ -58,6 +89,19 @@ export function EditChildModal() {
       open={isEditing}
       footer={null}
     >
+      <MapSelector
+        onClose={() => setMapOpen(false)}
+        onSelectLocation={onSelectLocation}
+        isOpen={isMapOpen}
+        initialLocation={
+          selectedChild
+            ? {
+                lat: selectedChild.latitude,
+                lng: selectedChild.longitude,
+              }
+            : undefined
+        }
+      />
       <Form
         onFinish={submitChildUpdate}
         key={selectedChild?.id || 'new'}
@@ -70,6 +114,12 @@ export function EditChildModal() {
             ? dayjs(selectedChild?.birthDate)
             : undefined,
           grade: selectedChild?.grade || '',
+          street: selectedChild?.street || '',
+          number: selectedChild?.number || '',
+          city: selectedChild?.city || '',
+          state: selectedChild?.state || '',
+          latitude: selectedChild?.latitude || '',
+          longitude: selectedChild?.longitude || '',
         }}
       >
         <Form.Item
@@ -114,7 +164,7 @@ export function EditChildModal() {
         >
           <DatePicker
             onChange={(date) => {
-              console.log(date);
+              console.debug(date);
               form.setFieldsValue({
                 birthDate: date.toString(),
               });
@@ -138,6 +188,62 @@ export function EditChildModal() {
             placeholder='Série'
           />
         </Form.Item>
+        <Typography.Title level={5}>Endereço Escola</Typography.Title>
+        <Form.Item
+          name='street'
+          label='Rua'
+          rules={[
+            { required: true, message: 'Por favor, insira o nome da rua' },
+          ]}
+        >
+          <Input placeholder='Nome da Rua' />
+        </Form.Item>
+        <Form.Item
+          name='number'
+          label='Número'
+          rules={[{ required: true, message: 'Por favor, insira o número' }]}
+        >
+          <Input placeholder='Número' />
+        </Form.Item>
+        <Form.Item
+          name='city'
+          label='Cidade'
+          rules={[{ required: true, message: 'Por favor, insira a cidade' }]}
+        >
+          <Input placeholder='Cidade' />
+        </Form.Item>
+        <Form.Item
+          name='state'
+          label='Estado'
+          rules={[{ required: true, message: 'Por favor, insira o estado' }]}
+        >
+          <Input placeholder='Estado' />
+        </Form.Item>
+        <Form.Item name='latitude' hidden>
+          <Input />
+        </Form.Item>
+        <Form.Item name='longitude' hidden>
+          <Input />
+        </Form.Item>
+        <Button
+          onClick={() => setMapOpen(true)}
+          block
+          color='primary'
+          size='middle'
+          iconPosition='start'
+          variant='filled'
+          icon={<GlobalOutlined />}
+        >
+          {(function () {
+            if (
+              form.getFieldValue('latitude') &&
+              form.getFieldValue('longitude')
+            ) {
+              return 'Localização selecionada';
+            }
+            return 'Selecione a localização';
+          })()}
+        </Button>
         <Flex justify='end' style={{ marginTop: '16px', marginBottom: '16px' }}>
           <Button
             icon={<DeleteOutlined />}

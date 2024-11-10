@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class ChildDto {
   @IsString()
@@ -16,4 +16,28 @@ export class ChildDto {
   @IsString()
   @IsNotEmpty()
   grade: string;
+
+  @IsString()
+  @IsNotEmpty()
+  street: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  number: number;
+
+  @IsString()
+  @IsNotEmpty()
+  city: string;
+
+  @IsString()
+  @IsNotEmpty()
+  state: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  latitude: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  longitude: number;
 }

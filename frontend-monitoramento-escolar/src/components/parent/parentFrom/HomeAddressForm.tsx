@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { HomeAddressDto } from '@backend/parent/dto/HomeAddressDto';
-import MapSelector from '@frontend/components/common/MapSelector';
+import MapSelector from '@frontend/components/common/Map/MapSelector';
 import { usePositionStore } from '@frontend/stores/common/position.store';
 import { useParentForm } from '@frontend/stores/user/useParentForm';
 import { AddedHomeAddressCard } from './AddedHomeAddressCard';
@@ -24,7 +24,7 @@ export function HomeAddressForm() {
   const [form] = Form.useForm<AllStrings<HomeAddressDto>>();
   const [isMapOpen, setMapOpen] = useState(false);
   function onSelectLocation(lat: number, lon: number) {
-    console.log(lat, lon);
+    console.debug(lat, lon);
     form.setFieldsValue({
       latitude: lat.toString(),
       longitude: lon.toString(),
@@ -38,7 +38,10 @@ export function HomeAddressForm() {
         onClose={() => setMapOpen(false)}
         onSelectLocation={onSelectLocation}
         isOpen={isMapOpen}
-        initialLocation={location}
+        initialLocation={{
+          lat: location?.coords.latitude || 0,
+          lng: location?.coords.longitude || 0,
+        }}
       />
       <div>
         {homeAddressList.map((homeAddress, index) => (
