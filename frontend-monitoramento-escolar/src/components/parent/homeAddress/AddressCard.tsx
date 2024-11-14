@@ -25,7 +25,7 @@ export const AddressCard = ({ address }: { address: HomeAddressViewDto }) => {
   const [isMapOpen, setMapOpen] = useState(false);
   const { street, number, city, state, zipCode, latitude, longitude } = address;
 
-  const location: GeolocationPosition = {
+  const location = {
     coords: {
       latitude: latitude,
       longitude: longitude,
@@ -36,7 +36,7 @@ export const AddressCard = ({ address }: { address: HomeAddressViewDto }) => {
       speed: null,
     },
     timestamp: 0,
-  };
+  } as GeolocationPosition;
 
   const handleRemove = async () => {
     try {

@@ -5,7 +5,6 @@ import { Child, ChildLocations, User } from '@prisma/client';
 
 import { ChildViewWithLocationDto } from '@backend/parent/dto/ChildViewWithLocationDto';
 import { ChildViewDto } from '../parent/dto/ChildViewDto';
-import { tr } from '@faker-js/faker';
 
 type ChildLocation = {
   id: number;
