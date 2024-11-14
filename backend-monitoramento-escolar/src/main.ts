@@ -44,15 +44,7 @@ async function bootstrap() {
   app.enableCors({
     allowedHeaders: ['content-type', 'authorization', 'Refresh-Token'],
     exposedHeaders: ['Content-Disposition'],
-    origin: (origin, callback) => {
-      if (!origin || origin.includes('localhost')) {
-        //Logger.debug(`Allowed origin: ${origin}`);
-        callback(null, true);
-      } else {
-        logger.debug(`Blocked origin: ${origin}`);
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: true, // Allow all origins
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
