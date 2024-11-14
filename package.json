@@ -13,7 +13,7 @@
         "prettier": "prettier --write .",
         "build:back": "pnpm run --filter ./backend-monitoramento-escolar build",
         "build:front": "pnpm run --filter ./frontend-monitoramento-escolar build",
-        "deploy:back": "pnpm run --filter ./backend-monitoramento-escolar deploy",
+        "deploy:back": "pnpm run --filter ./backend-monitoramento-escolar start",
         "deploy:front": "pnpm run --filter ./frontend-monitoramento-escolar deploy",
         "typedoc:frontend": "pnpm --filter frontend-monitoramento-escolar run typedoc",
         "docs:frontend": "pnpm --filter frontend-monitoramento-escolar run docs"
