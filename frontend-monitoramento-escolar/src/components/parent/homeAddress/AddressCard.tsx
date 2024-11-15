@@ -24,19 +24,20 @@ export const AddressCard = ({ address }: { address: HomeAddressViewDto }) => {
     );
   const [isMapOpen, setMapOpen] = useState(false);
   const { street, number, city, state, zipCode, latitude, longitude } = address;
-
+  console.log(
+    'Endereço:',
+    street,
+    number,
+    city,
+    state,
+    zipCode,
+    latitude,
+    longitude,
+  );
   const location = {
-    coords: {
-      latitude: latitude,
-      longitude: longitude,
-      accuracy: 0,
-      altitude: null,
-      altitudeAccuracy: null,
-      heading: null,
-      speed: null,
-    },
-    timestamp: 0,
-  } as GeolocationPosition;
+    lat: latitude ?? 0,
+    lng: longitude ?? 0,
+  };
 
   const handleRemove = async () => {
     try {

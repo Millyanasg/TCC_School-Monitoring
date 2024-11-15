@@ -39,7 +39,7 @@ export const QRCodeDrawer = ({ qrCodePayload, style }: QRCodeDrawerProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qrCodePayload]);
-
+  console.log(qrCodePayload, 'id');
   return (
     <canvas
       width={style.width ? parseInt(style.width.toString()) : 750}

@@ -1,8 +1,7 @@
 import {
-  Trip,
-  fetchGetCurrentTrip,
   fetchStartTrip,
-  fetchUpdatePosition,
+  getDistance,
+  watchDriverPosition,
 } from '@frontend/services/driver/driverTrip.service';
 import { create } from 'zustand';
 
@@ -11,9 +10,11 @@ export type GeoPosition = {
 };
 type useDriverTripState = {
   isOnGoingTrip: boolean;
-  getCurrentTrip: () => Promise<Trip | null>;
-  updatePosition: (position: GeoPosition) => Promise<void>;
-  startTrip: (childId: string) => Promise<Trip>;
+  startTrip: (
+    startLocation: { latitude: number; longitude: number },
+    endLocation: { latitude: number; longitude: number },
+  ) => Promise<void>;
+  stopTracking: () => void;
 };
 
 /**
@@ -34,28 +35,41 @@ type useDriverTripState = {
  *
  * @param {function} set - Function to update the state.
  */
+
 export const useDriverTrip = create<useDriverTripState>((set) => {
-  const updatePosition = async (position: GeoPosition) => {
-    await fetchUpdatePosition(position);
-  };
-  const startTrip = async (childId: string) => {
-    const trip = await fetchStartTrip(childId);
-    set({ isOnGoingTrip: true });
-    return trip;
+  let watchId: number | null = null;
+
+  const startTrip = async (
+    startLocation: { latitude: number; longitude: number },
+    endLocation: { latitude: number; longitude: number },
+  ) => {
+    try {
+      const tripData = await fetchStartTrip(startLocation, endLocation);
+      console.log('Dados da viagem:', tripData);
+
+      set({ isOnGoingTrip: true });
+
+      watchId = watchDriverPosition(async (position: GeolocationPosition) => {
+        console.log('Posição atual do motorista:', position.coords);
+        await getDistance(endLocation, position.coords);
+      });
+    } catch (error) {
+      console.error('Erro ao iniciar a viagem:', error);
+    }
   };
 
-  const getCurrentTrip = async () => {
-    const trip = await fetchGetCurrentTrip();
-    if (trip) {
-      set({ isOnGoingTrip: true });
+  const stopTracking = () => {
+    if (watchId !== null) {
+      navigator.geolocation.clearWatch(watchId);
+      watchId = null;
+      set({ isOnGoingTrip: false });
+      console.log('Rastreamento parado.');
     }
-    return trip;
   };
 
   return {
     isOnGoingTrip: false,
-    updatePosition,
-    getCurrentTrip,
     startTrip,
+    stopTracking,
   };
 });

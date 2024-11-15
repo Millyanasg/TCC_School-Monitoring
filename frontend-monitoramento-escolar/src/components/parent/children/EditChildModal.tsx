@@ -9,6 +9,7 @@ import { useNotification } from '@frontend/stores/common/useNotification';
 import { useChildrenStore } from '@frontend/stores/parent/children.store';
 import { Button, DatePicker, Flex, Modal, Typography } from 'antd';
 import { Form, Input } from 'antd-mobile';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
@@ -32,11 +33,59 @@ export function EditChildModal() {
   const [isMapOpen, setMapOpen] = useState(false);
   const [form] = Form.useForm<AllStrings<ChildViewDto>>();
   const { triggerNotification } = useNotification();
+  const [initialLocation, setInitialLocation] = useState<
+    { lat: number; lng: number } | undefined
+  >();
 
   function handleCancelEdit() {
     setIsEditing(false);
     setSelectedChild(null);
   }
+
+  const geocodeAddress = async () => {
+    const street = form.getFieldValue('street');
+    const number = form.getFieldValue('number');
+    const city = form.getFieldValue('city');
+    const state = form.getFieldValue('state');
+
+    if (!street || !number || !city || !state) {
+      triggerNotification({
+        content: 'Por favor, preencha todos os campos do endereço.',
+      });
+      return;
+    }
+    const VITE_GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    const address = `${number} ${street}, ${city}, ${state}`;
+    const apiKey = VITE_GOOGLE_MAPS_API_KEY;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+      address,
+    )}&key=${apiKey}`;
+
+    try {
+      const response = await axios.get(url);
+      const results = response.data.results;
+
+      if (results.length > 0) {
+        const { lat, lng } = results[0].geometry.location;
+        setInitialLocation({ lat, lng });
+        setMapOpen(true);
+      } else {
+        triggerNotification({ content: 'Endereço não encontrado.' });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar a localização:', error);
+      triggerNotification({ content: 'Erro ao buscar a localização.' });
+    }
+  };
+  const onSelectLocation = (lat: number, lon: number) => {
+    console.debug(lat, lon);
+    form.setFieldsValue({
+      latitude: lat.toString(),
+      longitude: lon.toString(),
+    });
+    form.validateFields(['latitude', 'longitude']);
+  };
+
   async function submitChildUpdate(values: AllStrings<ChildViewDto>) {
     try {
       if (
@@ -50,18 +99,23 @@ export function EditChildModal() {
         });
         return;
       }
+      const latitude = parseFloat(form.getFieldValue('latitude'));
+      const longitude = parseFloat(form.getFieldValue('longitude'));
+      const birthDate = values.birthDate
+        ? dayjs(values.birthDate).toDate()
+        : null;
       await updateChild({
         id: Number(values.id),
         name: values.name.trim(),
         lastName: values.lastName.trim(),
-        birthDate: dayjs(values.birthDate).toDate(),
+        birthDate: birthDate || new Date(),
         grade: values.grade,
         street: values.street,
         number: Number(values.number),
         city: values.city,
         state: values.state,
-        latitude: Number(values.latitude),
-        longitude: Number(values.longitude),
+        latitude: isNaN(latitude) ? 0 : latitude,
+        longitude: isNaN(longitude) ? 0 : longitude,
       });
       triggerNotification({
         content: 'Criança atualizada com sucesso',
@@ -74,13 +128,6 @@ export function EditChildModal() {
       });
     }
   }
-  const onSelectLocation = (lat: number, lon: number) => {
-    console.debug(lat, lon);
-    form.setFieldsValue({
-      latitude: lat.toString(),
-      longitude: lon.toString(),
-    });
-  };
 
   return (
     <Modal
@@ -93,14 +140,7 @@ export function EditChildModal() {
         onClose={() => setMapOpen(false)}
         onSelectLocation={onSelectLocation}
         isOpen={isMapOpen}
-        initialLocation={
-          selectedChild
-            ? {
-                lat: selectedChild.latitude,
-                lng: selectedChild.longitude,
-              }
-            : undefined
-        }
+        initialLocation={initialLocation}
       />
       <Form
         onFinish={submitChildUpdate}
@@ -122,12 +162,7 @@ export function EditChildModal() {
           longitude: selectedChild?.longitude || '',
         }}
       >
-        <Form.Item
-          initialValue={selectedChild?.id || ''}
-          label='Id'
-          hidden
-          name='id'
-        ></Form.Item>
+        <Form.Item label='Id' hidden></Form.Item>
         <Form.Item
           label='Nome'
           name='name'
@@ -135,21 +170,14 @@ export function EditChildModal() {
             { required: true, message: 'Por favor, insira o primeiro nome' },
           ]}
         >
-          <Input
-            defaultValue={selectedChild?.name || ''}
-            placeholder='Primeiro Nome'
-          />
+          <Input placeholder='Primeiro Nome' />
         </Form.Item>
         <Form.Item
           label='Sobrenome'
           name='lastName'
           rules={[{ required: true, message: 'Por favor, insira o sobrenome' }]}
         >
-          <Input
-            defaultValue={selectedChild?.lastName || ''}
-            placeholder='Sobrenome'
-            value='Sobrenome'
-          />
+          <Input placeholder='Sobrenome' value='Sobrenome' />
         </Form.Item>
         <Form.Item
           label='Data de nascimento'
@@ -164,18 +192,11 @@ export function EditChildModal() {
         >
           <DatePicker
             onChange={(date) => {
-              console.debug(date);
               form.setFieldsValue({
-                birthDate: date.toString(),
+                birthDate: date ? dayjs(date).format('YYYY-MM-DD') : undefined,
               });
             }}
             format={'DD/MM/YYYY'}
-            key={selectedChild?.id || 'new'}
-            defaultValue={
-              selectedChild?.birthDate
-                ? dayjs(selectedChild?.birthDate)
-                : dayjs(new Date())
-            }
           />
         </Form.Item>
         <Form.Item
@@ -183,10 +204,7 @@ export function EditChildModal() {
           name='grade'
           rules={[{ required: true, message: 'Por favor, insira a série' }]}
         >
-          <Input
-            defaultValue={selectedChild?.grade || ''}
-            placeholder='Série'
-          />
+          <Input placeholder='Série' />
         </Form.Item>
         <Typography.Title level={5}>Endereço Escola</Typography.Title>
         <Form.Item
@@ -226,7 +244,7 @@ export function EditChildModal() {
           <Input />
         </Form.Item>
         <Button
-          onClick={() => setMapOpen(true)}
+          onClick={geocodeAddress}
           block
           color='primary'
           size='middle'

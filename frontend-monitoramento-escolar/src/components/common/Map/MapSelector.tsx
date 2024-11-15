@@ -1,15 +1,9 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import { Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
-
 const containerStyle = {
   width: '100%',
   height: '400px',
-};
-
-const defaultCenter = {
-  lat: -3.745,
-  lng: -38.523,
 };
 
 type MapSelectorProps = {
@@ -23,12 +17,14 @@ const MapSelector: React.FC<MapSelectorProps> = ({
   onSelectLocation,
   isOpen,
   onClose,
-  initialLocation = defaultCenter,
+  initialLocation,
 }) => {
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
-    initialLocation,
+    null,
   );
-  const [mapCenter, setMapCenter] = useState(initialLocation);
+  const [mapCenter, setMapCenter] = useState<
+    { lat: number; lng: number } | undefined
+  >(initialLocation);
 
   const onMapClick = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
@@ -46,7 +42,7 @@ const MapSelector: React.FC<MapSelectorProps> = ({
       setMapCenter(initialLocation);
     }
   }, [initialLocation]);
-
+  console.log(initialLocation);
   return (
     <Modal
       title='Selecione a localização'
@@ -62,10 +58,7 @@ const MapSelector: React.FC<MapSelectorProps> = ({
         options={{
           streetViewControl: false,
           fullscreenControl: false,
-          cameraControl: true,
-          center: mapCenter || defaultCenter,
-          tiltInteractionEnabled: false,
-          // disable satellite view
+          center: mapCenter,
           mapTypeControl: false,
         }}
         zoom={20}
@@ -76,14 +69,12 @@ const MapSelector: React.FC<MapSelectorProps> = ({
 
       <div style={{ padding: '10px' }}>
         <p>Clique no mapa para selecionar a localização</p>
-        {position &&
-          position.lat !== undefined &&
-          position.lng !== undefined && (
-            <p>
-              Latitude: {position.lat.toFixed(2)}, Longitude:{' '}
-              {position.lng.toFixed(2)}
-            </p>
-          )}
+        {position && (
+          <p>
+            Latitude: {position.lat.toFixed(2)}, Longitude:{' '}
+            {position.lng.toFixed(2)}
+          </p>
+        )}
       </div>
     </Modal>
   );

@@ -98,7 +98,7 @@ export const QRcodeReader: React.FC<QRcodeReaderProps> = ({
             height: '200px',
             border: '2px solid black',
             boxSizing: 'border-box',
-            pointerEvents: 'none', // Ensure the overlay does not interfere with video clicks
+            pointerEvents: 'none',
           }}
         />
       </div>
